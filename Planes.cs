@@ -26,7 +26,7 @@ namespace GCS_5895
         public static GMapMarker AddQuadrotor(double lat, double lng, string name, double heading, SolidBrush color)
         {
             //飛機的圖層
-            Image srcPlane = Image.FromFile("C:\\Users\\user\\source\\repos\\GCS_5895\\bin\\Debug\\drone.png");
+            Image srcPlane = Image.FromFile("drone.png");
             Bitmap picPlane = GraphicRotateAtAny((Bitmap)srcPlane, srcPlane.Height / 2, srcPlane.Width / 2, heading);
             picPlane.MakeTransparent(Color.Yellow);
 
