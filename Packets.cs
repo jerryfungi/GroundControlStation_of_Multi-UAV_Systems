@@ -14,85 +14,107 @@ namespace GCS_5895
     public class Packets
     {
         public int UAV_ID { get; private set; }
-        public FrameType frameType { get; private set; }
-        public int battery { get; private set; }
-        public Armed armed { get; private set; }
-        public Mode mode { get; private set; }
-        public Message_ID mission { get; private set; }
+        public FrameType Frame_type { get; private set; }
+        public int Battery { get; private set; }
+        public Armed Armed { get; private set; }
+        public Mode Mode { get; private set; }
+        public Message_ID Mission { get; private set; }
         public double E { get; private set; }
         public double N { get; private set; }
         public double U { get; private set; }
-        public double timestamp { get; private set; }
-        public double GCS_time { get; private set; }
-        public double speed { get; private set; }
-        public double heading { get; private set; }
-        public double lat { get; private set; }
-        public double lng { get; private set; }
-        public double alt { get; private set; }
-        public string info { get; private set; }
+        public double UAV_timestamp { get; private set; }
+        public double GCS_timestamp { get; private set; }
+        public double Speed { get; private set; }
+        public double Roll { get; private set; }
+        public double Pitch { get; private set; }
+        public double Yaw { get; private set; }
+        public double Lat { get; private set; }
+        public double Lng { get; private set; }
+        public double Alt { get; private set; }
+        public string Info { get; private set; }
 
-        public CoordinateTransform coordinate;
+        public CoordinateTransform Coordinate;
 
         public Packets(CoordinateTransform coordinate, int uav_id)
         {
-            this.coordinate = coordinate;
+            this.Coordinate = coordinate;
             UAV_ID = uav_id;
         }
 
         public Packets(CoordinateTransform coordinate, int uav_id, double E, double N, double U, double heading, string info, FrameType frameType)
         {
-            this.coordinate = coordinate;
+            this.Coordinate = coordinate;
             UAV_ID = uav_id;
             this.E = E;
             this.N = N;
             this.U = U;
-            this.heading = heading;
-            this.info = info;
-            mode = Mode.Guided;
+            this.Yaw = heading;
+            this.Info = info;
+            Mode = Mode.Guided;
             var lla = coordinate.enu2llh(E, N, U);
-            lat = lla[0];
-            lng = lla[1];
-            alt = lla[2];
-            this.frameType = frameType;
+            Lat = lla[0];
+            Lng = lla[1];
+            Alt = lla[2];
+            this.Frame_type = frameType;
         }
 
         public void unpack_packet(byte[] packet, double GCS_timestamp)
         {
-            mission = (Message_ID)packet[0];
-            switch (mission)
+            Mission = (Message_ID)packet[0];
+            switch (Mission)
             {
                 case Message_ID.Default:
                 case Message_ID.Waypoints:
                 case Message_ID.SEAD_mission:
-                    frameType = (FrameType)packet[2];
-                    mode = (Mode)packet[3];
-                    armed = (Armed)packet[4];
-                    battery = packet[5];
-                    timestamp = BitConverter.ToInt64(packet, 6) * 1e-6;
-                    E = BitConverter.ToInt32(packet, 14) * 1e-3;
-                    N = BitConverter.ToInt32(packet, 18) * 1e-3;
-                    U = BitConverter.ToInt32(packet, 22) * 1e-3;
-                    var llh = coordinate.enu2llh(E, N, U);
-                    lat = llh[0];
-                    lng = llh[1];
-                    alt = llh[2];
-                    heading = BitConverter.ToInt32(packet, 26) * 1e-3;
-                    speed = BitConverter.ToInt32(packet, 30) * 1e-3;
-                    this.GCS_time = GCS_timestamp;
-                    info = "(´-ω-)b";
+                    Frame_type = (FrameType)packet[2];
+                    Mode = (Mode)packet[3];
+                    Armed = (Armed)packet[4];
+                    Battery = packet[5];
+                    UAV_timestamp = Math.Round(BitConverter.ToDouble(packet, 6), 6, MidpointRounding.AwayFromZero); 
+                    E = Math.Round(BitConverter.ToInt32(packet, 14) * 1e-3, 3, MidpointRounding.AwayFromZero);
+                    N = Math.Round(BitConverter.ToInt32(packet, 18) * 1e-3, 3, MidpointRounding.AwayFromZero);
+                    U = Math.Round(BitConverter.ToInt32(packet, 22) * 1e-3, 3, MidpointRounding.AwayFromZero);
+                    var llh = Coordinate.enu2llh(E, N, U);
+                    Lat = llh[0];
+                    Lng = llh[1];
+                    Alt = llh[2];
+                    Roll = Math.Round(BitConverter.ToInt32(packet, 26) * 1e-6 * 180 / Math.PI, 2, MidpointRounding.AwayFromZero);
+                    Pitch = Math.Round(BitConverter.ToInt32(packet, 30) * 1e-6 * 180 / Math.PI, 2, MidpointRounding.AwayFromZero);
+                    Yaw = Math.Round(BitConverter.ToInt32(packet, 34) * 1e-6 * 180 / Math.PI, 2, MidpointRounding.AwayFromZero);
+                    attitudeENUtoNED();
+                    Speed = Math.Round(BitConverter.ToInt32(packet, 38) * 1e-3, 3, MidpointRounding.AwayFromZero);
+                    this.GCS_timestamp = Math.Round(GCS_timestamp, 6, MidpointRounding.AwayFromZero);
+                    Info = "(´-ω-)b";
                     break;
                 case Message_ID.Time_Syncronize:
                     break;
                 case Message_ID.info:
-                    info = Encoding.UTF8.GetString(packet, 3, packet[2]);
+                    Info = Encoding.UTF8.GetString(packet, 3, packet[2]);
                     break;
                 case Message_ID.Record_Time:
-                    timestamp = BitConverter.ToInt64(packet, 2) * 1e-6;
-                    info = Encoding.UTF8.GetString(packet, 11, packet[10]);
+                    UAV_timestamp = BitConverter.ToDouble(packet, 2);
+                    Info = Encoding.UTF8.GetString(packet, 11, packet[10]);
                     break;
                 case Message_ID.SEAD:
                     break;
             }
+        }
+
+        private void attitudeENUtoNED()
+        {
+            Roll = Roll;
+            Pitch = -Pitch;
+            Yaw = 90 - Yaw;
+            if (Yaw > 180) { Yaw -= 360; }
+            else if (Yaw < -180) { Yaw += 360; }
+        }
+
+        public double get_ENU_yawAngle()
+        {
+            var heading = -Yaw + 90;
+            if (heading > 180) { heading -= 360; }
+            else if (heading < -180) { heading += 360; }
+            return heading;
         }
 
         public byte[] pack_time_synchronize_packet(double receive_time)

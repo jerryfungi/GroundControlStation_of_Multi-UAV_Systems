@@ -51,7 +51,7 @@ namespace GCS_5895
         public static GMapMarker AddPlane(double lat, double lng, string name, double heading, SolidBrush color)
         {
             //固定翼的圖層
-            Image srcPic = Image.FromFile("C:\\Users\\user\\source\\repos\\GCS_5895\\bin\\Debug\\plane.tif");
+            Image srcPic = Image.FromFile("plane.tif");
             Bitmap fixedWing = RotateImg((Bitmap)srcPic, (float)-heading+90);
             fixedWing.MakeTransparent(Color.Yellow);
 
@@ -76,7 +76,7 @@ namespace GCS_5895
         public static GMapMarker AddRunway(double lat, double lng, string name, double heading, SolidBrush color)
         {
             //跑道的圖層
-            Image srcPic = Image.FromFile("C:\\Users\\user\\source\\repos\\GCS_5895\\bin\\Debug\\runway.png");
+            Image srcPic = Image.FromFile("runway.png");
             Bitmap runway = RotateImg((Bitmap)srcPic, (float)heading);
             runway.MakeTransparent(Color.Yellow);
 
@@ -100,7 +100,7 @@ namespace GCS_5895
 
         public static GMapMarker AddHelipad(double lat, double lng, string name, double heading, SolidBrush color)
         {
-            Image srcPic = Image.FromFile("C:\\Users\\user\\source\\repos\\GCS_5895\\bin\\Debug\\helipad.tif");
+            Image srcPic = Image.FromFile("helipad.tif");
             Bitmap helipad = RotateImg((Bitmap)srcPic, (float)-heading+90);
             helipad.MakeTransparent(Color.Yellow);
 

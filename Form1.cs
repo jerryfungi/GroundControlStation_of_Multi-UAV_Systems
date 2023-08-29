@@ -41,6 +41,7 @@ namespace GCS_5895
         // 定義通訊管道
         public static Socket client;
         public bool client_connect;
+        // X2 ConnectPort (gateway)
         public EndPoint connectPort = new IPEndPoint(IPAddress.Parse("169.254.219.218"), 14500); 
         public static int port_number = 14500;
         public static XBeeLibrary.Windows.DigiMeshDevice XBee;
@@ -407,7 +408,7 @@ namespace GCS_5895
             dataGridView_flghtData.InvalidateRow(select_index);
 
             // 訊息種類
-            switch (Buffers[select_index].mission)
+            switch (Buffers[select_index].Mission)
             {
                 case Message_ID.Default:
                 case Message_ID.Waypoints:
@@ -416,14 +417,14 @@ namespace GCS_5895
                     markers_main[uav_id - 1].Clear();
 
                     // plot uav on map
-                    switch (Buffers[select_index].frameType)
+                    switch (Buffers[select_index].Frame_type)
                     {
                         case FrameType.Quad:
-                            markers_main[uav_id - 1].Markers.Add(Planes.AddQuadrotor(Buffers[select_index].lat, Buffers[select_index].lng, UAV_ID_text(uav_id), Buffers[select_index].heading,
+                            markers_main[uav_id - 1].Markers.Add(Planes.AddQuadrotor(Buffers[select_index].Lat, Buffers[select_index].Lng, UAV_ID_text(uav_id), Buffers[select_index].get_ENU_yawAngle(),
                                 new SolidBrush(color_of_uavs[uav_id - 1])));
                             break;
                         case FrameType.Fixed_wing:
-                            markers_main[uav_id - 1].Markers.Add(Planes.AddPlane(Buffers[select_index].lat, Buffers[select_index].lng, UAV_ID_text(uav_id), Buffers[select_index].heading, 
+                            markers_main[uav_id - 1].Markers.Add(Planes.AddPlane(Buffers[select_index].Lat, Buffers[select_index].Lng, UAV_ID_text(uav_id), Buffers[select_index].get_ENU_yawAngle(), 
                                 new SolidBrush(color_of_uavs[uav_id - 1])));
                             break;
                     }
@@ -433,12 +434,12 @@ namespace GCS_5895
                     {
                         if (comboBox_mapCenter.Text.Contains("UAV")  && existing_UAVs.IndexOf(Int32.Parse(comboBox_mapCenter.Text.Remove(0, 3))) == select_index)
                             {
-                                gMapControl_main.Position = new PointLatLng(Buffers[select_index].lat, Buffers[select_index].lng);
+                                gMapControl_main.Position = new PointLatLng(Buffers[select_index].Lat, Buffers[select_index].Lng);
                             }
                     }
 
                     // plot route
-                    routesBuffer[uav_id - 1].Add(new PointLatLng(Buffers[select_index].lat, Buffers[select_index].lng));
+                    routesBuffer[uav_id - 1].Add(new PointLatLng(Buffers[select_index].Lat, Buffers[select_index].Lng));
                     if (routesBuffer[uav_id - 1].Count > displayPoint && !allRouteCheck)
                     {
                         routesBuffer[uav_id - 1] = routesBuffer[uav_id - 1].GetRange(routesBuffer[uav_id - 1].Count - displayPoint, displayPoint);
@@ -448,10 +449,11 @@ namespace GCS_5895
                     marker_of_uavRoute[uav_id - 1].Stroke = new Pen(color_of_uavs[uav_id - 1], 2);
                     markers_main[uav_id - 1].Routes.Add(marker_of_uavRoute[uav_id - 1]);
                     // 存進資料庫
-                    DateTime dateTime = (new DateTime(1970, 1, 1, 0, 0, 0) ).AddHours(8).AddSeconds(Buffers[select_index].timestamp);
+                    DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(Buffers[select_index].GCS_timestamp);
                     string flightdata_sql = $@"insert into `flight_data` values 
-                            ('{Buffers[select_index].timestamp}', '{dateTime}', '{Buffers[select_index].mode}', '{Buffers[select_index].mission}', '{Buffers[select_index].E}', 
-                                '{Buffers[select_index].N}', '{Buffers[select_index].U}', '{Buffers[select_index].speed}', '{Buffers[select_index].heading}');";
+                            ('{Buffers[select_index].UAV_timestamp}', '{dateTime}', '{Buffers[select_index].Mode}', '{Buffers[select_index].Mission}', 
+                                '{Buffers[select_index].E}', '{Buffers[select_index].N}', '{Buffers[select_index].U}', '{Buffers[select_index].Speed}', 
+                                '{Buffers[select_index].Roll}', '{Buffers[select_index].Pitch}', '{Buffers[select_index].Yaw}');";
                     MySqlCommand cmd = new MySqlCommand(flightdata_sql, UAVs_flightData_conn[uav_id - 1]);
                     int index = cmd.ExecuteNonQuery();
                     break;
@@ -469,21 +471,21 @@ namespace GCS_5895
                     textBox_info.SelectionColor = Color.Red;
                     textBox_info.AppendText($"UAV{uav_id}  ");
                     textBox_info.SelectionColor = Color.Black;
-                    textBox_info.AppendText(Buffers[select_index].info + Environment.NewLine);
+                    textBox_info.AppendText(Buffers[select_index].Info + Environment.NewLine);
                     break;
                 case Message_ID.Record_Time: // 紀錄時間並顯示資訊
-                    dateTime = (new DateTime(1970, 1, 1, 0, 0, 0)).AddHours(8).AddSeconds(Buffers[select_index].timestamp);
-                    string timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `Timestamp`, `GCS Time`, `Datatime`) 
-                                                values('{Buffers[select_index].mission}', 
-                                                'UAV{uav_id} {Buffers[select_index].info}', 
-                                                {Buffers[select_index].timestamp}, {receive_time}, '{dateTime}');";
+                    dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(Buffers[select_index].GCS_timestamp);
+                    string timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `UAV Timestamp`, `GCS Timestamp`, `Datatime`) 
+                                                values('{Buffers[select_index].Mission}', 
+                                                'UAV{uav_id} {Buffers[select_index].Info}', 
+                                                {Buffers[select_index].UAV_timestamp}, {receive_time}, '{dateTime}');";
                     cmd = new MySqlCommand(timeline_sql, timelist_conn);
                     index = cmd.ExecuteNonQuery();
                     textBox_info.SelectionColor = Color.MediumSlateBlue;
                     textBox_info.AppendText($"UAV{uav_id}  ");
                     textBox_info.SelectionColor = Color.Black;
-                    textBox_info.AppendText($"{Buffers[select_index].info} --- " +
-                        $"{Math.Round(Buffers[select_index].timestamp, 3, MidpointRounding.AwayFromZero)}, " +
+                    textBox_info.AppendText($"{Buffers[select_index].Info} --- " +
+                        $"{Math.Round(Buffers[select_index].UAV_timestamp, 3, MidpointRounding.AwayFromZero)}, " +
                         $"{Math.Round(receive_time, 3, MidpointRounding.AwayFromZero)}" + Environment.NewLine);
                     break;
                 }
@@ -495,7 +497,7 @@ namespace GCS_5895
             if (comboBox_mapCenter.Text.Contains("UAV"))
             {
                 var select_uav_center = existing_UAVs.IndexOf(Int32.Parse(comboBox_mapCenter.Text.Remove(0, 3)));
-                gMapControl_main.Position = new PointLatLng(Buffers[select_uav_center].lat, Buffers[select_uav_center].lng);
+                gMapControl_main.Position = new PointLatLng(Buffers[select_uav_center].Lat, Buffers[select_uav_center].Lng);
             }
             else
             {
@@ -554,57 +556,7 @@ namespace GCS_5895
         {
             if ((!string.IsNullOrEmpty(checkBoxComboBox_UAVselect.Text) || checkBox_allUAVselect.Checked) && !string.IsNullOrEmpty(comboBox_Command.Text))
             {
-                if (comboBox_connectOption.Text == "UDP")
-                {
-                    if (checkBox_allUAVselect.Checked)
-                    {
-                        foreach (Packets uav in Buffers)
-                        {
-                            var packet = uav.pack_command_packet(comboBox_Command.Text);
-                            var t = new Thread(() => client.SendTo(packet, connectPort));
-                            t.Start();
-                        }
-                    }
-                    else
-                    {
-                        foreach (var uav in checkBoxComboBox_UAVselect.CheckBoxItems)
-                        {
-                            if (uav.Checked)
-                            {
-                                var select_index = existing_UAVs.IndexOf(Int32.Parse(uav.Text.Remove(0, 3)));
-                                var packet = Buffers[select_index].pack_command_packet(comboBox_Command.Text);
-                                var t = new Thread(() =>client.SendTo(packet, connectPort));
-                                t.Start();
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (checkBox_allUAVselect.Checked)
-                    {
-                        foreach (Packets uav in Buffers)
-                        {
-                            var packet = uav.pack_command_packet(comboBox_Command.Text);
-                            var t = new Thread(() => XBee.SendData(G2U_points[uav.UAV_ID], packet));
-                            t.Start();
-                        }
-                    }
-                    else
-                    {
-                        foreach (var uav in checkBoxComboBox_UAVselect.CheckBoxItems)
-                        {
-                            if (uav.Checked)
-                            {
-                                int uav_id = Int32.Parse(uav.Text.Remove(0, 3));
-                                int select_index = existing_UAVs.IndexOf(uav_id);
-                                var packet = Buffers[select_index].pack_command_packet(comboBox_Command.Text);
-                                var t = new Thread(() => XBee.SendData(G2U_points[uav_id], packet));
-                                t.Start();
-                            }
-                        }
-                    }
-                }
+                commandsTransmit(comboBox_Command.Text);
             }
             else
             {
@@ -699,7 +651,7 @@ namespace GCS_5895
                 waypoints_pin[uav_id - 1].Markers.Add(target);
                 int select_index = existing_UAVs.IndexOf(uav_id);
                 List<PointLatLng> route = new List<PointLatLng>() { 
-                    new PointLatLng(Buffers[select_index].lat, Buffers[select_index].lng), new PointLatLng(lla[0], lla[1]) };
+                    new PointLatLng(Buffers[select_index].Lat, Buffers[select_index].Lng), new PointLatLng(lla[0], lla[1]) };
                 GMapRoute wp_route = new GMapRoute(route, $"UAV{uav_id} wp")
                 {
                     Stroke = new Pen(Color.DarkGray, 2)
@@ -747,6 +699,10 @@ namespace GCS_5895
 
         private void button_test_Click(object sender, EventArgs e)
         {
+            double timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(timestamp);
+            Console.WriteLine(dateTime);
+
             textBox_info.SelectionColor = Color.MediumSlateBlue;
             textBox_info.AppendText($"UAV--------  ");
             var arr = new int[3];
@@ -773,9 +729,9 @@ namespace GCS_5895
             existing_UAVs.AddRange(Enumerable.Range(1, 4).ToList());
             // existing_UAVs.Sort();
             dataGridView_flghtData.Sort(dataGridView_flghtData.Columns["UAV_ID"], ListSortDirection.Ascending);
-            var marker_of_uav = Planes.AddQuadrotor(Buffers[0].lat, Buffers[0].lng, "UAV0" + Buffers[0].UAV_ID, Buffers[0].heading,
+            var marker_of_uav = Planes.AddQuadrotor(Buffers[0].Lat, Buffers[0].Lng, "UAV0" + Buffers[0].UAV_ID, Buffers[0].Yaw,
                     new SolidBrush(color_of_uavs[Buffers[0].UAV_ID - 1]));
-            var marker_of = Planes.AddPlane(Buffers[1].lat, Buffers[1].lng, "UAV0" + Buffers[1].UAV_ID, Buffers[1].heading,
+            var marker_of = Planes.AddPlane(Buffers[1].Lat, Buffers[1].Lng, "UAV0" + Buffers[1].UAV_ID, Buffers[1].Yaw,
                    new SolidBrush(color_of_uavs[Buffers[1].UAV_ID - 1]));
             markers_main[Buffers[0].UAV_ID - 1].Markers.Add(marker_of_uav);
             markers_main[Buffers[1].UAV_ID - 1].Markers.Add(marker_of);
@@ -788,7 +744,7 @@ namespace GCS_5895
             textBox_info.SelectionColor = Color.Red;
             textBox_info.AppendText($"UAV{2}  ");
             textBox_info.SelectionColor = Color.Black;
-            textBox_info.AppendText(Buffers[0].info + Environment.NewLine);
+            textBox_info.AppendText(Buffers[0].Info + Environment.NewLine);
 
             if (tabControl_action.SelectedTab.Text == "Command")
             {
@@ -822,7 +778,7 @@ namespace GCS_5895
                 waypoints_pin[uav_id - 1].Markers.Add(target);
                 int select_index = existing_UAVs.IndexOf(uav_id);
                 List<PointLatLng> route = new List<PointLatLng>() {
-                    new PointLatLng(Buffers[select_index].lat, Buffers[select_index].lng), new PointLatLng(lla[0], lla[1]) };
+                    new PointLatLng(Buffers[select_index].Lat, Buffers[select_index].Lng), new PointLatLng(lla[0], lla[1]) };
                 GMapRoute wp_route = new GMapRoute(route, $"UAV{uav_id} wp")
                 {
                     Stroke = new Pen(Color.DarkGray, 2)
@@ -847,7 +803,7 @@ namespace GCS_5895
                 waypoints_pin[uav_id - 1].Markers.Add(target);
                 int select_index = existing_UAVs.IndexOf(uav_id);
                 List<PointLatLng> route = new List<PointLatLng>() {
-                    new PointLatLng(Buffers[select_index].lat, Buffers[select_index].lng), new PointLatLng(lla[0], lla[1]) };
+                    new PointLatLng(Buffers[select_index].Lat, Buffers[select_index].Lng), new PointLatLng(lla[0], lla[1]) };
                 GMapRoute wp_route = new GMapRoute(route, $"UAV{uav_id} wp")
                 {
                     Stroke = new Pen(Color.DarkGray, 2)
@@ -907,7 +863,7 @@ namespace GCS_5895
                 int select_index = existing_UAVs.IndexOf(uav_id);
                 waypoints.RemoveAll(p => p.UAV_ID == uav_id && p.Type != WaypointMissionMethod.guide_waypoint);
                 var start_pos = new double[] { Buffers[select_index].E, Buffers[select_index].N, Buffers[select_index].U, 
-                    Buffers[select_index].heading};
+                    Buffers[select_index].get_ENU_yawAngle()};
 
                 var mission = Mission_setting.path_mission[comboBox_missionTypeMission.Text].Deepcopy();
                 mission.UAV_ID = uav_id;
@@ -936,7 +892,7 @@ namespace GCS_5895
                     }
                     else
                     {
-                        wps = new List<PointLatLng>() { new PointLatLng(Buffers[select_index].lat, Buffers[select_index].lng) };
+                        wps = new List<PointLatLng>() { new PointLatLng(Buffers[select_index].Lat, Buffers[select_index].Lng) };
                     }
                     
                     // add wps (default mission)
@@ -988,14 +944,14 @@ namespace GCS_5895
                         Stroke = new Pen(color_of_uavs[uav_id - 1], 4)
                     };
                     overlay.Routes.Add(ref_route);
-                    switch (Buffers[select_index].frameType)
+                    switch (Buffers[select_index].Frame_type)
                     {
                         case FrameType.Quad:
-                            overlay.Markers.Add(Planes.AddQuadrotor(Buffers[select_index].lat, Buffers[select_index].lng, UAV_ID_text(uav_id), Buffers[select_index].heading,
+                            overlay.Markers.Add(Planes.AddQuadrotor(Buffers[select_index].Lat, Buffers[select_index].Lng, UAV_ID_text(uav_id), Buffers[select_index].get_ENU_yawAngle(),
                                         new SolidBrush(color_of_uavs[uav_id - 1])));
                             break;
                         case FrameType.Fixed_wing:
-                            overlay.Markers.Add(Planes.AddPlane(Buffers[select_index].lat, Buffers[select_index].lng, UAV_ID_text(uav_id), Buffers[select_index].heading,
+                            overlay.Markers.Add(Planes.AddPlane(Buffers[select_index].Lat, Buffers[select_index].Lng, UAV_ID_text(uav_id), Buffers[select_index].get_ENU_yawAngle(),
                                         new SolidBrush(color_of_uavs[uav_id - 1])));
                             break;
                     }
@@ -1542,7 +1498,7 @@ namespace GCS_5895
                 else
                 {
                     var select_uav_center = existing_UAVs.IndexOf(Int32.Parse(comboBox_mapCenter.Text.Remove(0, 3)));
-                    gMapControl_main.Position = new PointLatLng(Buffers[select_uav_center].lat, Buffers[select_uav_center].lng);
+                    gMapControl_main.Position = new PointLatLng(Buffers[select_uav_center].Lat, Buffers[select_uav_center].Lng);
                 }
             }
         }
@@ -1649,14 +1605,14 @@ namespace GCS_5895
             {
                 route.Clear();
             }
-            double timestamp = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
-            DateTime dateTime = (new DateTime(1970, 1, 1, 0, 0, 0)).AddHours(8).AddSeconds(timestamp);
+            double timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds; 
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(timestamp);
             switch (skinComboBox_PubMission.Text)
             {
                 case "Waypoints mission":
                     // 存任務開始時間
-                    string timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `Timestamp`, `GCS Time`, `Datatime`) 
-                                                    values('{Message_ID.Waypoints}', 'waypoints mission start', {timestamp}, {timestamp}, '{dateTime}');";
+                    string timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `UAV Timestamp`, `GCS Timestamp`, `Datatime`) 
+                                                    values('{Message_ID.Waypoints}', 'Waypoints mission start', {timestamp}, {timestamp}, '{dateTime}');";
                     MySqlCommand cmd = new MySqlCommand(timeline_sql, timelist_conn);
                     var index = cmd.ExecuteNonQuery();
                     // 發布任務命令
@@ -1679,11 +1635,38 @@ namespace GCS_5895
                         }
                     }
                     break;
+                case "VRP mission":
+                    // 發布任務命令
+                    if (comboBox_connectOption.Text == "UDP")
+                    {
+                        foreach (Waypoints task in waypoints)
+                        {
+                            if (task.Type == WaypointMissionMethod.guide_waypoints)
+                            {
+                                int select_index = existing_UAVs.IndexOf(task.UAV_ID);
+                                var t = new Thread(() => client.SendTo(Buffers[select_index].pack_pathFollowing_mission_packet(task), connectPort));
+                                t.Start();
+                            }
+                        }
+                    }
+                    else if (comboBox_connectOption.Text.Contains("COM"))
+                    {
+                        foreach (Waypoints task in waypoints)
+                        {
+                            if (task.Type == WaypointMissionMethod.guide_waypoints)
+                            {
+                                int select_index = existing_UAVs.IndexOf(task.UAV_ID);
+                                var t = new Thread(() => XBee.SendData(G2U_points[task.UAV_ID], Buffers[select_index].pack_pathFollowing_mission_packet(task)));
+                                t.Start();
+                            }
+                        }
+                    }
+                    break;
                 case "SEAD mission":
                     if (!String.IsNullOrEmpty(skinComboBox_SEAD.Text))
                     {
                         // 存任務開始時間
-                        timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `Timestamp`, `GCS Time`, `Datatime`) 
+                        timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `UAV Timestamp`, `GCS Timestamp`, `Datatime`) 
                                                     values('{Message_ID.SEAD_mission}', '{skinComboBox_SEAD.Text} start', {timestamp}, {timestamp}, '{dateTime}');";
                         cmd = new MySqlCommand(timeline_sql, timelist_conn);
                         index = cmd.ExecuteNonQuery();
@@ -1741,7 +1724,6 @@ namespace GCS_5895
                     }
                     dataGridView_mission.AutoResizeColumns();
                 }
-                
             }
         }
 
@@ -1832,64 +1814,74 @@ namespace GCS_5895
             catch { comboBox_missionMethod.Text = string.Empty; }
         }
 
-        private void skinButton_RTL_Click(object sender, EventArgs e)
+        public void commandsTransmit(string command)
         {
             if (comboBox_connectOption.Text == "UDP")
             {
-                foreach (Packets uav in Buffers)
+                if (checkBox_allUAVselect.Checked)
                 {
-                    var packet = uav.pack_command_packet(Mode.RTL.ToString());
-                     client.SendTo(packet, connectPort);
+                    foreach (Packets uav in Buffers)
+                    {
+                        var packet = uav.pack_command_packet(command);
+                        var t = new Thread(() => client.SendTo(packet, connectPort));
+                        t.Start();
+                    }
+                }
+                else
+                {
+                    foreach (var uav in checkBoxComboBox_UAVselect.CheckBoxItems)
+                    {
+                        if (uav.Checked)
+                        {
+                            var select_index = existing_UAVs.IndexOf(Int32.Parse(uav.Text.Remove(0, 3)));
+                            var packet = Buffers[select_index].pack_command_packet(command);
+                            var t = new Thread(() => client.SendTo(packet, connectPort));
+                            t.Start();
+                        }
+                    }
                 }
             }
-            else if (comboBox_connectOption.Text.Contains("COM"))
+            else
             {
-                foreach (Packets uav in Buffers)
+                if (checkBox_allUAVselect.Checked)
                 {
-                    var packet = uav.pack_command_packet(Mode.RTL.ToString());
-                    XBee.SendData(G2U_points[uav.UAV_ID], packet);
+                    foreach (Packets uav in Buffers)
+                    {
+                        var packet = uav.pack_command_packet(command);
+                        var t = new Thread(() => XBee.SendData(G2U_points[uav.UAV_ID], packet));
+                        t.Start();
+                    }
+                }
+                else
+                {
+                    foreach (var uav in checkBoxComboBox_UAVselect.CheckBoxItems)
+                    {
+                        if (uav.Checked)
+                        {
+                            int uav_id = Int32.Parse(uav.Text.Remove(0, 3));
+                            int select_index = existing_UAVs.IndexOf(uav_id);
+                            var packet = Buffers[select_index].pack_command_packet(command);
+                            var t = new Thread(() => XBee.SendData(G2U_points[uav_id], packet));
+                            t.Start();
+                        }
+                    }
                 }
             }
+        }
+
+        private void skinButton_RTL_Click(object sender, EventArgs e)
+        {
+            commandsTransmit(Mode.RTL.ToString());
         }
 
         private void skinButton_HOLD_Click(object sender, EventArgs e)
         {
-            if (comboBox_connectOption.Text == "UDP")
-            {
-                foreach (Packets uav in Buffers)
-                {
-                    var packet = uav.pack_command_packet(Mode.POSHOLD.ToString());
-                    client.SendTo(packet, connectPort);
-                }
-            }
-            else if (comboBox_connectOption.Text.Contains("COM"))
-            {
-                foreach (Packets uav in Buffers)
-                {
-                    var packet = uav.pack_command_packet(Mode.POSHOLD.ToString());
-                    XBee.SendData(G2U_points[uav.UAV_ID], packet);
-                }
-            }
+            commandsTransmit(Mode.POSHOLD.ToString());
         }
 
         private void skinButton_loiter_Click(object sender, EventArgs e)
         {
-            if (comboBox_connectOption.Text == "UDP")
-            {
-                foreach (Packets uav in Buffers)
-                {
-                    var packet = uav.pack_command_packet(Mode.Loiter.ToString());
-                    client.SendTo(packet, connectPort);
-                }
-            }
-            else if (comboBox_connectOption.Text.Contains("COM"))
-            {
-                foreach (Packets uav in Buffers)
-                {
-                    var packet = uav.pack_command_packet(Mode.Loiter.ToString());
-                    XBee.SendData(G2U_points[uav.UAV_ID], packet);
-                }
-            }
+            commandsTransmit(Mode.Loiter.ToString());
         }
 
         private void gMapControl_main_OnMarkerClick(GMapMarker item, MouseEventArgs e)
@@ -1985,7 +1977,6 @@ namespace GCS_5895
             }
             else
             {
-
                 MessageBox.Show("Please select a mission.");
             }
         }
@@ -2015,62 +2006,17 @@ namespace GCS_5895
 
         private void skinButton_land_Click(object sender, EventArgs e)
         {
-            if (comboBox_connectOption.Text == "UDP")
-            {
-                foreach (Packets uav in Buffers)
-                {
-                    var packet = uav.pack_command_packet(Mode.Land.ToString());
-                    client.SendTo(packet, connectPort);
-                }
-            }
-            else if (comboBox_connectOption.Text.Contains("COM"))
-            {
-                foreach (Packets uav in Buffers)
-                {
-                    var packet = uav.pack_command_packet(Mode.Land.ToString());
-                    XBee.SendData(G2U_points[uav.UAV_ID], packet);
-                }
-            }
+            commandsTransmit(Mode.Land.ToString());
         }
 
         private void skinButton_arm_Click(object sender, EventArgs e)
         {
-            if (comboBox_connectOption.Text == "UDP")
-            {
-                foreach (Packets uav in Buffers)
-                {
-                    var packet = uav.pack_command_packet("Arm");
-                    client.SendTo(packet, connectPort);
-                }
-            }
-            else if (comboBox_connectOption.Text.Contains("COM"))
-            {
-                foreach (Packets uav in Buffers)
-                {
-                    var packet = uav.pack_command_packet("Arm");
-                    XBee.SendData(G2U_points[uav.UAV_ID], packet);
-                }
-            }
+            commandsTransmit("Arm");
         }
 
         private void skinButton_disarm_Click(object sender, EventArgs e)
         {
-            if (comboBox_connectOption.Text == "UDP")
-            {
-                foreach (Packets uav in Buffers)
-                {
-                    var packet = uav.pack_command_packet("Disarm");
-                    client.SendTo(packet, connectPort);
-                }
-            }
-            else if (comboBox_connectOption.Text.Contains("COM"))
-            {
-                foreach (Packets uav in Buffers)
-                {
-                    var packet = uav.pack_command_packet("Disarm");
-                    XBee.SendData(G2U_points[uav.UAV_ID], packet);
-                }
-            }
+            commandsTransmit("Disarm");
         }
 
         private void button_tineRecalibrate_Click(object sender, EventArgs e)
@@ -2190,22 +2136,53 @@ namespace GCS_5895
         {
             if (comboBox_connectOption.Text == "UDP")
             {
-                foreach (var uav in checkBoxComboBox_UAVselect.CheckBoxItems)
+                if (checkBox_allUAVselect.Checked)
                 {
-                    if (uav.Checked)
+                    foreach (Packets uav in Buffers)
                     {
-                        var select_index = existing_UAVs.IndexOf(Int32.Parse(uav.Text.Remove(0, 3)));
-                        var packet = Buffers[select_index].pack_missionAbort_cmd();
-                        client.SendTo(packet, connectPort);
+                        var packet = uav.pack_missionAbort_cmd();
+                        var t = new Thread(() => client.SendTo(packet, connectPort));
+                        t.Start();
+                    }
+                }
+                else
+                {
+                    foreach (var uav in checkBoxComboBox_UAVselect.CheckBoxItems)
+                    {
+                        if (uav.Checked)
+                        {
+                            var select_index = existing_UAVs.IndexOf(Int32.Parse(uav.Text.Remove(0, 3)));
+                            var packet = Buffers[select_index].pack_missionAbort_cmd();
+                            var t = new Thread(() => client.SendTo(packet, connectPort));
+                            t.Start();
+                        }
                     }
                 }
             }
-            else if (comboBox_connectOption.Text.Contains("COM"))
+            else
             {
-                foreach (Packets uav in Buffers)
+                if (checkBox_allUAVselect.Checked)
                 {
-                    var packet = uav.pack_missionAbort_cmd();
-                    XBee.SendData(G2U_points[uav.UAV_ID], packet);
+                    foreach (Packets uav in Buffers)
+                    {
+                        var packet = uav.pack_missionAbort_cmd();
+                        var t = new Thread(() => XBee.SendData(G2U_points[uav.UAV_ID], packet));
+                        t.Start();
+                    }
+                }
+                else
+                {
+                    foreach (var uav in checkBoxComboBox_UAVselect.CheckBoxItems)
+                    {
+                        if (uav.Checked)
+                        {
+                            int uav_id = Int32.Parse(uav.Text.Remove(0, 3));
+                            int select_index = existing_UAVs.IndexOf(uav_id);
+                            var packet = Buffers[select_index].pack_missionAbort_cmd();
+                            var t = new Thread(() => XBee.SendData(G2U_points[uav_id], packet));
+                            t.Start();
+                        }
+                    }
                 }
             }
         }
@@ -2258,14 +2235,14 @@ namespace GCS_5895
                     richTextBox_VRP.AppendText($"UAV{uav.UAV_ID} ");
                     richTextBox_VRP.SelectionColor = Color.Black;
                     richTextBox_VRP.AppendText($"at ({uav.E}, {uav.N}) m" + Environment.NewLine);
-                    switch (uav.frameType)
+                    switch (uav.Frame_type)
                     {
                         case FrameType.Quad:
-                            overlay.Markers.Add(Planes.AddQuadrotor(uav.lat, uav.lng, UAV_ID_text(uav.UAV_ID), uav.heading,
+                            overlay.Markers.Add(Planes.AddQuadrotor(uav.Lat, uav.Lng, UAV_ID_text(uav.UAV_ID), uav.Yaw,
                                         new SolidBrush(color_of_uavs[uav.UAV_ID - 1])));
                             break;
                         case FrameType.Fixed_wing:
-                            overlay.Markers.Add(Planes.AddPlane(uav.lat, uav.lng, UAV_ID_text(uav.UAV_ID), uav.heading,
+                            overlay.Markers.Add(Planes.AddPlane(uav.Lat, uav.Lng, UAV_ID_text(uav.UAV_ID), uav.Yaw,
                                         new SolidBrush(color_of_uavs[uav.UAV_ID - 1])));
                             break;
                     }
@@ -2441,7 +2418,7 @@ namespace GCS_5895
                     {
                         foreach (var uav in Buffers)
                         {
-                            uav.coordinate = coordinate;
+                            uav.Coordinate = coordinate;
                             var t = new Thread(() => client.SendTo(uav.pack_origin_correction_packet(originName), connectPort));
                             t.Start();
                         }
@@ -2450,7 +2427,7 @@ namespace GCS_5895
                     {
                         foreach (var uav in Buffers)
                         {
-                            uav.coordinate = coordinate;
+                            uav.Coordinate = coordinate;
                             var t = new Thread(() => XBee.SendData(G2U_points[uav.UAV_ID], uav.pack_origin_correction_packet(originName)));
                             t.Start();
                         }

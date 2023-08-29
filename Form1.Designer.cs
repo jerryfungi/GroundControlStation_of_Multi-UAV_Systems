@@ -242,7 +242,7 @@ namespace GCS_5895
             this.tabControl_main.PageHover = ((System.Drawing.Image)(resources.GetObject("tabControl_main.PageHover")));
             this.tabControl_main.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
             this.tabControl_main.PageNorml = null;
-            this.tabControl_main.SelectedIndex = 1;
+            this.tabControl_main.SelectedIndex = 0;
             this.tabControl_main.Size = new System.Drawing.Size(1360, 764);
             this.tabControl_main.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl_main.TabIndex = 0;
