@@ -30,9 +30,9 @@ namespace GCS_5895
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            PresentationControls.CheckBoxProperties checkBoxProperties1 = new PresentationControls.CheckBoxProperties();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GCS_5895));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            PresentationControls.CheckBoxProperties checkBoxProperties2 = new PresentationControls.CheckBoxProperties();
             this.tabControl_main = new CCWin.SkinControl.SkinTabControl();
             this.tabPage_GCS = new CCWin.SkinControl.SkinTabPage();
             this.button_test = new System.Windows.Forms.Button();
@@ -177,6 +177,7 @@ namespace GCS_5895
             this.base_pos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gMapControl_SEAD = new GMap.NET.WindowsForms.GMapControl();
             this.tabPage_Simulator = new CCWin.SkinControl.SkinTabPage();
+            this.skinButton_VRPadjust = new CCWin.SkinControl.SkinButton();
             this.tabControl_main.SuspendLayout();
             this.tabPage_GCS.SuspendLayout();
             this.skinGroupBox4.SuspendLayout();
@@ -242,7 +243,7 @@ namespace GCS_5895
             this.tabControl_main.PageHover = ((System.Drawing.Image)(resources.GetObject("tabControl_main.PageHover")));
             this.tabControl_main.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
             this.tabControl_main.PageNorml = null;
-            this.tabControl_main.SelectedIndex = 0;
+            this.tabControl_main.SelectedIndex = 1;
             this.tabControl_main.Size = new System.Drawing.Size(1360, 764);
             this.tabControl_main.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl_main.TabIndex = 0;
@@ -438,14 +439,14 @@ namespace GCS_5895
             // 
             this.dataGridView_flghtData.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dataGridView_flghtData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView_flghtData.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 9F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView_flghtData.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView_flghtData.Dock = System.Windows.Forms.DockStyle.Left;
             this.dataGridView_flghtData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView_flghtData.GridColor = System.Drawing.Color.DarkGray;
@@ -880,8 +881,8 @@ namespace GCS_5895
             // 
             // checkBoxComboBox_UAVselect
             // 
-            checkBoxProperties1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxComboBox_UAVselect.CheckBoxProperties = checkBoxProperties1;
+            checkBoxProperties2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxComboBox_UAVselect.CheckBoxProperties = checkBoxProperties2;
             this.checkBoxComboBox_UAVselect.DisplayMemberSingleItem = "";
             this.checkBoxComboBox_UAVselect.Dock = System.Windows.Forms.DockStyle.Top;
             this.checkBoxComboBox_UAVselect.FormattingEnabled = true;
@@ -1559,7 +1560,7 @@ namespace GCS_5895
             this.skinButton_adjustMission.NormlBack = null;
             this.skinButton_adjustMission.Size = new System.Drawing.Size(87, 31);
             this.skinButton_adjustMission.TabIndex = 19;
-            this.skinButton_adjustMission.Text = "Modify";
+            this.skinButton_adjustMission.Text = "Adjust";
             this.skinButton_adjustMission.UseVisualStyleBackColor = false;
             this.skinButton_adjustMission.Click += new System.EventHandler(this.skinButton_adjustMission_Click);
             // 
@@ -1873,6 +1874,7 @@ namespace GCS_5895
             // 
             this.skinGroupBox13.BackColor = System.Drawing.Color.Transparent;
             this.skinGroupBox13.BorderColor = System.Drawing.Color.CornflowerBlue;
+            this.skinGroupBox13.Controls.Add(this.skinButton_VRPadjust);
             this.skinGroupBox13.Controls.Add(this.richTextBox_VRP);
             this.skinGroupBox13.Controls.Add(this.skinButton_outputVRP);
             this.skinGroupBox13.Controls.Add(this.skinButton_optimizeVRP);
@@ -1967,7 +1969,7 @@ namespace GCS_5895
             this.skinButton_startPlanVRP.RoundStyle = CCWin.SkinClass.RoundStyle.All;
             this.skinButton_startPlanVRP.Size = new System.Drawing.Size(95, 33);
             this.skinButton_startPlanVRP.TabIndex = 32;
-            this.skinButton_startPlanVRP.Text = "Start";
+            this.skinButton_startPlanVRP.Text = "Initiate";
             this.skinButton_startPlanVRP.UseVisualStyleBackColor = false;
             this.skinButton_startPlanVRP.Click += new System.EventHandler(this.skinButton_startPlanVRP_Click);
             // 
@@ -2442,6 +2444,30 @@ namespace GCS_5895
             this.tabPage_Simulator.TabItemImage = null;
             this.tabPage_Simulator.Text = "Simulator";
             // 
+            // skinButton_VRPadjust
+            // 
+            this.skinButton_VRPadjust.BackColor = System.Drawing.Color.Transparent;
+            this.skinButton_VRPadjust.BaseColor = System.Drawing.Color.AliceBlue;
+            this.skinButton_VRPadjust.BorderColor = System.Drawing.Color.SteelBlue;
+            this.skinButton_VRPadjust.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.skinButton_VRPadjust.DownBack = null;
+            this.skinButton_VRPadjust.Enabled = false;
+            this.skinButton_VRPadjust.ForeColor = System.Drawing.Color.Black;
+            this.skinButton_VRPadjust.GlowColor = System.Drawing.Color.CornflowerBlue;
+            this.skinButton_VRPadjust.InnerBorderColor = System.Drawing.Color.Gray;
+            this.skinButton_VRPadjust.Location = new System.Drawing.Point(21, 148);
+            this.skinButton_VRPadjust.MouseBack = null;
+            this.skinButton_VRPadjust.MouseBaseColor = System.Drawing.Color.CornflowerBlue;
+            this.skinButton_VRPadjust.Name = "skinButton_VRPadjust";
+            this.skinButton_VRPadjust.NormlBack = null;
+            this.skinButton_VRPadjust.Radius = 30;
+            this.skinButton_VRPadjust.RoundStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinButton_VRPadjust.Size = new System.Drawing.Size(95, 33);
+            this.skinButton_VRPadjust.TabIndex = 36;
+            this.skinButton_VRPadjust.Text = "Adjust";
+            this.skinButton_VRPadjust.UseVisualStyleBackColor = false;
+            this.skinButton_VRPadjust.Click += new System.EventHandler(this.skinButton_VRPadjust_Click);
+            // 
             // GCS_5895
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -2656,6 +2682,7 @@ namespace GCS_5895
         private CCWin.SkinControl.SkinGroupBox skinGroupBox15;
         private System.Windows.Forms.ComboBox comboBox_origin;
         private System.Windows.Forms.Button button_originConfirm;
+        private CCWin.SkinControl.SkinButton skinButton_VRPadjust;
     }
 }
 

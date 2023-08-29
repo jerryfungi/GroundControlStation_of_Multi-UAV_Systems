@@ -165,7 +165,7 @@ namespace GCS_5895
                     con.Left = Convert.ToInt32(Convert.ToSingle(mytag[2]) * newx);//左邊距
                     con.Top = Convert.ToInt32(Convert.ToSingle(mytag[3]) * newy);//頂邊距
 
-                    // Single currentSize = Convert.ToSingle(mytag[4]) * newy;//字型大小
+                    // Single currentSize = Convert.ToSingle(mytag[4]) * newy; //字型大小
                     // con.Font = new Font(con.Font.Name, currentSize, con.Font.Style, con.Font.Unit);//字型大小
 
                     if (con.Controls.Count > 0)
@@ -2214,6 +2214,7 @@ namespace GCS_5895
                 gMapControl_VRP.Zoom = 19;
                 gMapControl_VRP.ShowCenter = false;
                 gMapControl_VRP.Manager.Mode = AccessMode.ServerAndCache;
+                gMapControl_VRP.Overlays.Clear();
                 // 加入無人機
                 richTextBox_VRP.SelectionColor = Color.Black;
                 richTextBox_VRP.AppendText($"initiate ... {Buffers.Count()} UAVs are avialable." + Environment.NewLine);
@@ -2222,10 +2223,7 @@ namespace GCS_5895
                 int index = 0;
                 foreach (var uav in Buffers)
                 {
-                    if (!gMapControl_VRP.Overlays.Contains(new GMapOverlay($"VRP_{UAV_ID_text(uav.UAV_ID)}")))
-                    {
-                        gMapControl_VRP.Overlays.Add(new GMapOverlay($"VRP_{UAV_ID_text(uav.UAV_ID)}"));
-                    }
+                    gMapControl_VRP.Overlays.Add(new GMapOverlay($"VRP_{UAV_ID_text(uav.UAV_ID)}"));
                     var overlay = gMapControl_VRP.Overlays.First(p => p.Id == $"VRP_{UAV_ID_text(uav.UAV_ID)}");
                     dataGridView_VRPagents.Rows[index].Cells["ID_uav_VRP"].Value = uav.UAV_ID;
                     dataGridView_VRPagents.Rows[index].Cells["East_uav_VRP"].Value = Math.Round(uav.E, 3, MidpointRounding.AwayFromZero);
@@ -2312,9 +2310,16 @@ namespace GCS_5895
 
         private void skinButton_optimizeVRP_Click(object sender, EventArgs e)
         {
-            BackgroundWorker bgw = new BackgroundWorker();
-            bgw.DoWork += VRP_solver;
-            bgw.RunWorkerAsync();
+            if (dataGridView_VRPtarget.RowCount == 0)
+            {
+                MessageBox.Show("No targets to assign ...");
+            }
+            else
+            {
+                BackgroundWorker bgw = new BackgroundWorker();
+                bgw.DoWork += VRP_solver;
+                bgw.RunWorkerAsync();
+            }
         }
 
         void VRP_solver(object sender, EventArgs e)
@@ -2403,6 +2408,7 @@ namespace GCS_5895
             skinButton_optimizeVRP.Enabled = false;
             skinButton_outputVRP.Enabled = false;
             richTextBox_VRP.AppendText($"VRP mission is ready." + Environment.NewLine);
+            skinButton_VRPadjust.Enabled = true;
         }
 
         private void button_originConfirm_Click(object sender, EventArgs e)
@@ -2436,6 +2442,16 @@ namespace GCS_5895
                 try { comboBox_origin.Text = Origin.FirstOrDefault(o => o.Value == coordinate).Key; }
                 catch { }
             }
+        }
+
+        private void skinButton_VRPadjust_Click(object sender, EventArgs e)
+        {
+            dataGridView_VRPtarget.Enabled = true;
+            gMapControl_VRP.Enabled = true;
+            skinButton_optimizeVRP.Enabled = true;
+            skinButton_outputVRP.Enabled = true;
+            richTextBox_VRP.AppendText($"VRP mission is ready." + Environment.NewLine);
+            skinButton_VRPadjust.Enabled = false;
         }
 
         private void comboBox_guideWP_DropDown(object sender, EventArgs e)
