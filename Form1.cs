@@ -76,6 +76,7 @@ namespace GCS_5895
         // WP命令設定
         public List<Waypoints> waypoints = new List<Waypoints>();
 
+        [Obsolete]
         public GCS_5895()
         {
             InitializeComponent();
