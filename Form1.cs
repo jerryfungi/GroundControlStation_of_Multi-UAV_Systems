@@ -1490,7 +1490,7 @@ namespace GCS_5895
             if (e.KeyCode == Keys.Space)
             {
                 lockMap = true;
-                if (comboBox_mapCenter.Text.Take(3).ToString() != "UAV")
+                if (!comboBox_mapCenter.Text.Contains("UAV"))
                 {
                     gMapControl_main.Position = Origin[comboBox_mapCenter.Text].mapCenter;
                     gMapControl_main.Zoom = 20;
@@ -2189,9 +2189,14 @@ namespace GCS_5895
 
         private void button_clearDataGrid_Click(object sender, EventArgs e)
         {
-            // 初始化儲存空間及地圖
+            // 初始化儲存空間
             Buffers.Clear();
             existing_UAVs.Clear();
+            // 初始化相關控件
+            checkBoxComboBox_UAVselect.Items.Clear();
+            comboBox_mapCenter.Items.Clear();
+            comboBox_mapCenter.Items.AddRange(Origin.Keys.ToArray());
+            // 初始化地圖
             for (int i = 0; i < default_UAVnumbers; i++)
             {
                 markers_main[i].Clear();
