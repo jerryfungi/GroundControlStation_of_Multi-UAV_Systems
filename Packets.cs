@@ -28,6 +28,7 @@ namespace GCS_5895
         public double Roll { get; private set; }
         public double Pitch { get; private set; }
         public double Yaw { get; private set; }
+        public double Heading { get; private set; }
         public double Lat { get; private set; }
         public double Lng { get; private set; }
         public double Alt { get; private set; }
@@ -48,7 +49,7 @@ namespace GCS_5895
             this.E = E;
             this.N = N;
             this.U = U;
-            this.Yaw = heading;
+            this.Heading = heading;
             this.Info = info;
             Mode = Mode.Guided;
             var lla = coordinate.enu2llh(E, N, U);
@@ -81,6 +82,7 @@ namespace GCS_5895
                     Roll = Math.Round(BitConverter.ToInt32(packet, 26) * 1e-6 * 180 / Math.PI, 2, MidpointRounding.AwayFromZero);
                     Pitch = Math.Round(BitConverter.ToInt32(packet, 30) * 1e-6 * 180 / Math.PI, 2, MidpointRounding.AwayFromZero);
                     Yaw = Math.Round(BitConverter.ToInt32(packet, 34) * 1e-6 * 180 / Math.PI, 2, MidpointRounding.AwayFromZero);
+                    Heading = Yaw;
                     attitudeENUtoNED();
                     Speed = Math.Round(BitConverter.ToInt32(packet, 38) * 1e-3, 3, MidpointRounding.AwayFromZero);
                     this.GCS_timestamp = Math.Round(GCS_timestamp, 6, MidpointRounding.AwayFromZero);
@@ -107,14 +109,6 @@ namespace GCS_5895
             Yaw = 90 - Yaw;
             if (Yaw > 180) { Yaw -= 360; }
             else if (Yaw < -180) { Yaw += 360; }
-        }
-
-        public double get_ENU_yawAngle()
-        {
-            var heading = -Yaw + 90;
-            if (heading > 180) { heading -= 360; }
-            else if (heading < -180) { heading += 360; }
-            return heading;
         }
 
         public byte[] pack_time_synchronize_packet(double receive_time)

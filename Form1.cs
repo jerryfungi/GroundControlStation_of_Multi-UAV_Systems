@@ -208,7 +208,7 @@ namespace GCS_5895
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
 
             shortcut.Description = "My shortcut description";   // The description of the shortcut
-            shortcut.IconLocation = @"C:\Users\user\source\repos\GCS_5895\bin\Debug\GCS icon.ico";           // The icon of the shortcut
+            shortcut.IconLocation = @"image\GCS icon.ico";           // The icon of the shortcut
             shortcut.TargetPath = targetFileLocation;                 // The path of the file that will launch when the shortcut is run
             shortcut.Save();                                    // Save the shortcut
         }
@@ -418,17 +418,8 @@ namespace GCS_5895
                     markers_main[uav_id - 1].Clear();
 
                     // plot uav on map
-                    switch (Buffers[select_index].Frame_type)
-                    {
-                        case FrameType.Quad:
-                            markers_main[uav_id - 1].Markers.Add(Planes.AddQuadrotor(Buffers[select_index].Lat, Buffers[select_index].Lng, UAV_ID_text(uav_id), Buffers[select_index].get_ENU_yawAngle(),
-                                new SolidBrush(color_of_uavs[uav_id - 1])));
-                            break;
-                        case FrameType.Fixed_wing:
-                            markers_main[uav_id - 1].Markers.Add(Planes.AddPlane(Buffers[select_index].Lat, Buffers[select_index].Lng, UAV_ID_text(uav_id), Buffers[select_index].get_ENU_yawAngle(), 
-                                new SolidBrush(color_of_uavs[uav_id - 1])));
-                            break;
-                    }
+                    markers_main[uav_id - 1].Markers.Add(Planes.AddDrone(Buffers[select_index].Lat, Buffers[select_index].Lng, Buffers[select_index].Heading, 
+                        Buffers[select_index].Frame_type, UAV_ID_text(uav_id), new SolidBrush(color_of_uavs[uav_id - 1])));
 
                     // follow UAV
                     if (lockMap)
@@ -705,58 +696,33 @@ namespace GCS_5895
             Console.WriteLine(dateTime);
 
             textBox_info.SelectionColor = Color.MediumSlateBlue;
-            textBox_info.AppendText($"UAV--------  ");
-            var arr = new int[3];
-            arr[0] = 1;
-            arr[1] = 2;
-            arr[2] = 3;
-            foreach(var num in arr) { Console.WriteLine(num); }
-            Array.Clear(arr, 0, arr.Count());
-            foreach (var num in arr) { Console.WriteLine(num); }
-            double c = -22.2222;
-            var a = BitConverter.GetBytes(Convert.ToInt32(c * 1e4));
-            var d = BitConverter.ToInt32(a, 0) * 1e-4;
-            Console.WriteLine(d);
-            Buffers.Add(new Packets(coordinate, 1, -30, 20, 0, -180, "ddd", FrameType.Quad));
-            Buffers.Add(new Packets(coordinate, 2, -15, 30, 0, 90, "test message~~", FrameType.Quad));
-            Buffers.Add(new Packets(coordinate, 3, 50, -10, 0, -130, "yoooooo", FrameType.Quad));
-            Buffers.Add(new Packets(coordinate, 4, 10, 10, 0, 90, "test message~~", FrameType.Fixed_wing));
-            //Buffers.Add(new Packets(coordinate, 5, 50, -10, 0, -180, "yoooooo", FrameType.Fixed_wing));
-            //Buffers.Add(new Packets(coordinate, 6, -50, 0, 0, -180, "ddd", FrameType.Fixed_wing));
-            //Buffers.Add(new Packets(coordinate, 7, -30, 20, 0, -180, "ddd", FrameType.Quad));
-            //Buffers.Add(new Packets(coordinate, 8, 10, 10, 0, 90, "test message~~", FrameType.Quad));
-            //Buffers.Add(new Packets(coordinate, 9, 50, -10, 0, -180, "yoooooo", FrameType.Fixed_wing));
-            //Buffers.Add(new Packets(coordinate, 10, -50, 0, 0, -180, "ddd", FrameType.Fixed_wing));
-            existing_UAVs.AddRange(Enumerable.Range(1, 4).ToList());
+            Buffers.Add(new Packets(coordinate, 1, -30, 20, 0, -180, "quad test", FrameType.Quad));
+            Buffers.Add(new Packets(coordinate, 2, -15, 30, 0, 90, "fixed-wing test", FrameType.Fixed_wing));
+            existing_UAVs.AddRange(Enumerable.Range(1, 2).ToList());
             // existing_UAVs.Sort();
+            for (int i = 0; i < 2; i++)
+            {
+                var marker_of_uav = Planes.AddDrone(Buffers[i].Lat, Buffers[i].Lng, Buffers[i].Heading, Buffers[i].Frame_type, 
+                    "UAV0" + Buffers[i].UAV_ID, new SolidBrush(color_of_uavs[Buffers[i].UAV_ID - 1]));
+                markers_main[Buffers[i].UAV_ID - 1].Markers.Add(marker_of_uav);
+                string uav_text = UAV_ID_text(i);
+                comboBox_mapCenter.Items.Add(uav_text);
+                checkBoxComboBox_UAVselect.Items.Add(uav_text);
+                textBox_info.SelectionColor = Color.Red;
+                textBox_info.AppendText($"UAV{i}  ");
+                textBox_info.SelectionColor = Color.Black;
+                textBox_info.AppendText(Buffers[i].Info + Environment.NewLine);
+            }
             dataGridView_flghtData.Sort(dataGridView_flghtData.Columns["UAV_ID"], ListSortDirection.Ascending);
-            var marker_of_uav = Planes.AddQuadrotor(Buffers[0].Lat, Buffers[0].Lng, "UAV0" + Buffers[0].UAV_ID, Buffers[0].Yaw,
-                    new SolidBrush(color_of_uavs[Buffers[0].UAV_ID - 1]));
-            var marker_of = Planes.AddPlane(Buffers[1].Lat, Buffers[1].Lng, "UAV0" + Buffers[1].UAV_ID, Buffers[1].Yaw,
-                   new SolidBrush(color_of_uavs[Buffers[1].UAV_ID - 1]));
-            markers_main[Buffers[0].UAV_ID - 1].Markers.Add(marker_of_uav);
-            markers_main[Buffers[1].UAV_ID - 1].Markers.Add(marker_of);
-            string uav_text = UAV_ID_text(3);
-            comboBox_mapCenter.Items.Add(uav_text);
-            checkBoxComboBox_UAVselect.Items.Add(uav_text);
-            uav_text = UAV_ID_text(2);
-            comboBox_mapCenter.Items.Add(uav_text);
-            checkBoxComboBox_UAVselect.Items.Add(uav_text);
-            textBox_info.SelectionColor = Color.Red;
-            textBox_info.AppendText($"UAV{2}  ");
-            textBox_info.SelectionColor = Color.Black;
-            textBox_info.AppendText(Buffers[0].Info + Environment.NewLine);
 
-            if (tabControl_action.SelectedTab.Text == "Command")
-            {
-                textBox_info.AppendText("Guide" + Environment.NewLine);
-            }
-            else
-            {
-                textBox_info.AppendText("nnn" + Environment.NewLine);
-            }
+            CreateShortcut("5895GCS", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Assembly.GetExecutingAssembly().Location);
 
-            // CreateShortcut("5895GCS", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Assembly.GetExecutingAssembly().Location);
+            string flightdata_sql = $@"insert into `flight_data` values 
+                            ('{timestamp}', '{dateTime}', '{Buffers[0].Mode}', '{Buffers[0].Mission}', 
+                                '{Buffers[0].E}', '{Buffers[0].N}', '{Buffers[0].U}', '{Buffers[0].Speed}', 
+                                '{Buffers[0].Roll}', '{Buffers[0].Pitch}', '{Buffers[0].Yaw}');";
+            MySqlCommand cmd = new MySqlCommand(flightdata_sql, UAVs_flightData_conn[0]);
+            int index = cmd.ExecuteNonQuery();
         }
 
         private void gMapControl_main_MouseClick(object sender, MouseEventArgs e)
@@ -864,7 +830,7 @@ namespace GCS_5895
                 int select_index = existing_UAVs.IndexOf(uav_id);
                 waypoints.RemoveAll(p => p.UAV_ID == uav_id && p.Type != WaypointMissionMethod.guide_waypoint);
                 var start_pos = new double[] { Buffers[select_index].E, Buffers[select_index].N, Buffers[select_index].U, 
-                    Buffers[select_index].get_ENU_yawAngle()};
+                    Buffers[select_index].Heading};
 
                 var mission = Mission_setting.path_mission[comboBox_missionTypeMission.Text].Deepcopy();
                 mission.UAV_ID = uav_id;
@@ -945,17 +911,8 @@ namespace GCS_5895
                         Stroke = new Pen(color_of_uavs[uav_id - 1], 4)
                     };
                     overlay.Routes.Add(ref_route);
-                    switch (Buffers[select_index].Frame_type)
-                    {
-                        case FrameType.Quad:
-                            overlay.Markers.Add(Planes.AddQuadrotor(Buffers[select_index].Lat, Buffers[select_index].Lng, UAV_ID_text(uav_id), Buffers[select_index].get_ENU_yawAngle(),
-                                        new SolidBrush(color_of_uavs[uav_id - 1])));
-                            break;
-                        case FrameType.Fixed_wing:
-                            overlay.Markers.Add(Planes.AddPlane(Buffers[select_index].Lat, Buffers[select_index].Lng, UAV_ID_text(uav_id), Buffers[select_index].get_ENU_yawAngle(),
-                                        new SolidBrush(color_of_uavs[uav_id - 1])));
-                            break;
-                    }
+                    overlay.Markers.Add(Planes.AddDrone(Buffers[select_index].Lat, Buffers[select_index].Lng, Buffers[select_index].Heading, 
+                        Buffers[select_index].Frame_type, UAV_ID_text(uav_id), new SolidBrush(color_of_uavs[uav_id - 1])));
                     button_missionConfirm.Enabled = true;
                     button_missionClear.Enabled = true;
                 }
@@ -2239,17 +2196,8 @@ namespace GCS_5895
                     richTextBox_VRP.AppendText($"UAV{uav.UAV_ID} ");
                     richTextBox_VRP.SelectionColor = Color.Black;
                     richTextBox_VRP.AppendText($"at ({uav.E}, {uav.N}) m" + Environment.NewLine);
-                    switch (uav.Frame_type)
-                    {
-                        case FrameType.Quad:
-                            overlay.Markers.Add(Planes.AddQuadrotor(uav.Lat, uav.Lng, UAV_ID_text(uav.UAV_ID), uav.Yaw,
+                    overlay.Markers.Add(Planes.AddDrone(uav.Lat, uav.Lng, uav.Heading, uav.Frame_type, UAV_ID_text(uav.UAV_ID), 
                                         new SolidBrush(color_of_uavs[uav.UAV_ID - 1])));
-                            break;
-                        case FrameType.Fixed_wing:
-                            overlay.Markers.Add(Planes.AddPlane(uav.Lat, uav.Lng, UAV_ID_text(uav.UAV_ID), uav.Yaw,
-                                        new SolidBrush(color_of_uavs[uav.UAV_ID - 1])));
-                            break;
-                    }
                 }
                 dataGridView_VRPagents.AutoResizeColumns();
                 // 清除表格

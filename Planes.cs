@@ -23,40 +23,24 @@ namespace GCS_5895
         /* 不變常數宣告 */
         static readonly double d2r = 0.01745329251994329576923690768489; //預設是 Private
 
-        public static GMapMarker AddQuadrotor(double lat, double lng, string name, double heading, SolidBrush color)
+        public static GMapMarker AddDrone(double lat, double lng, double heading, FrameType frameType, string name, SolidBrush color)
         {
-            //飛機的圖層
-            Image srcPlane = Image.FromFile("drone.png");
-            Bitmap picPlane = GraphicRotateAtAny((Bitmap)srcPlane, srcPlane.Height / 2, srcPlane.Width / 2, heading);
+            Image srcPlane = null;
+            Bitmap picPlane = null;
+            switch (frameType)
+            {
+                case FrameType.Quad:
+                    srcPlane = Image.FromFile("../../image/quad.png");
+                    picPlane = GraphicRotateAtAny((Bitmap)srcPlane, srcPlane.Height / 2, srcPlane.Width / 2, heading);
+                    break;
+                case FrameType.Fixed_wing:
+                    srcPlane = Image.FromFile("../../image/plane.tif");
+                    picPlane = RotateImg((Bitmap)srcPlane, (float)-heading + 90);
+                    break;
+            }
             picPlane.MakeTransparent(Color.Yellow);
-
             GMapMarker plane = new GMarkerGoogle(new PointLatLng(lat, lng), picPlane);
             plane.Offset = new Point(-picPlane.Width / 2, -picPlane.Height / 2);
-            GMapToolTip tooltip = new GMapToolTip(plane);
-
-            tooltip.Fill = color;
-            tooltip.Foreground = new SolidBrush(Color.Black);
-            tooltip.Offset = new Point(23, -20);
-            tooltip.TextPadding = new Size(6, 6);
-
-            plane.Tag = name;
-            plane.ToolTipText = name;
-            plane.ToolTip = tooltip;
-            plane.ToolTipMode = MarkerTooltipMode.Always;
-            plane.ToolTip.Font = new Font("Times New Roman", 7, FontStyle.Bold);
-
-            return plane;
-        }
-
-        public static GMapMarker AddPlane(double lat, double lng, string name, double heading, SolidBrush color)
-        {
-            //固定翼的圖層
-            Image srcPic = Image.FromFile("plane.tif");
-            Bitmap fixedWing = RotateImg((Bitmap)srcPic, (float)-heading+90);
-            fixedWing.MakeTransparent(Color.Yellow);
-
-            GMapMarker plane = new GMarkerGoogle(new PointLatLng(lat, lng), fixedWing);
-            plane.Offset = new Point(-fixedWing.Width / 2, -fixedWing.Height / 2);
             GMapToolTip tooltip = new GMapToolTip(plane);
 
             tooltip.Fill = color;
@@ -76,7 +60,7 @@ namespace GCS_5895
         public static GMapMarker AddRunway(double lat, double lng, string name, double heading, SolidBrush color)
         {
             //跑道的圖層
-            Image srcPic = Image.FromFile("runway.png");
+            Image srcPic = Image.FromFile("../../image/runway.png");
             Bitmap runway = RotateImg((Bitmap)srcPic, (float)heading);
             runway.MakeTransparent(Color.Yellow);
 
@@ -100,7 +84,7 @@ namespace GCS_5895
 
         public static GMapMarker AddHelipad(double lat, double lng, string name, double heading, SolidBrush color)
         {
-            Image srcPic = Image.FromFile("helipad.tif");
+            Image srcPic = Image.FromFile("../../image/helipad.tif");
             Bitmap helipad = RotateImg((Bitmap)srcPic, (float)-heading+90);
             helipad.MakeTransparent(Color.Yellow);
 

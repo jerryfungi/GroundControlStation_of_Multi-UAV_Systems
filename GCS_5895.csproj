@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="packages\Microsoft.CodeAnalysis.Analyzers.3.3.3\build\Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('packages\Microsoft.CodeAnalysis.Analyzers.3.3.3\build\Microsoft.CodeAnalysis.Analyzers.props')" />
-  <Import Project="packages\ILNumerics.Tools.CodeTransforms.6.0.148\build\net461\ILNumerics.Tools.CodeTransforms.props" Condition="Exists('packages\ILNumerics.Tools.CodeTransforms.6.0.148\build\net461\ILNumerics.Tools.CodeTransforms.props')" />
   <Import Project="packages\Avalonia.0.10.6\build\Avalonia.props" Condition="Exists('packages\Avalonia.0.10.6\build\Avalonia.props')" />
-  <Import Project="packages\Microsoft.CodeAnalysis.Analyzers.2.9.6\build\Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('packages\Microsoft.CodeAnalysis.Analyzers.2.9.6\build\Microsoft.CodeAnalysis.Analyzers.props')" />
   <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!-- Hide MSB3270 Warning -->
@@ -130,11 +128,11 @@
     </Reference>
     <Reference Include="CheckBoxComboBox, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\CheckBoxComboBox.dll</HintPath>
+      <HintPath>third-party libraries\CheckBoxComboBox.dll</HintPath>
     </Reference>
     <Reference Include="ColorSlider, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\ColorSlider.dll</HintPath>
+      <HintPath>third-party libraries\ColorSlider.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
@@ -144,7 +142,7 @@
     </Reference>
     <Reference Include="CSkin, Version=16.1.14.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\CSkin.dll</HintPath>
+      <HintPath>third-party libraries\CSkin.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
@@ -166,33 +164,6 @@
     </Reference>
     <Reference Include="GMap.NET.WindowsPresentation, Version=2.1.7.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <HintPath>packages\GMap.NET.WinPresentation.2.1.7\lib\net472\GMap.NET.WindowsPresentation.dll</HintPath>
-    </Reference>
-    <Reference Include="HarfBuzzSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>packages\HarfBuzzSharp.2.6.1.7\lib\net462\HarfBuzzSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="ILNumerics.Computing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=8d9bf50ef854734d, processorArchitecture=MSIL">
-      <HintPath>packages\ILNumerics.Computing.6.0.148\lib\net461\ILNumerics.Computing.dll</HintPath>
-    </Reference>
-    <Reference Include="ILNumerics.Core, Version=6.0.0.0, Culture=neutral, PublicKeyToken=9651adc37f12bb00, processorArchitecture=MSIL">
-      <HintPath>packages\ILNumerics.Core.6.0.148\lib\net461\ILNumerics.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="ILNumerics.Core.Platforms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=c056f8654c508336, processorArchitecture=MSIL">
-      <HintPath>packages\ILNumerics.Core.Platforms.6.0.148\lib\net461\ILNumerics.Core.Platforms.dll</HintPath>
-    </Reference>
-    <Reference Include="ILNumerics.Core.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=95aef34ba6191753, processorArchitecture=MSIL">
-      <HintPath>packages\ILNumerics.Core.Runtime.6.0.148\lib\net461\ILNumerics.Core.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="ILNumerics.Drawing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=e22c8a010c3b081a, processorArchitecture=MSIL">
-      <HintPath>packages\ILNumerics.Drawing.6.0.148\lib\net461\ILNumerics.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="ILNumerics.Drawing.Platforms, Version=6.0.0.0, Culture=neutral, PublicKeyToken=0a23ecb2dfe3fc7e, processorArchitecture=MSIL">
-      <HintPath>packages\ILNumerics.Drawing.Platforms.6.0.148\lib\net461\ILNumerics.Drawing.Platforms.dll</HintPath>
-    </Reference>
-    <Reference Include="ILNumerics.F2NET.LAPACK, Version=6.0.0.0, Culture=neutral, PublicKeyToken=003ce85f99479f88, processorArchitecture=MSIL">
-      <HintPath>packages\ILNumerics.F2NET.LAPACK.6.0.148\lib\net461\ILNumerics.F2NET.LAPACK.dll</HintPath>
-    </Reference>
-    <Reference Include="ILNumerics.numpy, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5191cdff9aceda71, processorArchitecture=MSIL">
-      <HintPath>packages\ILNumerics.numpy.6.0.148\lib\net461\ILNumerics.numpy.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.3.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>packages\JetBrains.Annotations.10.3.0\lib\net\JetBrains.Annotations.dll</HintPath>
@@ -222,8 +193,7 @@
       <HintPath>packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=8.0.32.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\MySql.Data.dll</HintPath>
+      <HintPath>packages\MySql.Data.8.0.32\lib\netstandard2.0\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -246,14 +216,11 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PulseButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\PulseButton.dll</HintPath>
+      <HintPath>third-party libraries\PulseButton.dll</HintPath>
     </Reference>
     <Reference Include="RoundButton, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\RoundButton.dll</HintPath>
-    </Reference>
-    <Reference Include="SkiaSharp, Version=2.80.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>packages\SkiaSharp.2.80.2\lib\net462\SkiaSharp.dll</HintPath>
+      <HintPath>third-party libraries\RoundButton.dll</HintPath>
     </Reference>
     <Reference Include="SRP, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\XBeeLibrary.Core.1.0.3\lib\netstandard2.0\SRP.dll</HintPath>
@@ -362,7 +329,7 @@
     </Reference>
     <Reference Include="XBeeLibrary.Windows, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\XBeeLibrary.Windows.dll</HintPath>
+      <HintPath>third-party libraries\XBeeLibrary.Windows.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -416,10 +383,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="packages\Microsoft.CodeAnalysis.Analyzers.2.9.6\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="packages\Microsoft.CodeAnalysis.Analyzers.2.9.6\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
@@ -441,25 +404,13 @@
     <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
     <Error Condition="!Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
     <Error Condition="!Exists('packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
-    <Error Condition="!Exists('packages\Microsoft.CodeAnalysis.Analyzers.2.9.6\build\Microsoft.CodeAnalysis.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeAnalysis.Analyzers.2.9.6\build\Microsoft.CodeAnalysis.Analyzers.props'))" />
-    <Error Condition="!Exists('packages\HarfBuzzSharp.2.6.1.7\build\net462\HarfBuzzSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\HarfBuzzSharp.2.6.1.7\build\net462\HarfBuzzSharp.targets'))" />
-    <Error Condition="!Exists('packages\HarfBuzzSharp.NativeAssets.Linux.2.6.1.7\build\net462\HarfBuzzSharp.NativeAssets.Linux.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\HarfBuzzSharp.NativeAssets.Linux.2.6.1.7\build\net462\HarfBuzzSharp.NativeAssets.Linux.targets'))" />
-    <Error Condition="!Exists('packages\SkiaSharp.2.80.2\build\net462\SkiaSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SkiaSharp.2.80.2\build\net462\SkiaSharp.targets'))" />
-    <Error Condition="!Exists('packages\SkiaSharp.NativeAssets.Linux.2.80.2\build\net462\SkiaSharp.NativeAssets.Linux.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SkiaSharp.NativeAssets.Linux.2.80.2\build\net462\SkiaSharp.NativeAssets.Linux.targets'))" />
     <Error Condition="!Exists('packages\Avalonia.0.10.6\build\Avalonia.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Avalonia.0.10.6\build\Avalonia.props'))" />
     <Error Condition="!Exists('packages\Avalonia.0.10.6\build\Avalonia.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Avalonia.0.10.6\build\Avalonia.targets'))" />
-    <Error Condition="!Exists('packages\ILNumerics.Tools.CodeTransforms.6.0.148\build\net461\ILNumerics.Tools.CodeTransforms.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\ILNumerics.Tools.CodeTransforms.6.0.148\build\net461\ILNumerics.Tools.CodeTransforms.props'))" />
-    <Error Condition="!Exists('packages\ILNumerics.Tools.CodeTransforms.6.0.148\build\net461\ILNumerics.Tools.CodeTransforms.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\ILNumerics.Tools.CodeTransforms.6.0.148\build\net461\ILNumerics.Tools.CodeTransforms.targets'))" />
     <Error Condition="!Exists('packages\Microsoft.CodeAnalysis.Analyzers.3.3.3\build\Microsoft.CodeAnalysis.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeAnalysis.Analyzers.3.3.3\build\Microsoft.CodeAnalysis.Analyzers.props'))" />
     <Error Condition="!Exists('packages\Microsoft.CodeAnalysis.Analyzers.3.3.3\build\Microsoft.CodeAnalysis.Analyzers.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeAnalysis.Analyzers.3.3.3\build\Microsoft.CodeAnalysis.Analyzers.targets'))" />
   </Target>
   <Import Project="packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <Import Project="packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
-  <Import Project="packages\HarfBuzzSharp.2.6.1.7\build\net462\HarfBuzzSharp.targets" Condition="Exists('packages\HarfBuzzSharp.2.6.1.7\build\net462\HarfBuzzSharp.targets')" />
-  <Import Project="packages\HarfBuzzSharp.NativeAssets.Linux.2.6.1.7\build\net462\HarfBuzzSharp.NativeAssets.Linux.targets" Condition="Exists('packages\HarfBuzzSharp.NativeAssets.Linux.2.6.1.7\build\net462\HarfBuzzSharp.NativeAssets.Linux.targets')" />
-  <Import Project="packages\SkiaSharp.2.80.2\build\net462\SkiaSharp.targets" Condition="Exists('packages\SkiaSharp.2.80.2\build\net462\SkiaSharp.targets')" />
-  <Import Project="packages\SkiaSharp.NativeAssets.Linux.2.80.2\build\net462\SkiaSharp.NativeAssets.Linux.targets" Condition="Exists('packages\SkiaSharp.NativeAssets.Linux.2.80.2\build\net462\SkiaSharp.NativeAssets.Linux.targets')" />
   <Import Project="packages\Avalonia.0.10.6\build\Avalonia.targets" Condition="Exists('packages\Avalonia.0.10.6\build\Avalonia.targets')" />
-  <Import Project="packages\ILNumerics.Tools.CodeTransforms.6.0.148\build\net461\ILNumerics.Tools.CodeTransforms.targets" Condition="Exists('packages\ILNumerics.Tools.CodeTransforms.6.0.148\build\net461\ILNumerics.Tools.CodeTransforms.targets')" />
   <Import Project="packages\Microsoft.CodeAnalysis.Analyzers.3.3.3\build\Microsoft.CodeAnalysis.Analyzers.targets" Condition="Exists('packages\Microsoft.CodeAnalysis.Analyzers.3.3.3\build\Microsoft.CodeAnalysis.Analyzers.targets')" />
 </Project>
