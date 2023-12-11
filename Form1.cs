@@ -819,7 +819,7 @@ namespace GCS_5895
                 Buffers.Add(new Packets(coordinate, Buffers.Count()+1, enu[0], enu[1], 0, 90, "virtual drone", FrameType.Quad));
                 existing_UAVs.Add(Buffers.Last().UAV_ID);
                 var marker_of_uav = Planes.AddDrone(Buffers.Last().Lat, Buffers.Last().Lng, Buffers.Last().Heading, Buffers.Last().Frame_type,
-                        "UAV0" + Buffers.Last().UAV_ID, new SolidBrush(color_of_uavs[Buffers.Last().UAV_ID - 1]));
+                        UAV_ID_text(Buffers.Last().UAV_ID), new SolidBrush(color_of_uavs[Buffers.Last().UAV_ID - 1]));
                 markers_main[Buffers.Last().UAV_ID - 1].Markers.Add(marker_of_uav);
                 string uav_text = UAV_ID_text(Buffers.Last().UAV_ID);
                 comboBox_mapCenter.Items.Add(uav_text);

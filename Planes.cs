@@ -39,22 +39,22 @@ namespace GCS_5895
                     break;
             }
             picPlane.MakeTransparent(Color.Yellow);
-            GMapMarker plane = new GMarkerGoogle(new PointLatLng(lat, lng), picPlane);
-            plane.Offset = new Point(-picPlane.Width / 2, -picPlane.Height / 2);
-            GMapToolTip tooltip = new GMapToolTip(plane);
-
+            GMapMarker drone = new GMarkerGoogle(new PointLatLng(lat, lng), picPlane);
+            drone.Offset = new Point(-picPlane.Width / 2, -picPlane.Height / 2);
+            
+            GMapToolTip tooltip = new GMapToolTip(drone);
             tooltip.Fill = color;
             tooltip.Foreground = new SolidBrush(Color.Black);
+            tooltip.Font = new Font("Times New Roman", 7, FontStyle.Bold);
             tooltip.Offset = new Point(23, -20);
-            tooltip.TextPadding = new Size(6, 6);
+            tooltip.TextPadding = new Size(12, 6);
 
-            plane.Tag = name;
-            plane.ToolTipText = name;
-            plane.ToolTip = tooltip;
-            plane.ToolTipMode = MarkerTooltipMode.Always;
-            plane.ToolTip.Font = new Font("Times New Roman", 7, FontStyle.Bold);
+            drone.Tag = name;
+            drone.ToolTipText = name;
+            drone.ToolTip = tooltip;
+            drone.ToolTipMode = MarkerTooltipMode.Always;
 
-            return plane;
+            return drone;
         }
 
         public static GMapMarker AddRunway(double lat, double lng, string name, double heading, SolidBrush color)
