@@ -31,12 +31,11 @@ namespace GCS_5895
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             PresentationControls.CheckBoxProperties checkBoxProperties1 = new PresentationControls.CheckBoxProperties();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GCS_5895));
             this.tabControl_main = new CCWin.SkinControl.SkinTabControl();
             this.tabPage_GCS = new CCWin.SkinControl.SkinTabPage();
-            this.button_test = new System.Windows.Forms.Button();
             this.button_Connect = new System.Windows.Forms.Button();
             this.gMapControl_main = new GMap.NET.WindowsForms.GMapControl();
             this.comboBox_mapCenter = new System.Windows.Forms.ComboBox();
@@ -254,7 +253,6 @@ namespace GCS_5895
             this.tabPage_GCS.BackColor = System.Drawing.Color.WhiteSmoke;
             this.tabPage_GCS.BorderColor = System.Drawing.Color.DimGray;
             this.tabPage_GCS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage_GCS.Controls.Add(this.button_test);
             this.tabPage_GCS.Controls.Add(this.button_Connect);
             this.tabPage_GCS.Controls.Add(this.gMapControl_main);
             this.tabPage_GCS.Controls.Add(this.comboBox_mapCenter);
@@ -272,20 +270,6 @@ namespace GCS_5895
             this.tabPage_GCS.TabIndex = 0;
             this.tabPage_GCS.TabItemImage = null;
             this.tabPage_GCS.Text = "GCS";
-            // 
-            // button_test
-            // 
-            this.button_test.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.button_test.Dock = System.Windows.Forms.DockStyle.Left;
-            this.button_test.ForeColor = System.Drawing.Color.Black;
-            this.button_test.Location = new System.Drawing.Point(324, 3);
-            this.button_test.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.button_test.Name = "button_test";
-            this.button_test.Size = new System.Drawing.Size(87, 39);
-            this.button_test.TabIndex = 15;
-            this.button_test.Text = "test";
-            this.button_test.UseVisualStyleBackColor = false;
-            this.button_test.Click += new System.EventHandler(this.button_test_Click);
             // 
             // button_Connect
             // 
@@ -440,14 +424,14 @@ namespace GCS_5895
             // 
             this.dataGridView_flghtData.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dataGridView_flghtData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView_flghtData.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 9F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView_flghtData.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView_flghtData.Dock = System.Windows.Forms.DockStyle.Left;
             this.dataGridView_flghtData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView_flghtData.GridColor = System.Drawing.Color.DarkGray;
@@ -1051,6 +1035,7 @@ namespace GCS_5895
             this.button_guideClear.TabIndex = 22;
             this.button_guideClear.Text = "Clear";
             this.button_guideClear.UseVisualStyleBackColor = false;
+            this.button_guideClear.Click += new System.EventHandler(this.button_guideClear_Click);
             // 
             // button_WPconfirm
             // 
@@ -2640,7 +2625,6 @@ namespace GCS_5895
         private System.Windows.Forms.DataGridViewTextBoxColumn known_target;
         private CCWin.SkinControl.SkinButton skinButton_goToInitPos;
         private CCWin.SkinControl.SkinPictureBox skinPictureBox2;
-        private System.Windows.Forms.Button button_test;
         private CCWin.SkinControl.SkinButton skinButton_land;
         private System.Windows.Forms.TabPage tabPage_setting;
         private CCWin.SkinControl.SkinButton skinButton_disarm;

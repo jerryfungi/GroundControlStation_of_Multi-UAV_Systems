@@ -49,7 +49,7 @@ namespace GCS_5895
         public Dictionary<int, RemoteDigiMeshDevice> G2U_points;
 
         // 定義MySQL資料庫
-        MySqlConnection timelist_conn = new MySqlConnection("data source=127.0.0.1;;port=3306;user id=root;password=ncku5895;database=timelist" +
+        MySqlConnection timelist_conn = new MySqlConnection("data source=127.0.0.1;;port=3306;user id=root;password=ncku5895;database=timelist;" +
             ";pooling=true;charset=utf8;");  //紀錄任務開始時間
         public List<MySqlConnection> UAVs_flightData_conn = new List<MySqlConnection>(); // 紀錄無人機飛行數據
 
@@ -124,12 +124,76 @@ namespace GCS_5895
                 gMapControl_main.Overlays.Add(waypoints_pin[i]);
                 gMapControl_main.Overlays.Add(markers_main[i]);
                 // 定義飛行數據之資料庫管道並開啟通道
-                UAVs_flightData_conn.Add(new MySqlConnection($"data source=127.0.0.1;;port=3306;user id=root;password=ncku5895;database=uav{i + 1};pooling=true;charset=utf8;"));
-                if (UAVs_flightData_conn[i].State != ConnectionState.Open)
+                try
+                {
+                    // check UAV databases
+                    if (!existDatabase($"uav{i+1}"))
+                    {
+                        MySqlConnection mConnection = new MySqlConnection("data source=127.0.0.1;;port=3306;user id=root;password=ncku5895;" +
+                        ";pooling=true;charset=utf8;");
+                        mConnection.Open();
+                        MySqlCommand mySqlCommand = new MySqlCommand($"CREATE DATABASE uav{i+1};", mConnection);
+                        mySqlCommand.ExecuteNonQuery();
+                        mConnection.Close();
+                    }
+                    UAVs_flightData_conn.Add(new MySqlConnection($"data source=127.0.0.1;;port=3306;user id=root;password=ncku5895;database=uav{i + 1};pooling=true;charset=utf8;"));
                     UAVs_flightData_conn[i].Open();
+                    if (!existTable("flight_data"))
+                    {
+                        MySqlConnection mConnection = new MySqlConnection("data source=127.0.0.1;;port=3306;user id=root;password=ncku5895;" +
+                        ";pooling=true;charset=utf8;");
+                        string createStatement = @"create table `flight_data`(`Timestamp` double,
+                                            `Datetime` varchar(30),`Mode` varchar(20),`Mission` varchar(20),
+                                            `E` double,`N` DOUBLE,`U` double,`Speed` double,
+                                            `Roll` double,`Pitch` double,`Yaw` double,primary key(`Timestamp`)); ";
+                        using (UAVs_flightData_conn[i])
+                        {
+                            using (MySqlCommand cmd = new MySqlCommand(createStatement, UAVs_flightData_conn[i]))
+
+                            {
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    textBox_info.SelectionColor = Color.Red;
+                    textBox_info.AppendText($"Warning: cannot connect to the uav{i+1} database." + Environment.NewLine);
+                }
             }
-            if (timelist_conn.State != ConnectionState.Open)
-                timelist_conn.Open();
+            try
+            {
+                // check timelist database
+                if (!existDatabase("timelist"))
+                {
+                    MySqlConnection mConnection = new MySqlConnection("data source=127.0.0.1;;port=3306;user id=root;password=ncku5895;" +
+                   ";pooling=true;charset=utf8;");
+                    mConnection.Open();
+                    MySqlCommand mySqlCommand = new MySqlCommand($"CREATE DATABASE timelist;", mConnection);
+                    mySqlCommand.ExecuteNonQuery();
+                    mConnection.Close();
+                }
+                if (timelist_conn.State != ConnectionState.Open)
+                    timelist_conn.Open();
+                if (!existTable("timeline"))
+                {
+                    string createStatement = @"create table `timeline`(`No.` int auto_increment,`Mission` varchar(20),
+                                        `Status` varchar(100),`GCS Timestamp` double,`Datatime` varchar(30),primary key(`No.`));";
+                    using (timelist_conn)
+                    {
+                        using (MySqlCommand cmd = new MySqlCommand(createStatement, timelist_conn))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                textBox_info.SelectionColor = Color.Red;
+                textBox_info.AppendText("Warning: cannot connect to the timelist database." + Environment.NewLine);
+            }
 
             dataGridView_flghtData.DataSource = Buffers;
             string[] command = new string[] { "Arm", "Disarm", "Guided", "RTL", "Stabilize", "POSHOLD", "position", "Land", "Loiter", "Alt_Hod", "Auto" };
@@ -139,6 +203,9 @@ namespace GCS_5895
             
             // 任務設定
             skinComboBox_SEAD.Items.AddRange(Mission_setting.SEAD_mission.Keys.ToArray());
+
+            //Shortcut update
+            CreateShortcut("5895GCS", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Assembly.GetExecutingAssembly().Location);
         }
         public void setTag(Control cons)
         {
@@ -201,16 +268,54 @@ namespace GCS_5895
             }
         }
 
+        public bool existDatabase(string databaseName)
+        {
+            MySqlConnection mConnection = new MySqlConnection("data source=127.0.0.1;;port=3306;user id=root;password=ncku5895;" +
+                    ";pooling=true;charset=utf8;");
+            mConnection.Open();
+
+            MySqlCommand mySqlCommand = new MySqlCommand($@"SELECT * FROM information_schema.SCHEMATA where SCHEMA_NAME='{databaseName}'", mConnection);
+            MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+            while (mySqlDataReader.Read())
+            {
+                object name = mySqlDataReader.GetString(1);
+                if (name.ToString() == $"{databaseName}")
+                {
+                    mConnection.Close();
+                    return true;
+                }
+            }
+            mConnection.Close();
+            return false;
+        }
+
+
+        public bool existTable(string tableName)
+        {
+            MySqlConnection mConnection = new MySqlConnection("data source=127.0.0.1;;port=3306;user id=root;password=ncku5895;" +
+                    ";pooling=true;charset=utf8;");
+            mConnection.Open();
+            
+            MySqlCommand mySqlCommand = new MySqlCommand($@"SELECT table_name FROM information_schema.TABLES WHERE table_name ='{tableName}';", mConnection);
+            if (mySqlCommand.ExecuteScalar() != null)
+            {
+                mConnection.Close();
+                return true;
+            }
+            mConnection.Close();
+            return false;
+        }
+
         public static void CreateShortcut(string shortcutName, string shortcutPath, string targetFileLocation)
         {
             string shortcutLocation = System.IO.Path.Combine(shortcutPath, shortcutName + ".lnk");
             WshShell shell = new WshShell();
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
 
-            shortcut.Description = "My shortcut description";   // The description of the shortcut
-            shortcut.IconLocation = @"image\GCS icon.ico";           // The icon of the shortcut
-            shortcut.TargetPath = targetFileLocation;                 // The path of the file that will launch when the shortcut is run
-            shortcut.Save();                                    // Save the shortcut
+            shortcut.Description = "My shortcut description";
+            shortcut.IconLocation = System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\image\GCS icon.ico");
+            shortcut.TargetPath = targetFileLocation;
+            shortcut.Save();
         }
 
         [Obsolete]
@@ -393,16 +498,16 @@ namespace GCS_5895
             int uav_id = packet[1];
             this.Invoke(new Action(() =>
             {
-            // 查看是否有新無人機
-            if (!existing_UAVs.Contains(uav_id))
-            {
-                existing_UAVs.Add(uav_id);
-                existing_UAVs.Sort();
-                Buffers.Add(new Packets(coordinate, uav_id));
-                dataGridView_flghtData.Sort(dataGridView_flghtData.Columns["UAV_ID"], ListSortDirection.Ascending);
-                comboBox_mapCenter.Items.Add(UAV_ID_text(uav_id));
-                checkBoxComboBox_UAVselect.Items.Add(UAV_ID_text(uav_id));
-            }
+                // 查看是否有新無人機
+                if (!existing_UAVs.Contains(uav_id))
+                {
+                    existing_UAVs.Add(uav_id);
+                    existing_UAVs.Sort();
+                    Buffers.Add(new Packets(coordinate, uav_id));
+                    dataGridView_flghtData.Sort(dataGridView_flghtData.Columns["UAV_ID"], ListSortDirection.Ascending);
+                    comboBox_mapCenter.Items.Add(UAV_ID_text(uav_id));
+                    checkBoxComboBox_UAVselect.Items.Add(UAV_ID_text(uav_id));
+                }
             // 解封包
             int select_index = existing_UAVs.IndexOf(uav_id);
             Buffers[select_index].unpack_packet(packet, receive_time);
@@ -689,48 +794,41 @@ namespace GCS_5895
             }
         }
 
-        private void button_test_Click(object sender, EventArgs e)
-        {
-            double timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(timestamp);
-            Console.WriteLine(dateTime);
-
-            textBox_info.SelectionColor = Color.MediumSlateBlue;
-            Buffers.Add(new Packets(coordinate, 1, -30, 20, 0, -180, "quad test", FrameType.Quad));
-            Buffers.Add(new Packets(coordinate, 2, -15, 30, 0, 90, "fixed-wing test", FrameType.Fixed_wing));
-            existing_UAVs.AddRange(Enumerable.Range(1, 2).ToList());
-            // existing_UAVs.Sort();
-            for (int i = 0; i < 2; i++)
-            {
-                var marker_of_uav = Planes.AddDrone(Buffers[i].Lat, Buffers[i].Lng, Buffers[i].Heading, Buffers[i].Frame_type, 
-                    "UAV0" + Buffers[i].UAV_ID, new SolidBrush(color_of_uavs[Buffers[i].UAV_ID - 1]));
-                markers_main[Buffers[i].UAV_ID - 1].Markers.Add(marker_of_uav);
-                string uav_text = UAV_ID_text(i);
-                comboBox_mapCenter.Items.Add(uav_text);
-                checkBoxComboBox_UAVselect.Items.Add(uav_text);
-                textBox_info.SelectionColor = Color.Red;
-                textBox_info.AppendText($"UAV{i}  ");
-                textBox_info.SelectionColor = Color.Black;
-                textBox_info.AppendText(Buffers[i].Info + Environment.NewLine);
-            }
-            dataGridView_flghtData.Sort(dataGridView_flghtData.Columns["UAV_ID"], ListSortDirection.Ascending);
-
-            CreateShortcut("5895GCS", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Assembly.GetExecutingAssembly().Location);
-
-            string flightdata_sql = $@"insert into `flight_data` values 
-                            ('{timestamp}', '{dateTime}', '{Buffers[0].Mode}', '{Buffers[0].Mission}', 
-                                '{Buffers[0].E}', '{Buffers[0].N}', '{Buffers[0].U}', '{Buffers[0].Speed}', 
-                                '{Buffers[0].Roll}', '{Buffers[0].Pitch}', '{Buffers[0].Yaw}');";
-            MySqlCommand cmd = new MySqlCommand(flightdata_sql, UAVs_flightData_conn[0]);
-            int index = cmd.ExecuteNonQuery();
-        }
-
         private void gMapControl_main_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Middle)
             {
+                if (Buffers.Count() >= default_UAVnumbers)
+                {
+                    MessageBox.Show($"The limited number of UAVs is set to {default_UAVnumbers}.");
+                    return;
+                }
+                // create virtual drone for testing
                 PointLatLng pin = gMapControl_main.FromLocalToLatLng(e.X, e.Y);
-                Console.WriteLine($"{pin.Lat}, {pin.Lng}");
+                double timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(timestamp);
+                var enu = coordinate.llh2enu(pin.Lat, pin.Lng, 0);
+                Buffers.Add(new Packets(coordinate, Buffers.Count()+1, enu[0], enu[1], 0, 90, "virtual drone", FrameType.Quad));
+                existing_UAVs.Add(Buffers.Last().UAV_ID);
+                var marker_of_uav = Planes.AddDrone(Buffers.Last().Lat, Buffers.Last().Lng, Buffers.Last().Heading, Buffers.Last().Frame_type,
+                        "UAV0" + Buffers.Last().UAV_ID, new SolidBrush(color_of_uavs[Buffers.Last().UAV_ID - 1]));
+                markers_main[Buffers.Last().UAV_ID - 1].Markers.Add(marker_of_uav);
+                string uav_text = UAV_ID_text(Buffers.Last().UAV_ID);
+                comboBox_mapCenter.Items.Add(uav_text);
+                checkBoxComboBox_UAVselect.Items.Add(uav_text);
+                textBox_info.SelectionColor = Color.MediumSlateBlue;
+                textBox_info.AppendText($"UAV{Buffers.Last().UAV_ID}  ");
+                textBox_info.SelectionColor = Color.Black;
+                textBox_info.AppendText(Buffers.Last().Info + Environment.NewLine);
+
+                dataGridView_flghtData.Sort(dataGridView_flghtData.Columns["UAV_ID"], ListSortDirection.Ascending);
+
+                //string flightdata_sql = $@"insert into `flight_data` values 
+                //            ('{timestamp}', '{dateTime}', '{Buffers[0].Mode}', '{Buffers[0].Mission}', 
+                //                '{Buffers[0].E}', '{Buffers[0].N}', '{Buffers[0].U}', '{Buffers[0].Speed}', 
+                //                '{Buffers[0].Roll}', '{Buffers[0].Pitch}', '{Buffers[0].Yaw}');";
+                //MySqlCommand cmd = new MySqlCommand(flightdata_sql, UAVs_flightData_conn[0]);
+                //int index = cmd.ExecuteNonQuery();
             }
             if (e.Button == MouseButtons.Right && tabControl_action.SelectedTab.Text == "Guide" && !String.IsNullOrEmpty(comboBox_guideWP.Text))
             {
@@ -759,9 +857,14 @@ namespace GCS_5895
                     skinButton_clearWPs.Enabled = false;
                 }
             }
-            else if (e.Button == MouseButtons.Right && tabControl_action.SelectedTab.Text != "Guide" && !String.IsNullOrEmpty(comboBox_guideWP.Text))
+            else if (e.Button == MouseButtons.Right && tabControl_action.SelectedTab.Text != "Guide" && !String.IsNullOrEmpty(checkBoxComboBox_UAVselect.Text))
             {
-                int uav_id = Int32.Parse(comboBox_guideWP.Text.Remove(0, 3));
+                if (checkBoxComboBox_UAVselect.Text.Contains(","))
+                {
+                    MessageBox.Show("Please select only one drone.");
+                    return;
+                }
+                int uav_id = Int32.Parse(checkBoxComboBox_UAVselect.Text.Remove(0, 3));
                 PointLatLng pin = gMapControl_main.FromLocalToLatLng(e.X, e.Y);
                 var lla = new double[] { pin.Lat, pin.Lng, 0 };
                 var enu = coordinate.llh2enu(lla[0], lla[1], lla[2]);
@@ -1854,7 +1957,6 @@ namespace GCS_5895
                         {
                             uav.Checked = true;
                         }
-                        else { uav.Checked = false; }
                     }
                     comboBox_guideWP.Text = item.ToolTipText;
                 }
