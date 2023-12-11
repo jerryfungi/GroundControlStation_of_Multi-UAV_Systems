@@ -5,16 +5,10 @@ The GCS allows users to generate virtual drones on the Google Map interface by c
 
 The GCS is integrated with the program on the UAV, which is developed using the Robot Operating System (ROS). The UAV program repository can be found at https://github.com/jerryfungi/Multi-UAV_System_UAVprogram.git.
 
-Reference (3rd party libarry):
-CheckBoxComboBox:  
-https://www.codeproject.com/Articles/21085/CheckBox-ComboBox-Extending-the-ComboBox-Class-and
-ColorSlider:  
-https://www.codeproject.com/Tips/1193311/Csharp-Slider-Trackbar-Control-using-Windows-Forms
-CSkin:  
-http://www.cskin.net/
-PulseButton:  
-https://www.codeproject.com/Articles/42968/Pulse-Button
-RoundButton:  
-https://www.codeproject.com/Articles/15730/RoundButton-Windows-Control-Ever-Decreasing-Circle
-XBeeLibrary.Windows:  
-https://github.com/digidotcom/xbee-csharp/tree/windows_module
+Reference(3rd party libarry):
+CheckBoxComboBox: https://www.codeproject.com/Articles/21085/CheckBox-ComboBox-Extending-the-ComboBox-Class-and
+ColorSlider: https://www.codeproject.com/Tips/1193311/Csharp-Slider-Trackbar-Control-using-Windows-Forms
+CSkin:  http://www.cskin.net/
+PulseButton: https://www.codeproject.com/Articles/42968/Pulse-Button
+RoundButton: https://www.codeproject.com/Articles/15730/RoundButton-Windows-Control-Ever-Decreasing-Circle
+XBeeLibrary.Windows: https://github.com/digidotcom/xbee-csharp/tree/windows_module
