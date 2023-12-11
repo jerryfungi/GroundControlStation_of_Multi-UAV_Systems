@@ -546,13 +546,17 @@ namespace GCS_5895
                     marker_of_uavRoute[uav_id - 1].Stroke = new Pen(color_of_uavs[uav_id - 1], 2);
                     markers_main[uav_id - 1].Routes.Add(marker_of_uavRoute[uav_id - 1]);
                     // 存進資料庫
-                    DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(Buffers[select_index].GCS_timestamp);
-                    string flightdata_sql = $@"insert into `flight_data` values 
-                            ('{Buffers[select_index].UAV_timestamp}', '{dateTime}', '{Buffers[select_index].Mode}', '{Buffers[select_index].Mission}', 
-                                '{Buffers[select_index].E}', '{Buffers[select_index].N}', '{Buffers[select_index].U}', '{Buffers[select_index].Speed}', 
-                                '{Buffers[select_index].Roll}', '{Buffers[select_index].Pitch}', '{Buffers[select_index].Yaw}');";
-                    MySqlCommand cmd = new MySqlCommand(flightdata_sql, UAVs_flightData_conn[uav_id - 1]);
-                    int index = cmd.ExecuteNonQuery();
+                    try
+                    {
+                        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(Buffers[select_index].GCS_timestamp);
+                        string flightdata_sql = $@"insert into `flight_data` values 
+                        ('{Buffers[select_index].UAV_timestamp}', '{dateTime}', '{Buffers[select_index].Mode}', '{Buffers[select_index].Mission}', 
+                            '{Buffers[select_index].E}', '{Buffers[select_index].N}', '{Buffers[select_index].U}', '{Buffers[select_index].Speed}', 
+                            '{Buffers[select_index].Roll}', '{Buffers[select_index].Pitch}', '{Buffers[select_index].Yaw}');";
+                        MySqlCommand cmd = new MySqlCommand(flightdata_sql, UAVs_flightData_conn[uav_id - 1]);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch { }
                     break;
                 case Message_ID.Time_Syncronize: // 時間同步校正
                     if (comboBox_connectOption.Text == "UDP")
@@ -571,19 +575,23 @@ namespace GCS_5895
                     textBox_info.AppendText(Buffers[select_index].Info + Environment.NewLine);
                     break;
                 case Message_ID.Record_Time: // 紀錄時間並顯示資訊
-                    dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(Buffers[select_index].GCS_timestamp);
-                    string timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `UAV Timestamp`, `GCS Timestamp`, `Datatime`) 
-                                                values('{Buffers[select_index].Mission}', 
-                                                'UAV{uav_id} {Buffers[select_index].Info}', 
-                                                {Buffers[select_index].UAV_timestamp}, {receive_time}, '{dateTime}');";
-                    cmd = new MySqlCommand(timeline_sql, timelist_conn);
-                    index = cmd.ExecuteNonQuery();
-                    textBox_info.SelectionColor = Color.MediumSlateBlue;
-                    textBox_info.AppendText($"UAV{uav_id}  ");
-                    textBox_info.SelectionColor = Color.Black;
-                    textBox_info.AppendText($"{Buffers[select_index].Info} --- " +
-                        $"{Math.Round(Buffers[select_index].UAV_timestamp, 3, MidpointRounding.AwayFromZero)}, " +
-                        $"{Math.Round(receive_time, 3, MidpointRounding.AwayFromZero)}" + Environment.NewLine);
+                    try
+                    {
+                        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(Buffers[select_index].GCS_timestamp);
+                        string timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `UAV Timestamp`, `GCS Timestamp`, `Datatime`) 
+                                            values('{Buffers[select_index].Mission}', 
+                                            'UAV{uav_id} {Buffers[select_index].Info}', 
+                                            {Buffers[select_index].UAV_timestamp}, {receive_time}, '{dateTime}');";
+                        MySqlCommand cmd = new MySqlCommand(timeline_sql, timelist_conn);
+                        cmd.ExecuteNonQuery();
+                        textBox_info.SelectionColor = Color.MediumSlateBlue;
+                        textBox_info.AppendText($"UAV{uav_id}  ");
+                        textBox_info.SelectionColor = Color.Black;
+                        textBox_info.AppendText($"{Buffers[select_index].Info} --- " +
+                            $"{Math.Round(Buffers[select_index].UAV_timestamp, 3, MidpointRounding.AwayFromZero)}, " +
+                            $"{Math.Round(receive_time, 3, MidpointRounding.AwayFromZero)}" + Environment.NewLine);
+                    }
+                    catch { }
                     break;
                 }
             }));
@@ -1672,10 +1680,14 @@ namespace GCS_5895
             {
                 case "Waypoints mission":
                     // 存任務開始時間
-                    string timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `UAV Timestamp`, `GCS Timestamp`, `Datatime`) 
+                    try
+                    {
+                        string timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `UAV Timestamp`, `GCS Timestamp`, `Datatime`) 
                                                     values('{Message_ID.Waypoints}', 'Waypoints mission start', {timestamp}, {timestamp}, '{dateTime}');";
-                    MySqlCommand cmd = new MySqlCommand(timeline_sql, timelist_conn);
-                    var index = cmd.ExecuteNonQuery();
+                        MySqlCommand cmd = new MySqlCommand(timeline_sql, timelist_conn);
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch { }
                     // 發布任務命令
                     if (comboBox_connectOption.Text == "UDP")
                     {
@@ -1727,10 +1739,10 @@ namespace GCS_5895
                     if (!String.IsNullOrEmpty(skinComboBox_SEAD.Text))
                     {
                         // 存任務開始時間
-                        timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `UAV Timestamp`, `GCS Timestamp`, `Datatime`) 
+                        string timeline_sql = $@"insert into `timeline` (`Mission`, `Status`, `UAV Timestamp`, `GCS Timestamp`, `Datatime`) 
                                                     values('{Message_ID.SEAD_mission}', '{skinComboBox_SEAD.Text} start', {timestamp}, {timestamp}, '{dateTime}');";
-                        cmd = new MySqlCommand(timeline_sql, timelist_conn);
-                        index = cmd.ExecuteNonQuery();
+                        MySqlCommand cmd = new MySqlCommand(timeline_sql, timelist_conn);
+                        cmd.ExecuteNonQuery();
 
                         skinButton_goToInitPos.Enabled = false;
                         var mission = Mission_setting.SEAD_mission[skinComboBox_SEAD.Text];

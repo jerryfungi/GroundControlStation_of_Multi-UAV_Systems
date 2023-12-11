@@ -31,9 +31,9 @@ namespace GCS_5895
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            PresentationControls.CheckBoxProperties checkBoxProperties1 = new PresentationControls.CheckBoxProperties();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GCS_5895));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            PresentationControls.CheckBoxProperties checkBoxProperties2 = new PresentationControls.CheckBoxProperties();
             this.tabControl_main = new CCWin.SkinControl.SkinTabControl();
             this.tabPage_GCS = new CCWin.SkinControl.SkinTabPage();
             this.button_Connect = new System.Windows.Forms.Button();
@@ -329,7 +329,7 @@ namespace GCS_5895
             this.comboBox_mapCenter.Location = new System.Drawing.Point(827, 8);
             this.comboBox_mapCenter.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.comboBox_mapCenter.Name = "comboBox_mapCenter";
-            this.comboBox_mapCenter.Size = new System.Drawing.Size(134, 28);
+            this.comboBox_mapCenter.Size = new System.Drawing.Size(134, 25);
             this.comboBox_mapCenter.Sorted = true;
             this.comboBox_mapCenter.TabIndex = 8;
             this.comboBox_mapCenter.SelectedIndexChanged += new System.EventHandler(this.comboBox_mapCenter_SelectedIndexChanged);
@@ -342,7 +342,7 @@ namespace GCS_5895
             this.comboBox_connectOption.Location = new System.Drawing.Point(965, 8);
             this.comboBox_connectOption.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.comboBox_connectOption.Name = "comboBox_connectOption";
-            this.comboBox_connectOption.Size = new System.Drawing.Size(134, 28);
+            this.comboBox_connectOption.Size = new System.Drawing.Size(134, 25);
             this.comboBox_connectOption.TabIndex = 3;
             this.comboBox_connectOption.SelectedIndexChanged += new System.EventHandler(this.comboBox_connectOption_SelectedIndexChanged);
             this.comboBox_connectOption.Click += new System.EventHandler(this.comboBox_connectOption_DropDown);
@@ -355,7 +355,7 @@ namespace GCS_5895
             this.comboBox_PortOrBaud.Location = new System.Drawing.Point(1103, 8);
             this.comboBox_PortOrBaud.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.comboBox_PortOrBaud.Name = "comboBox_PortOrBaud";
-            this.comboBox_PortOrBaud.Size = new System.Drawing.Size(134, 28);
+            this.comboBox_PortOrBaud.Size = new System.Drawing.Size(134, 25);
             this.comboBox_PortOrBaud.TabIndex = 2;
             // 
             // comboBox_routeDisplay
@@ -366,7 +366,7 @@ namespace GCS_5895
             this.comboBox_routeDisplay.Location = new System.Drawing.Point(689, 8);
             this.comboBox_routeDisplay.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.comboBox_routeDisplay.Name = "comboBox_routeDisplay";
-            this.comboBox_routeDisplay.Size = new System.Drawing.Size(134, 28);
+            this.comboBox_routeDisplay.Size = new System.Drawing.Size(134, 25);
             this.comboBox_routeDisplay.TabIndex = 13;
             this.comboBox_routeDisplay.SelectedIndexChanged += new System.EventHandler(this.comboBox_routeDisplay_SelectedIndexChanged);
             // 
@@ -395,12 +395,13 @@ namespace GCS_5895
             // 
             this.button_clearDataGrid.BackColor = System.Drawing.Color.WhiteSmoke;
             this.button_clearDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button_clearDataGrid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_clearDataGrid.ForeColor = System.Drawing.Color.Black;
-            this.button_clearDataGrid.Location = new System.Drawing.Point(1008, 129);
+            this.button_clearDataGrid.Location = new System.Drawing.Point(1008, 126);
             this.button_clearDataGrid.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button_clearDataGrid.Name = "button_clearDataGrid";
             this.button_clearDataGrid.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_clearDataGrid.Size = new System.Drawing.Size(21, 42);
+            this.button_clearDataGrid.Size = new System.Drawing.Size(21, 45);
             this.button_clearDataGrid.TabIndex = 18;
             this.button_clearDataGrid.Text = "x";
             this.button_clearDataGrid.UseVisualStyleBackColor = false;
@@ -410,8 +411,9 @@ namespace GCS_5895
             // 
             this.button_sortDataGrid.BackColor = System.Drawing.Color.WhiteSmoke;
             this.button_sortDataGrid.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button_sortDataGrid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_sortDataGrid.ForeColor = System.Drawing.Color.Black;
-            this.button_sortDataGrid.Location = new System.Drawing.Point(1008, 24);
+            this.button_sortDataGrid.Location = new System.Drawing.Point(1008, 21);
             this.button_sortDataGrid.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.button_sortDataGrid.Name = "button_sortDataGrid";
             this.button_sortDataGrid.Size = new System.Drawing.Size(21, 105);
@@ -424,24 +426,24 @@ namespace GCS_5895
             // 
             this.dataGridView_flghtData.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dataGridView_flghtData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 9F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView_flghtData.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 9F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView_flghtData.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView_flghtData.Dock = System.Windows.Forms.DockStyle.Left;
             this.dataGridView_flghtData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView_flghtData.GridColor = System.Drawing.Color.DarkGray;
-            this.dataGridView_flghtData.Location = new System.Drawing.Point(3, 24);
+            this.dataGridView_flghtData.Location = new System.Drawing.Point(3, 21);
             this.dataGridView_flghtData.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dataGridView_flghtData.Name = "dataGridView_flghtData";
             this.dataGridView_flghtData.ReadOnly = true;
             this.dataGridView_flghtData.RowHeadersWidth = 62;
             this.dataGridView_flghtData.RowTemplate.Height = 24;
-            this.dataGridView_flghtData.Size = new System.Drawing.Size(1005, 147);
+            this.dataGridView_flghtData.Size = new System.Drawing.Size(1005, 150);
             this.dataGridView_flghtData.TabIndex = 1;
             // 
             // skinPanel1
@@ -483,11 +485,11 @@ namespace GCS_5895
             this.textBox_info.BackColor = System.Drawing.Color.White;
             this.textBox_info.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_info.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox_info.Location = new System.Drawing.Point(3, 24);
+            this.textBox_info.Location = new System.Drawing.Point(3, 21);
             this.textBox_info.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.textBox_info.Name = "textBox_info";
             this.textBox_info.ReadOnly = true;
-            this.textBox_info.Size = new System.Drawing.Size(316, 295);
+            this.textBox_info.Size = new System.Drawing.Size(316, 298);
             this.textBox_info.TabIndex = 6;
             this.textBox_info.Text = "";
             this.textBox_info.WordWrap = false;
@@ -737,7 +739,7 @@ namespace GCS_5895
             this.comboBox_Command.Location = new System.Drawing.Point(7, 27);
             this.comboBox_Command.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.comboBox_Command.Name = "comboBox_Command";
-            this.comboBox_Command.Size = new System.Drawing.Size(193, 28);
+            this.comboBox_Command.Size = new System.Drawing.Size(193, 25);
             this.comboBox_Command.TabIndex = 11;
             // 
             // colorSlider_takeoff
@@ -855,10 +857,10 @@ namespace GCS_5895
             this.checkBox_allUAVselect.AutoSize = true;
             this.checkBox_allUAVselect.Dock = System.Windows.Forms.DockStyle.Right;
             this.checkBox_allUAVselect.ForeColor = System.Drawing.Color.Black;
-            this.checkBox_allUAVselect.Location = new System.Drawing.Point(157, 52);
+            this.checkBox_allUAVselect.Location = new System.Drawing.Point(179, 46);
             this.checkBox_allUAVselect.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.checkBox_allUAVselect.Name = "checkBox_allUAVselect";
-            this.checkBox_allUAVselect.Size = new System.Drawing.Size(146, 31);
+            this.checkBox_allUAVselect.Size = new System.Drawing.Size(124, 37);
             this.checkBox_allUAVselect.TabIndex = 9;
             this.checkBox_allUAVselect.Text = "Select all UAVs";
             this.checkBox_allUAVselect.UseVisualStyleBackColor = true;
@@ -866,14 +868,14 @@ namespace GCS_5895
             // 
             // checkBoxComboBox_UAVselect
             // 
-            checkBoxProperties1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxComboBox_UAVselect.CheckBoxProperties = checkBoxProperties1;
+            checkBoxProperties2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxComboBox_UAVselect.CheckBoxProperties = checkBoxProperties2;
             this.checkBoxComboBox_UAVselect.DisplayMemberSingleItem = "";
             this.checkBoxComboBox_UAVselect.Dock = System.Windows.Forms.DockStyle.Top;
             this.checkBoxComboBox_UAVselect.FormattingEnabled = true;
-            this.checkBoxComboBox_UAVselect.Location = new System.Drawing.Point(3, 24);
+            this.checkBoxComboBox_UAVselect.Location = new System.Drawing.Point(3, 21);
             this.checkBoxComboBox_UAVselect.Name = "checkBoxComboBox_UAVselect";
-            this.checkBoxComboBox_UAVselect.Size = new System.Drawing.Size(300, 28);
+            this.checkBoxComboBox_UAVselect.Size = new System.Drawing.Size(300, 25);
             this.checkBoxComboBox_UAVselect.Sorted = true;
             this.checkBoxComboBox_UAVselect.TabIndex = 1;
             // 
@@ -988,9 +990,9 @@ namespace GCS_5895
             this.Plan.Controls.Add(this.label3);
             this.Plan.Controls.Add(this.comboBox_guideWP);
             this.Plan.Dock = System.Windows.Forms.DockStyle.Left;
-            this.Plan.Location = new System.Drawing.Point(3, 24);
+            this.Plan.Location = new System.Drawing.Point(3, 21);
             this.Plan.Name = "Plan";
-            this.Plan.Size = new System.Drawing.Size(204, 235);
+            this.Plan.Size = new System.Drawing.Size(204, 238);
             this.Plan.TabIndex = 16;
             this.Plan.TabStop = false;
             this.Plan.Text = "Plan";
@@ -1001,7 +1003,7 @@ namespace GCS_5895
             this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label1.Location = new System.Drawing.Point(14, 165);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 20);
+            this.label1.Size = new System.Drawing.Size(42, 17);
             this.label1.TabIndex = 32;
             this.label1.Text = "Yaw :";
             // 
@@ -1010,7 +1012,7 @@ namespace GCS_5895
             this.textBox_wpYaw.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBox_wpYaw.Location = new System.Drawing.Point(69, 162);
             this.textBox_wpYaw.Name = "textBox_wpYaw";
-            this.textBox_wpYaw.Size = new System.Drawing.Size(117, 28);
+            this.textBox_wpYaw.Size = new System.Drawing.Size(117, 25);
             this.textBox_wpYaw.TabIndex = 31;
             // 
             // panel2
@@ -1018,7 +1020,7 @@ namespace GCS_5895
             this.panel2.Controls.Add(this.button_guideClear);
             this.panel2.Controls.Add(this.button_WPconfirm);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(3, 201);
+            this.panel2.Location = new System.Drawing.Point(3, 204);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(198, 31);
             this.panel2.TabIndex = 18;
@@ -1056,7 +1058,7 @@ namespace GCS_5895
             this.textBox_wpE.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBox_wpE.Location = new System.Drawing.Point(69, 59);
             this.textBox_wpE.Name = "textBox_wpE";
-            this.textBox_wpE.Size = new System.Drawing.Size(117, 28);
+            this.textBox_wpE.Size = new System.Drawing.Size(117, 25);
             this.textBox_wpE.TabIndex = 25;
             // 
             // label7
@@ -1065,7 +1067,7 @@ namespace GCS_5895
             this.label7.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label7.Location = new System.Drawing.Point(33, 132);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(31, 20);
+            this.label7.Size = new System.Drawing.Size(26, 17);
             this.label7.TabIndex = 30;
             this.label7.Text = "U :";
             // 
@@ -1074,7 +1076,7 @@ namespace GCS_5895
             this.textBox_wpN.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBox_wpN.Location = new System.Drawing.Point(70, 93);
             this.textBox_wpN.Name = "textBox_wpN";
-            this.textBox_wpN.Size = new System.Drawing.Size(116, 28);
+            this.textBox_wpN.Size = new System.Drawing.Size(116, 25);
             this.textBox_wpN.TabIndex = 26;
             // 
             // label6
@@ -1083,7 +1085,7 @@ namespace GCS_5895
             this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label6.Location = new System.Drawing.Point(33, 96);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(31, 20);
+            this.label6.Size = new System.Drawing.Size(26, 17);
             this.label6.TabIndex = 29;
             this.label6.Text = "N :";
             // 
@@ -1092,7 +1094,7 @@ namespace GCS_5895
             this.textBox_wpU.BackColor = System.Drawing.Color.WhiteSmoke;
             this.textBox_wpU.Location = new System.Drawing.Point(69, 128);
             this.textBox_wpU.Name = "textBox_wpU";
-            this.textBox_wpU.Size = new System.Drawing.Size(117, 28);
+            this.textBox_wpU.Size = new System.Drawing.Size(117, 25);
             this.textBox_wpU.TabIndex = 28;
             // 
             // label5
@@ -1101,7 +1103,7 @@ namespace GCS_5895
             this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label5.Location = new System.Drawing.Point(35, 62);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 20);
+            this.label5.Size = new System.Drawing.Size(24, 17);
             this.label5.TabIndex = 24;
             this.label5.Text = "E :";
             // 
@@ -1111,7 +1113,7 @@ namespace GCS_5895
             this.label3.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label3.Location = new System.Drawing.Point(11, 28);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 20);
+            this.label3.Size = new System.Drawing.Size(46, 17);
             this.label3.TabIndex = 23;
             this.label3.Text = "UAV :";
             // 
@@ -1121,7 +1123,7 @@ namespace GCS_5895
             this.comboBox_guideWP.Location = new System.Drawing.Point(69, 25);
             this.comboBox_guideWP.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.comboBox_guideWP.Name = "comboBox_guideWP";
-            this.comboBox_guideWP.Size = new System.Drawing.Size(117, 28);
+            this.comboBox_guideWP.Size = new System.Drawing.Size(117, 25);
             this.comboBox_guideWP.Sorted = true;
             this.comboBox_guideWP.TabIndex = 21;
             this.comboBox_guideWP.DropDown += new System.EventHandler(this.comboBox_guideWP_DropDown);
@@ -1282,9 +1284,9 @@ namespace GCS_5895
             this.skinComboBox_PubMission.FormattingEnabled = true;
             this.skinComboBox_PubMission.ItemBorderColor = System.Drawing.Color.AliceBlue;
             this.skinComboBox_PubMission.ItemHoverForeColor = System.Drawing.Color.AliceBlue;
-            this.skinComboBox_PubMission.Location = new System.Drawing.Point(3, 24);
+            this.skinComboBox_PubMission.Location = new System.Drawing.Point(3, 21);
             this.skinComboBox_PubMission.Name = "skinComboBox_PubMission";
-            this.skinComboBox_PubMission.Size = new System.Drawing.Size(306, 29);
+            this.skinComboBox_PubMission.Size = new System.Drawing.Size(306, 26);
             this.skinComboBox_PubMission.TabIndex = 4;
             this.skinComboBox_PubMission.WaterText = "";
             this.skinComboBox_PubMission.SelectedIndexChanged += new System.EventHandler(this.skinComboBox_PubMission_SelectedIndexChanged);
@@ -1327,7 +1329,7 @@ namespace GCS_5895
             this.comboBox_origin.Location = new System.Drawing.Point(5, 24);
             this.comboBox_origin.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.comboBox_origin.Name = "comboBox_origin";
-            this.comboBox_origin.Size = new System.Drawing.Size(193, 28);
+            this.comboBox_origin.Size = new System.Drawing.Size(193, 25);
             this.comboBox_origin.TabIndex = 18;
             // 
             // button_originConfirm
@@ -1401,7 +1403,7 @@ namespace GCS_5895
             this.comboBox_u2gFreq.Location = new System.Drawing.Point(5, 24);
             this.comboBox_u2gFreq.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.comboBox_u2gFreq.Name = "comboBox_u2gFreq";
-            this.comboBox_u2gFreq.Size = new System.Drawing.Size(193, 28);
+            this.comboBox_u2gFreq.Size = new System.Drawing.Size(193, 25);
             this.comboBox_u2gFreq.TabIndex = 18;
             // 
             // button_FreqConfirm
@@ -1503,7 +1505,7 @@ namespace GCS_5895
             this.label4.ForeColor = System.Drawing.Color.Black;
             this.label4.Location = new System.Drawing.Point(446, 102);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 20);
+            this.label4.Size = new System.Drawing.Size(64, 17);
             this.label4.TabIndex = 30;
             this.label4.Text = "Heading :";
             // 
@@ -1511,7 +1513,7 @@ namespace GCS_5895
             // 
             this.textBox_missionHeading.Location = new System.Drawing.Point(450, 125);
             this.textBox_missionHeading.Name = "textBox_missionHeading";
-            this.textBox_missionHeading.Size = new System.Drawing.Size(87, 28);
+            this.textBox_missionHeading.Size = new System.Drawing.Size(87, 25);
             this.textBox_missionHeading.TabIndex = 29;
             this.textBox_missionHeading.Text = "0";
             this.textBox_missionHeading.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1556,7 +1558,7 @@ namespace GCS_5895
             this.label12.ForeColor = System.Drawing.Color.Black;
             this.label12.Location = new System.Drawing.Point(6, 24);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(53, 20);
+            this.label12.Size = new System.Drawing.Size(46, 17);
             this.label12.TabIndex = 12;
             this.label12.Text = "UAV :";
             // 
@@ -1566,7 +1568,7 @@ namespace GCS_5895
             this.comboBox_missionUAV.FormattingEnabled = true;
             this.comboBox_missionUAV.Location = new System.Drawing.Point(10, 47);
             this.comboBox_missionUAV.Name = "comboBox_missionUAV";
-            this.comboBox_missionUAV.Size = new System.Drawing.Size(297, 28);
+            this.comboBox_missionUAV.Size = new System.Drawing.Size(297, 25);
             this.comboBox_missionUAV.TabIndex = 13;
             this.comboBox_missionUAV.DropDown += new System.EventHandler(this.comboBox_missionUAV_DropDown);
             // 
@@ -1576,7 +1578,7 @@ namespace GCS_5895
             this.label11.ForeColor = System.Drawing.Color.Black;
             this.label11.Location = new System.Drawing.Point(6, 79);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(74, 20);
+            this.label11.Size = new System.Drawing.Size(60, 17);
             this.label11.TabIndex = 7;
             this.label11.Text = "Mission :";
             // 
@@ -1586,7 +1588,7 @@ namespace GCS_5895
             this.comboBox_missionTypeMission.FormattingEnabled = true;
             this.comboBox_missionTypeMission.Location = new System.Drawing.Point(10, 102);
             this.comboBox_missionTypeMission.Name = "comboBox_missionTypeMission";
-            this.comboBox_missionTypeMission.Size = new System.Drawing.Size(297, 28);
+            this.comboBox_missionTypeMission.Size = new System.Drawing.Size(297, 25);
             this.comboBox_missionTypeMission.TabIndex = 6;
             this.comboBox_missionTypeMission.SelectedIndexChanged += new System.EventHandler(this.comboBox_missionTypeMission_SelectedIndexChanged);
             // 
@@ -1594,7 +1596,7 @@ namespace GCS_5895
             // 
             this.textBox_missionHeight.Location = new System.Drawing.Point(450, 68);
             this.textBox_missionHeight.Name = "textBox_missionHeight";
-            this.textBox_missionHeight.Size = new System.Drawing.Size(87, 28);
+            this.textBox_missionHeight.Size = new System.Drawing.Size(87, 25);
             this.textBox_missionHeight.TabIndex = 26;
             this.textBox_missionHeight.Text = "5";
             this.textBox_missionHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1605,7 +1607,7 @@ namespace GCS_5895
             this.label_HorYaw.ForeColor = System.Drawing.Color.Black;
             this.label_HorYaw.Location = new System.Drawing.Point(446, 45);
             this.label_HorYaw.Name = "label_HorYaw";
-            this.label_HorYaw.Size = new System.Drawing.Size(96, 20);
+            this.label_HorYaw.Size = new System.Drawing.Size(79, 17);
             this.label_HorYaw.TabIndex = 27;
             this.label_HorYaw.Text = "Height (m) :";
             // 
@@ -1615,7 +1617,7 @@ namespace GCS_5895
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(6, 133);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 20);
+            this.label2.Size = new System.Drawing.Size(60, 17);
             this.label2.TabIndex = 25;
             this.label2.Text = "Method :";
             // 
@@ -1625,7 +1627,7 @@ namespace GCS_5895
             this.comboBox_missionMethod.FormattingEnabled = true;
             this.comboBox_missionMethod.Location = new System.Drawing.Point(10, 156);
             this.comboBox_missionMethod.Name = "comboBox_missionMethod";
-            this.comboBox_missionMethod.Size = new System.Drawing.Size(297, 28);
+            this.comboBox_missionMethod.Size = new System.Drawing.Size(297, 25);
             this.comboBox_missionMethod.TabIndex = 24;
             // 
             // linkLabel_missionConfig
@@ -1635,7 +1637,7 @@ namespace GCS_5895
             this.linkLabel_missionConfig.LinkColor = System.Drawing.Color.CornflowerBlue;
             this.linkLabel_missionConfig.Location = new System.Drawing.Point(254, 133);
             this.linkLabel_missionConfig.Name = "linkLabel_missionConfig";
-            this.linkLabel_missionConfig.Size = new System.Drawing.Size(53, 20);
+            this.linkLabel_missionConfig.Size = new System.Drawing.Size(44, 17);
             this.linkLabel_missionConfig.TabIndex = 23;
             this.linkLabel_missionConfig.TabStop = true;
             this.linkLabel_missionConfig.Text = "config";
@@ -1730,12 +1732,12 @@ namespace GCS_5895
             this.down,
             this.delete});
             this.dataGridView_mission.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_mission.Location = new System.Drawing.Point(3, 24);
+            this.dataGridView_mission.Location = new System.Drawing.Point(3, 21);
             this.dataGridView_mission.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dataGridView_mission.Name = "dataGridView_mission";
             this.dataGridView_mission.RowHeadersWidth = 62;
             this.dataGridView_mission.RowTemplate.Height = 24;
-            this.dataGridView_mission.Size = new System.Drawing.Size(634, 406);
+            this.dataGridView_mission.Size = new System.Drawing.Size(634, 409);
             this.dataGridView_mission.TabIndex = 3;
             this.dataGridView_mission.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_mission_CellContentClick);
             // 
@@ -1906,9 +1908,9 @@ namespace GCS_5895
             // richTextBox_VRP
             // 
             this.richTextBox_VRP.Dock = System.Windows.Forms.DockStyle.Right;
-            this.richTextBox_VRP.Location = new System.Drawing.Point(159, 24);
+            this.richTextBox_VRP.Location = new System.Drawing.Point(159, 21);
             this.richTextBox_VRP.Name = "richTextBox_VRP";
-            this.richTextBox_VRP.Size = new System.Drawing.Size(388, 205);
+            this.richTextBox_VRP.Size = new System.Drawing.Size(388, 208);
             this.richTextBox_VRP.TabIndex = 35;
             this.richTextBox_VRP.Text = "";
             // 
@@ -2016,12 +2018,12 @@ namespace GCS_5895
             this.delete_VRP});
             this.dataGridView_VRPtarget.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView_VRPtarget.Enabled = false;
-            this.dataGridView_VRPtarget.Location = new System.Drawing.Point(3, 24);
+            this.dataGridView_VRPtarget.Location = new System.Drawing.Point(3, 21);
             this.dataGridView_VRPtarget.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dataGridView_VRPtarget.Name = "dataGridView_VRPtarget";
             this.dataGridView_VRPtarget.RowHeadersWidth = 62;
             this.dataGridView_VRPtarget.RowTemplate.Height = 24;
-            this.dataGridView_VRPtarget.Size = new System.Drawing.Size(402, 205);
+            this.dataGridView_VRPtarget.Size = new System.Drawing.Size(402, 208);
             this.dataGridView_VRPtarget.TabIndex = 3;
             this.dataGridView_VRPtarget.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_VRPtarget_CellContentClick);
             // 
@@ -2088,12 +2090,12 @@ namespace GCS_5895
             this.East_uav_VRP,
             this.North_uav_VRP});
             this.dataGridView_VRPagents.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_VRPagents.Location = new System.Drawing.Point(3, 24);
+            this.dataGridView_VRPagents.Location = new System.Drawing.Point(3, 21);
             this.dataGridView_VRPagents.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dataGridView_VRPagents.Name = "dataGridView_VRPagents";
             this.dataGridView_VRPagents.RowHeadersWidth = 62;
             this.dataGridView_VRPagents.RowTemplate.Height = 24;
-            this.dataGridView_VRPagents.Size = new System.Drawing.Size(382, 205);
+            this.dataGridView_VRPagents.Size = new System.Drawing.Size(382, 208);
             this.dataGridView_VRPagents.TabIndex = 3;
             // 
             // ID_uav_VRP
@@ -2190,7 +2192,7 @@ namespace GCS_5895
             // 
             this.textBox_SEADpopSize.Location = new System.Drawing.Point(134, 58);
             this.textBox_SEADpopSize.Name = "textBox_SEADpopSize";
-            this.textBox_SEADpopSize.Size = new System.Drawing.Size(135, 28);
+            this.textBox_SEADpopSize.Size = new System.Drawing.Size(135, 25);
             this.textBox_SEADpopSize.TabIndex = 22;
             // 
             // label13
@@ -2199,7 +2201,7 @@ namespace GCS_5895
             this.label13.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label13.Location = new System.Drawing.Point(51, 61);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(77, 20);
+            this.label13.Size = new System.Drawing.Size(62, 17);
             this.label13.TabIndex = 21;
             this.label13.Text = "pop size :\r\n";
             // 
@@ -2207,7 +2209,7 @@ namespace GCS_5895
             // 
             this.textBox_SEADu2u.Location = new System.Drawing.Point(134, 24);
             this.textBox_SEADu2u.Name = "textBox_SEADu2u";
-            this.textBox_SEADu2u.Size = new System.Drawing.Size(135, 28);
+            this.textBox_SEADu2u.Size = new System.Drawing.Size(135, 25);
             this.textBox_SEADu2u.TabIndex = 20;
             // 
             // label9
@@ -2216,7 +2218,7 @@ namespace GCS_5895
             this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
             this.label9.Location = new System.Drawing.Point(17, 27);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(111, 20);
+            this.label9.Size = new System.Drawing.Size(91, 17);
             this.label9.TabIndex = 19;
             this.label9.Text = "U2U interval :\r\n";
             // 
@@ -2225,7 +2227,7 @@ namespace GCS_5895
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(1019, 447);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(74, 20);
+            this.label8.Size = new System.Drawing.Size(60, 17);
             this.label8.TabIndex = 33;
             this.label8.Text = "Mission :";
             // 
@@ -2242,7 +2244,7 @@ namespace GCS_5895
             this.skinComboBox_SEAD.ItemHoverForeColor = System.Drawing.Color.AliceBlue;
             this.skinComboBox_SEAD.Location = new System.Drawing.Point(1023, 470);
             this.skinComboBox_SEAD.Name = "skinComboBox_SEAD";
-            this.skinComboBox_SEAD.Size = new System.Drawing.Size(198, 29);
+            this.skinComboBox_SEAD.Size = new System.Drawing.Size(198, 26);
             this.skinComboBox_SEAD.TabIndex = 32;
             this.skinComboBox_SEAD.WaterText = "";
             // 
@@ -2298,13 +2300,13 @@ namespace GCS_5895
             this.coordinates,
             this.known_target});
             this.dataGridView_seadTargets.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_seadTargets.Location = new System.Drawing.Point(3, 24);
+            this.dataGridView_seadTargets.Location = new System.Drawing.Point(3, 21);
             this.dataGridView_seadTargets.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dataGridView_seadTargets.Name = "dataGridView_seadTargets";
             this.dataGridView_seadTargets.RowHeadersWidth = 62;
             this.dataGridView_seadTargets.RowTemplate.Height = 24;
             this.dataGridView_seadTargets.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dataGridView_seadTargets.Size = new System.Drawing.Size(391, 215);
+            this.dataGridView_seadTargets.Size = new System.Drawing.Size(391, 218);
             this.dataGridView_seadTargets.TabIndex = 3;
             // 
             // Target_ID
@@ -2362,12 +2364,12 @@ namespace GCS_5895
             this.initial_pos,
             this.base_pos});
             this.dataGridView_seadAgents.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView_seadAgents.Location = new System.Drawing.Point(3, 24);
+            this.dataGridView_seadAgents.Location = new System.Drawing.Point(3, 21);
             this.dataGridView_seadAgents.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dataGridView_seadAgents.Name = "dataGridView_seadAgents";
             this.dataGridView_seadAgents.RowHeadersWidth = 62;
             this.dataGridView_seadAgents.RowTemplate.Height = 24;
-            this.dataGridView_seadAgents.Size = new System.Drawing.Size(589, 215);
+            this.dataGridView_seadAgents.Size = new System.Drawing.Size(589, 218);
             this.dataGridView_seadAgents.TabIndex = 3;
             // 
             // UAV_ID
@@ -2456,7 +2458,7 @@ namespace GCS_5895
             // 
             // GCS_5895
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Back = ((System.Drawing.Image)(resources.GetObject("$this.Back")));
             this.BackColor = System.Drawing.Color.Gainsboro;
