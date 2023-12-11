@@ -8,6 +8,7 @@ using System.Drawing;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using GMap.NET.WindowsForms.ToolTips;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
@@ -41,17 +42,16 @@ namespace GCS_5895
             picPlane.MakeTransparent(Color.Yellow);
             GMapMarker drone = new GMarkerGoogle(new PointLatLng(lat, lng), picPlane);
             drone.Offset = new Point(-picPlane.Width / 2, -picPlane.Height / 2);
-            
-            GMapToolTip tooltip = new GMapToolTip(drone);
-            tooltip.Fill = color;
-            tooltip.Foreground = new SolidBrush(Color.Black);
-            tooltip.Font = new Font("Times New Roman", 7, FontStyle.Bold);
-            tooltip.Offset = new Point(23, -20);
-            tooltip.TextPadding = new Size(12, 6);
+
+            drone.ToolTip = new GMapToolTip(drone);
+            drone.ToolTip.Fill = color;
+            drone.ToolTip.Foreground = new SolidBrush(Color.Black);
+            drone.ToolTip.Font = new Font("Times New Roman", 7, FontStyle.Bold);
+            drone.ToolTip.Offset = new Point(23, -20);
+            drone.ToolTip.TextPadding = new Size(12, 6);
 
             drone.Tag = name;
             drone.ToolTipText = name;
-            drone.ToolTip = tooltip;
             drone.ToolTipMode = MarkerTooltipMode.Always;
 
             return drone;
