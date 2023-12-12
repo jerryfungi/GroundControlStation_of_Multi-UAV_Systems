@@ -44,19 +44,26 @@ namespace GCS_5895
 
         public Packets(CoordinateTransform coordinate, int uav_id, double E, double N, double U, double heading, string info, FrameType frameType)
         {
-            this.Coordinate = coordinate;
+            Coordinate = coordinate;
             UAV_ID = uav_id;
             this.E = E;
             this.N = N;
             this.U = U;
-            this.Heading = heading;
-            this.Info = info;
+            Heading = heading;
+            Info = info;
             Mode = Mode.Guided;
+            Armed = Armed.disarmed;
             var lla = coordinate.enu2llh(E, N, U);
             Lat = lla[0];
             Lng = lla[1];
             Alt = lla[2];
-            this.Frame_type = frameType;
+            Frame_type = frameType;
+            Yaw = 90 - heading;
+            if (Yaw > 180) { Yaw -= 360; }
+            else if (Yaw < -180) { Yaw += 360; }
+            double timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            UAV_timestamp = timestamp;
+            GCS_timestamp = timestamp;
         }
 
         public void unpack_packet(byte[] packet, double GCS_timestamp)

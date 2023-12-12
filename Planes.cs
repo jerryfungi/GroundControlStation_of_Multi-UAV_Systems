@@ -33,23 +33,23 @@ namespace GCS_5895
                 case FrameType.Quad:
                     srcPlane = Image.FromFile("../../image/quad.png");
                     picPlane = GraphicRotateAtAny((Bitmap)srcPlane, srcPlane.Height / 2, srcPlane.Width / 2, heading);
+                    picPlane.MakeTransparent(Color.Yellow);
                     break;
                 case FrameType.Fixed_wing:
                     srcPlane = Image.FromFile("../../image/plane.tif");
                     picPlane = RotateImg((Bitmap)srcPlane, (float)-heading + 90);
+                    picPlane.MakeTransparent(Color.Yellow);
                     break;
             }
-            picPlane.MakeTransparent(Color.Yellow);
             GMapMarker drone = new GMarkerGoogle(new PointLatLng(lat, lng), picPlane);
             drone.Offset = new Point(-picPlane.Width / 2, -picPlane.Height / 2);
-
             drone.ToolTip = new GMapToolTip(drone);
-            drone.ToolTip.Fill = color;
-            drone.ToolTip.Foreground = new SolidBrush(Color.Black);
-            drone.ToolTip.Font = new Font("Times New Roman", 7, FontStyle.Bold);
             drone.ToolTip.Offset = new Point(23, -20);
+            drone.ToolTip.Foreground = new SolidBrush(Color.Black);
+            drone.ToolTip.Fill = color;
+            drone.ToolTip.Font = new Font("Times New Roman", 7, FontStyle.Bold);
+            drone.ToolTip.Stroke.Color = Color.Black;
             drone.ToolTip.TextPadding = new Size(12, 6);
-
             drone.Tag = name;
             drone.ToolTipText = name;
             drone.ToolTipMode = MarkerTooltipMode.Always;
@@ -70,7 +70,7 @@ namespace GCS_5895
 
             tooltip.Fill = color;
             tooltip.Foreground = new SolidBrush(Color.Black);
-            tooltip.Offset = new Point(23, -20);
+            //tooltip.Offset = new Point(23, -20);
             tooltip.TextPadding = new Size(6, 6);
 
             Runway.Tag = name;
@@ -90,27 +90,40 @@ namespace GCS_5895
 
             GMapMarker Helipad = new GMarkerGoogle(new PointLatLng(lat, lng), helipad);
             Helipad.Offset = new Point(-helipad.Width / 2, -helipad.Height / 2);
+
+            Helipad.ToolTip = new GMapToolTip(Helipad);
+            Helipad.ToolTip.Fill = color;
+            Helipad.ToolTip.Foreground = new SolidBrush(Color.Black);
+            Helipad.ToolTip.Font = new Font("Times New Roman", 7, FontStyle.Bold);
+            Helipad.ToolTip.Offset = new Point(23, -20);
+            Helipad.ToolTip.TextPadding = new Size(12, 6);
+
+            Helipad.Tag = name;
+            Helipad.ToolTipText = name;
+            Helipad.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+
             return Helipad;
         }
 
-        public static GMapMarker AddWaypoint(double Lat, double Lng, int num, GMarkerGoogleType color)
+        public static GMapMarker AddWaypoint(double Lat, double Lng, int num, GMarkerGoogleType markerType)
         {
-            GMapMarker wp = new GMarkerGoogle(new PointLatLng(Lat, Lng), color);
+            GMapMarker wp = new GMarkerGoogle(new PointLatLng(Lat, Lng), markerType);
+            wp.ToolTip = new GMapToolTip(wp);
+            wp.ToolTip.Foreground = new SolidBrush(Color.Black);
             wp.ToolTipText = num.ToString();
             wp.ToolTip.Fill = Brushes.Transparent;
+            wp.ToolTip.TextPadding = new Size(12, 5);
             if (num < 10)
             {
-                wp.ToolTip.Offset = new Point(-16, -12);
+                wp.ToolTip.Offset = new Point(-12, -17);
             }
             else
             {
-                wp.ToolTip.Offset = new Point(-21, -12);
+                wp.ToolTip.Offset = new Point(-16, -17);
             }
-            wp.ToolTip.Stroke.Color = Color.Transparent;
             wp.ToolTip.Foreground = Brushes.Black;
             wp.ToolTip.Font = new Font("Times New Roman", 8, FontStyle.Bold);
             wp.ToolTipMode = MarkerTooltipMode.Always;
-            
             return wp;
         }
 

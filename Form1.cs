@@ -158,8 +158,8 @@ namespace GCS_5895
                 }
                 catch
                 {
-                    textBox_info.SelectionColor = Color.Red;
-                    textBox_info.AppendText($"Warning: cannot connect to the uav{i+1} database." + Environment.NewLine);
+                    textBox_info.SelectionColor = Color.SlateGray;
+                    textBox_info.AppendText($"⚠️ cannot connect to the uav{i+1} database!" + Environment.NewLine);
                 }
             }
             try
@@ -191,8 +191,8 @@ namespace GCS_5895
             }
             catch
             {
-                textBox_info.SelectionColor = Color.Red;
-                textBox_info.AppendText("Warning: cannot connect to the timelist database." + Environment.NewLine);
+                textBox_info.SelectionColor = Color.SlateGray;
+                textBox_info.AppendText("⚠️ cannot connect to the timelist database!" + Environment.NewLine);
             }
 
             dataGridView_flghtData.DataSource = Buffers;
@@ -813,10 +813,12 @@ namespace GCS_5895
                 }
                 // create virtual drone for testing
                 PointLatLng pin = gMapControl_main.FromLocalToLatLng(e.X, e.Y);
-                double timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-                DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(timestamp);
+                // double timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                // DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(timestamp);
                 var enu = coordinate.llh2enu(pin.Lat, pin.Lng, 0);
-                Buffers.Add(new Packets(coordinate, Buffers.Count()+1, enu[0], enu[1], 0, 90, "virtual drone", FrameType.Quad));
+                Random random = new Random();
+                var frmeTypes = Enum.GetValues(typeof(FrameType));
+                Buffers.Add(new Packets(coordinate, Buffers.Count()+1, enu[0], enu[1], 0, random.Next(-180, 180), "virtual drone", (FrameType)frmeTypes.GetValue(random.Next(frmeTypes.Length))));
                 existing_UAVs.Add(Buffers.Last().UAV_ID);
                 var marker_of_uav = Planes.AddDrone(Buffers.Last().Lat, Buffers.Last().Lng, Buffers.Last().Heading, Buffers.Last().Frame_type,
                         UAV_ID_text(Buffers.Last().UAV_ID), new SolidBrush(color_of_uavs[Buffers.Last().UAV_ID - 1]));
@@ -824,8 +826,8 @@ namespace GCS_5895
                 string uav_text = UAV_ID_text(Buffers.Last().UAV_ID);
                 comboBox_mapCenter.Items.Add(uav_text);
                 checkBoxComboBox_UAVselect.Items.Add(uav_text);
-                textBox_info.SelectionColor = Color.MediumSlateBlue;
-                textBox_info.AppendText($"UAV{Buffers.Last().UAV_ID}  ");
+                textBox_info.SelectionColor = Color.Teal;
+                textBox_info.AppendText($"👻 UAV{Buffers.Last().UAV_ID}  ");
                 textBox_info.SelectionColor = Color.Black;
                 textBox_info.AppendText(Buffers.Last().Info + Environment.NewLine);
 
@@ -1124,7 +1126,7 @@ namespace GCS_5895
                     waypoints.Add(new_wps);
                     var route_wps = overlay.Routes[0].Points;
                     overlay.Routes.Clear();
-                    if (new_wps.pathFollowing_method == pathFollowingMethod.dubinsPath_following_velocity_PID)
+                    if (new_wps.Type == WaypointMissionMethod.CraigReynolds_Path_Following && new_wps.pathFollowing_method == pathFollowingMethod.dubinsPath_following_velocity_PID)
                     {
                         var dubins = new DubinsPath();
                         var start_config = new_wps.waypoints[new_wps.waypoints.Count()-2];
@@ -2007,7 +2009,7 @@ namespace GCS_5895
                         dataGridView_seadAgents.Rows[i].Cells["initial_pos"].Value = $"({uav.initial_pos[0]},{uav.initial_pos[1]})";
                         dataGridView_seadAgents.Rows[i].Cells["base_pos"].Value = $"({uav.base_pos[0]},{uav.base_pos[1]})";
                         var lla = coordinate.enu2llh(uav.initial_pos[0], uav.initial_pos[1], 0);
-                        gMapControl_SEAD.Overlays[0].Markers.Add(Planes.AddHelipad(lla[0], lla[1], UAV_ID_text(uav.ID), uav.initial_pos[2], new SolidBrush(color_of_uavs[uav.ID - 1])));
+                        gMapControl_SEAD.Overlays[0].Markers.Add(Planes.AddHelipad(lla[0], lla[1], $"Base of {UAV_ID_text(uav.ID)}", uav.initial_pos[2], new SolidBrush(color_of_uavs[uav.ID - 1])));
                         i++;
                     }
                     dataGridView_seadAgents.AutoResizeColumns();
@@ -2294,7 +2296,8 @@ namespace GCS_5895
                 gMapControl_VRP.Overlays.Clear();
                 // 加入無人機
                 richTextBox_VRP.SelectionColor = Color.Black;
-                richTextBox_VRP.AppendText($"initiate ... {Buffers.Count()} UAVs are avialable." + Environment.NewLine);
+                if (Buffers.Count() == 1) { richTextBox_VRP.AppendText($"initiate ... {Buffers.Count()} UAV is avialable." + Environment.NewLine); }
+                else { richTextBox_VRP.AppendText($"initiate ... {Buffers.Count()} UAVs are avialable." + Environment.NewLine); }
                 dataGridView_VRPagents.Rows.Clear();
                 dataGridView_VRPagents.Rows.Add(Buffers.Count());
                 int index = 0;
@@ -2306,10 +2309,10 @@ namespace GCS_5895
                     dataGridView_VRPagents.Rows[index].Cells["East_uav_VRP"].Value = Math.Round(uav.E, 3, MidpointRounding.AwayFromZero);
                     dataGridView_VRPagents.Rows[index].Cells["North_uav_VRP"].Value = Math.Round(uav.N, 3, MidpointRounding.AwayFromZero);
                     index++;
-                    richTextBox_VRP.SelectionColor = Color.Blue;
+                    richTextBox_VRP.SelectionColor = Color.Navy;
                     richTextBox_VRP.AppendText($"UAV{uav.UAV_ID} ");
                     richTextBox_VRP.SelectionColor = Color.Black;
-                    richTextBox_VRP.AppendText($"at ({uav.E}, {uav.N}) m" + Environment.NewLine);
+                    richTextBox_VRP.AppendText($"at ({uav.E}, {uav.N}) m" + Environment.NewLine);  
                     overlay.Markers.Add(Planes.AddDrone(uav.Lat, uav.Lng, uav.Heading, uav.Frame_type, UAV_ID_text(uav.UAV_ID), 
                                         new SolidBrush(color_of_uavs[uav.UAV_ID - 1])));
                 }
@@ -2455,7 +2458,7 @@ namespace GCS_5895
                         Stroke = new Pen(color_of_uavs[UAV_set[i].ID - 1], 3)
                     };
                     overlay.Routes.Add(ref_route);
-                    richTextBox_VRP.SelectionColor = Color.Blue;
+                    richTextBox_VRP.SelectionColor = Color.Navy;
                     richTextBox_VRP.AppendText($"UAV{UAV_set[i].ID}");
                     richTextBox_VRP.SelectionColor = Color.Black;
                     richTextBox_VRP.AppendText(routes[i] + Environment.NewLine);

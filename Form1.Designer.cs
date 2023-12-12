@@ -31,9 +31,9 @@ namespace GCS_5895
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            PresentationControls.CheckBoxProperties checkBoxProperties1 = new PresentationControls.CheckBoxProperties();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GCS_5895));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            PresentationControls.CheckBoxProperties checkBoxProperties2 = new PresentationControls.CheckBoxProperties();
             this.tabControl_main = new CCWin.SkinControl.SkinTabControl();
             this.tabPage_GCS = new CCWin.SkinControl.SkinTabPage();
             this.button_Connect = new System.Windows.Forms.Button();
@@ -177,7 +177,7 @@ namespace GCS_5895
             this.initial_pos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.base_pos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gMapControl_SEAD = new GMap.NET.WindowsForms.GMapControl();
-            this.tabPage_Simulator = new CCWin.SkinControl.SkinTabPage();
+            this.toolTip_Button = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl_main.SuspendLayout();
             this.tabPage_GCS.SuspendLayout();
             this.skinGroupBox4.SuspendLayout();
@@ -226,12 +226,11 @@ namespace GCS_5895
             this.tabControl_main.CloseRect = new System.Drawing.Rectangle(2, 2, 12, 12);
             this.tabControl_main.Controls.Add(this.tabPage_GCS);
             this.tabControl_main.Controls.Add(this.tabPage_FlightPlan);
-            this.tabControl_main.Controls.Add(this.tabPage_Simulator);
             this.tabControl_main.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl_main.DrawType = CCWin.SkinControl.DrawStyle.Draw;
             this.tabControl_main.HeadBack = null;
             this.tabControl_main.ImgTxtOffset = new System.Drawing.Point(0, 0);
-            this.tabControl_main.ItemSize = new System.Drawing.Size(120, 40);
+            this.tabControl_main.ItemSize = new System.Drawing.Size(160, 40);
             this.tabControl_main.Location = new System.Drawing.Point(4, 28);
             this.tabControl_main.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.tabControl_main.Name = "tabControl_main";
@@ -393,7 +392,7 @@ namespace GCS_5895
             // 
             // button_clearDataGrid
             // 
-            this.button_clearDataGrid.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button_clearDataGrid.BackColor = System.Drawing.Color.AliceBlue;
             this.button_clearDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button_clearDataGrid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_clearDataGrid.ForeColor = System.Drawing.Color.Black;
@@ -404,12 +403,13 @@ namespace GCS_5895
             this.button_clearDataGrid.Size = new System.Drawing.Size(21, 45);
             this.button_clearDataGrid.TabIndex = 18;
             this.button_clearDataGrid.Text = "x";
+            this.toolTip_Button.SetToolTip(this.button_clearDataGrid, "delete the current data");
             this.button_clearDataGrid.UseVisualStyleBackColor = false;
             this.button_clearDataGrid.Click += new System.EventHandler(this.button_clearDataGrid_Click);
             // 
             // button_sortDataGrid
             // 
-            this.button_sortDataGrid.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.button_sortDataGrid.BackColor = System.Drawing.Color.AliceBlue;
             this.button_sortDataGrid.Dock = System.Windows.Forms.DockStyle.Top;
             this.button_sortDataGrid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_sortDataGrid.ForeColor = System.Drawing.Color.Black;
@@ -419,6 +419,7 @@ namespace GCS_5895
             this.button_sortDataGrid.Size = new System.Drawing.Size(21, 105);
             this.button_sortDataGrid.TabIndex = 2;
             this.button_sortDataGrid.Text = "~";
+            this.toolTip_Button.SetToolTip(this.button_sortDataGrid, "autofit column size");
             this.button_sortDataGrid.UseVisualStyleBackColor = false;
             this.button_sortDataGrid.Click += new System.EventHandler(this.button_sortDataGrid_Click);
             // 
@@ -426,14 +427,14 @@ namespace GCS_5895
             // 
             this.dataGridView_flghtData.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dataGridView_flghtData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView_flghtData.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 9F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView_flghtData.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView_flghtData.Dock = System.Windows.Forms.DockStyle.Left;
             this.dataGridView_flghtData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView_flghtData.GridColor = System.Drawing.Color.DarkGray;
@@ -868,8 +869,8 @@ namespace GCS_5895
             // 
             // checkBoxComboBox_UAVselect
             // 
-            checkBoxProperties1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxComboBox_UAVselect.CheckBoxProperties = checkBoxProperties1;
+            checkBoxProperties2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxComboBox_UAVselect.CheckBoxProperties = checkBoxProperties2;
             this.checkBoxComboBox_UAVselect.DisplayMemberSingleItem = "";
             this.checkBoxComboBox_UAVselect.Dock = System.Windows.Forms.DockStyle.Top;
             this.checkBoxComboBox_UAVselect.FormattingEnabled = true;
@@ -1201,6 +1202,7 @@ namespace GCS_5895
             this.pulseButton_clear.Size = new System.Drawing.Size(77, 36);
             this.pulseButton_clear.TabIndex = 20;
             this.pulseButton_clear.Text = "clear";
+            this.toolTip_Button.SetToolTip(this.pulseButton_clear, "clear routes");
             this.pulseButton_clear.UseVisualStyleBackColor = true;
             this.pulseButton_clear.Click += new System.EventHandler(this.pulseButton_clear_Click);
             // 
@@ -1218,6 +1220,7 @@ namespace GCS_5895
             this.pulseButton_cancel.Size = new System.Drawing.Size(77, 36);
             this.pulseButton_cancel.TabIndex = 18;
             this.pulseButton_cancel.Text = "cancel";
+            this.toolTip_Button.SetToolTip(this.pulseButton_cancel, "cancel the mission");
             this.pulseButton_cancel.UseVisualStyleBackColor = true;
             this.pulseButton_cancel.Click += new System.EventHandler(this.pulseButton_cancel_Click);
             // 
@@ -2190,7 +2193,7 @@ namespace GCS_5895
             // 
             // textBox_SEADpopSize
             // 
-            this.textBox_SEADpopSize.Location = new System.Drawing.Point(134, 58);
+            this.textBox_SEADpopSize.Location = new System.Drawing.Point(134, 60);
             this.textBox_SEADpopSize.Name = "textBox_SEADpopSize";
             this.textBox_SEADpopSize.Size = new System.Drawing.Size(135, 25);
             this.textBox_SEADpopSize.TabIndex = 22;
@@ -2199,15 +2202,15 @@ namespace GCS_5895
             // 
             this.label13.AutoSize = true;
             this.label13.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label13.Location = new System.Drawing.Point(51, 61);
+            this.label13.Location = new System.Drawing.Point(17, 63);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(62, 17);
+            this.label13.Size = new System.Drawing.Size(100, 17);
             this.label13.TabIndex = 21;
-            this.label13.Text = "pop size :\r\n";
+            this.label13.Text = "population size :\r\n";
             // 
             // textBox_SEADu2u
             // 
-            this.textBox_SEADu2u.Location = new System.Drawing.Point(134, 24);
+            this.textBox_SEADu2u.Location = new System.Drawing.Point(134, 26);
             this.textBox_SEADu2u.Name = "textBox_SEADu2u";
             this.textBox_SEADu2u.Size = new System.Drawing.Size(135, 25);
             this.textBox_SEADu2u.TabIndex = 20;
@@ -2216,7 +2219,7 @@ namespace GCS_5895
             // 
             this.label9.AutoSize = true;
             this.label9.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label9.Location = new System.Drawing.Point(17, 27);
+            this.label9.Location = new System.Drawing.Point(26, 29);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(91, 17);
             this.label9.TabIndex = 19;
@@ -2442,20 +2445,6 @@ namespace GCS_5895
             this.gMapControl_SEAD.TabIndex = 0;
             this.gMapControl_SEAD.Zoom = 0D;
             // 
-            // tabPage_Simulator
-            // 
-            this.tabPage_Simulator.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.tabPage_Simulator.BorderColor = System.Drawing.Color.DimGray;
-            this.tabPage_Simulator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tabPage_Simulator.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabPage_Simulator.Location = new System.Drawing.Point(0, 40);
-            this.tabPage_Simulator.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
-            this.tabPage_Simulator.Name = "tabPage_Simulator";
-            this.tabPage_Simulator.Size = new System.Drawing.Size(1360, 724);
-            this.tabPage_Simulator.TabIndex = 2;
-            this.tabPage_Simulator.TabItemImage = null;
-            this.tabPage_Simulator.Text = "Simulator";
-            // 
             // GCS_5895
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -2528,7 +2517,6 @@ namespace GCS_5895
         #endregion
         private CCWin.SkinControl.SkinTabPage tabPage_GCS;
         private CCWin.SkinControl.SkinTabPage tabPage_FlightPlan;
-        private CCWin.SkinControl.SkinTabPage tabPage_Simulator;
         private System.Windows.Forms.RichTextBox textBox_info;
         private System.Windows.Forms.TabControl tabControl_mission;
         private System.Windows.Forms.TabPage tabPage_WPs;
@@ -2670,6 +2658,7 @@ namespace GCS_5895
         private System.Windows.Forms.ComboBox comboBox_origin;
         private System.Windows.Forms.Button button_originConfirm;
         private CCWin.SkinControl.SkinButton skinButton_VRPadjust;
+        private System.Windows.Forms.ToolTip toolTip_Button;
     }
 }
 
