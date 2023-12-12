@@ -36,7 +36,7 @@ namespace GCS_5895
                     picPlane.MakeTransparent(Color.Yellow);
                     break;
                 case FrameType.Fixed_wing:
-                    srcPlane = Image.FromFile("../../image/plane.tif");
+                    srcPlane = Image.FromFile("../../image/fixed-wing.tif");
                     picPlane = RotateImg((Bitmap)srcPlane, (float)-heading + 90);
                     picPlane.MakeTransparent(Color.Yellow);
                     break;
