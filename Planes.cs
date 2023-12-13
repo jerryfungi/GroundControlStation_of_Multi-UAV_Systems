@@ -27,20 +27,17 @@ namespace GCS_5895
         public static GMapMarker AddDrone(double lat, double lng, double heading, FrameType frameType, string name, SolidBrush color)
         {
             Image srcPlane = null;
-            Bitmap picPlane = null;
             switch (frameType)
             {
                 case FrameType.Quad:
                     srcPlane = Image.FromFile("../../image/quad.png");
-                    picPlane = GraphicRotateAtAny((Bitmap)srcPlane, srcPlane.Height / 2, srcPlane.Width / 2, heading);
-                    picPlane.MakeTransparent(Color.Yellow);
                     break;
                 case FrameType.Fixed_wing:
-                    srcPlane = Image.FromFile("../../image/fixed-wing.tif");
-                    picPlane = RotateImg((Bitmap)srcPlane, (float)-heading + 90);
-                    picPlane.MakeTransparent(Color.Yellow);
+                    srcPlane = Image.FromFile("../../image/fixed-wing_1.tif");
                     break;
             }
+            Bitmap picPlane = GraphicRotateAtAny((Bitmap)srcPlane, srcPlane.Height / 2, srcPlane.Width / 2, heading);
+            picPlane.MakeTransparent(Color.Yellow);
             GMapMarker drone = new GMarkerGoogle(new PointLatLng(lat, lng), picPlane);
             drone.Offset = new Point(-picPlane.Width / 2, -picPlane.Height / 2);
             drone.ToolTip = new GMapToolTip(drone);
@@ -61,7 +58,7 @@ namespace GCS_5895
         {
             //跑道的圖層
             Image srcPic = Image.FromFile("../../image/runway.png");
-            Bitmap runway = RotateImg((Bitmap)srcPic, (float)heading);
+            Bitmap runway = GraphicRotateAtAny((Bitmap)srcPic, srcPic.Height / 2, srcPic.Width / 2, heading);
             runway.MakeTransparent(Color.Yellow);
 
             GMapMarker Runway = new GMarkerGoogle(new PointLatLng(lat, lng), runway);
@@ -85,7 +82,7 @@ namespace GCS_5895
         public static GMapMarker AddHelipad(double lat, double lng, string name, double heading, SolidBrush color)
         {
             Image srcPic = Image.FromFile("../../image/helipad.tif");
-            Bitmap helipad = RotateImg((Bitmap)srcPic, (float)-heading+90);
+            Bitmap helipad = GraphicRotateAtAny((Bitmap)srcPic, srcPic.Height / 2, srcPic.Width / 2, heading);
             helipad.MakeTransparent(Color.Yellow);
 
             GMapMarker Helipad = new GMarkerGoogle(new PointLatLng(lat, lng), helipad);
