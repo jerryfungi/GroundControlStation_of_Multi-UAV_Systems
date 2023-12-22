@@ -66,6 +66,9 @@ namespace GCS_5895
         public bool isChooseWP = false;
         public GMapMarker currentMarker;
 
+        // 定義飛機圖案
+        Planes Planes = new Planes();
+
         // 定義路線軌跡儲存空間                                    
         public SortableBindingList<Packets> Buffers = new SortableBindingList<Packets>();
         public List<List<PointLatLng>> routesBuffer = new List<List<PointLatLng>>();
@@ -203,6 +206,12 @@ namespace GCS_5895
             
             // 任務設定
             skinComboBox_SEAD.Items.AddRange(Mission_setting.SEAD_mission.Keys.ToArray());
+
+            // Drone Skin Initiate
+            skinPictureBox_quadSkin.Image = new Bitmap($"../../image/quad_{Planes.quadSkinIndex}.tif");
+            skinPictureBox_quadSkin.Image.Tag = Planes.quadSkinIndex;
+            skinPictureBox_fixedwingSkin.Image = new Bitmap($"../../image/fixed-wing_{Planes.fixedwingSkinIndex}.tif");
+            skinPictureBox_fixedwingSkin.Image.Tag = Planes.fixedwingSkinIndex;
 
             //Shortcut update
             CreateShortcut("5895GCS", Environment.GetFolderPath(Environment.SpecialFolder.Desktop), Assembly.GetExecutingAssembly().Location);
@@ -2523,6 +2532,74 @@ namespace GCS_5895
             skinButton_outputVRP.Enabled = true;
             richTextBox_VRP.AppendText($"VRP mission is ready." + Environment.NewLine);
             skinButton_VRPadjust.Enabled = false;
+        }
+
+        private void button_previousQuad_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int index = (int)skinPictureBox_quadSkin.Image.Tag;
+                skinPictureBox_quadSkin.Image = new Bitmap($"../../image/quad_{index - 1}.tif");
+                skinPictureBox_quadSkin.Image.Tag = index - 1;
+            }
+            catch { }
+        }
+
+        private void button_nextQuad_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int index = (int)skinPictureBox_quadSkin.Image.Tag;
+                skinPictureBox_quadSkin.Image = new Bitmap($"../../image/quad_{index + 1}.tif");
+                skinPictureBox_quadSkin.Image.Tag = index + 1;
+            }
+            catch { }
+        }
+
+        private void skinButton_quadSkinChange_Click(object sender, EventArgs e)
+        {
+            Planes.quadSkinIndex = (int)skinPictureBox_quadSkin.Image.Tag;
+            for (int i = 0; i < Buffers.Count(); i++)
+            {
+                int uav_id = Buffers[i].UAV_ID; ;
+                markers_main[uav_id - 1].Clear();
+                markers_main[uav_id - 1].Markers.Add(Planes.AddDrone(Buffers[i].Lat, Buffers[i].Lng, Buffers[i].Heading,
+                    Buffers[i].Frame_type, UAV_ID_text(uav_id), new SolidBrush(color_of_uavs[uav_id - 1])));
+            }
+        }
+
+        private void button_previousFixedwing_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int index = (int)skinPictureBox_fixedwingSkin.Image.Tag;
+                skinPictureBox_fixedwingSkin.Image = new Bitmap($"../../image/fixed-wing_{index - 1}.tif");
+                skinPictureBox_fixedwingSkin.Image.Tag = index - 1;
+            }
+            catch { }
+        }
+
+        private void button_nextFixedwing_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int index = (int)skinPictureBox_fixedwingSkin.Image.Tag;
+                skinPictureBox_fixedwingSkin.Image = new Bitmap($"../../image/fixed-wing_{index + 1}.tif");
+                skinPictureBox_fixedwingSkin.Image.Tag = index + 1;
+            }
+            catch { }
+        }
+
+        private void skinButton_fixedwingSkinChange_Click(object sender, EventArgs e)
+        {
+            Planes.fixedwingSkinIndex = (int)skinPictureBox_fixedwingSkin.Image.Tag;
+            for (int i = 0; i < Buffers.Count(); i++)
+            {
+                int uav_id = Buffers[i].UAV_ID;
+                markers_main[uav_id - 1].Clear();
+                markers_main[uav_id - 1].Markers.Add(Planes.AddDrone(Buffers[i].Lat, Buffers[i].Lng, Buffers[i].Heading,
+                    Buffers[i].Frame_type, UAV_ID_text(uav_id), new SolidBrush(color_of_uavs[uav_id - 1])));
+            }
         }
 
         private void comboBox_guideWP_DropDown(object sender, EventArgs e)

@@ -21,19 +21,21 @@ namespace GCS_5895
 
         public static int TA = 30;
         public static int RA = 20;
+        public int quadSkinIndex = 1;
+        public int fixedwingSkinIndex = 1;
         /* 不變常數宣告 */
         static readonly double d2r = 0.01745329251994329576923690768489; //預設是 Private
 
-        public static GMapMarker AddDrone(double lat, double lng, double heading, FrameType frameType, string name, SolidBrush color)
+        public GMapMarker AddDrone(double lat, double lng, double heading, FrameType frameType, string name, SolidBrush color)
         {
             Image srcPlane = null;
             switch (frameType)
             {
                 case FrameType.Quad:
-                    srcPlane = Image.FromFile("../../image/quad.png");
+                    srcPlane = Image.FromFile($"../../image/quad_{quadSkinIndex}.tif");
                     break;
                 case FrameType.Fixed_wing:
-                    srcPlane = Image.FromFile("../../image/fixed-wing_1.tif");
+                    srcPlane = Image.FromFile($"../../image/fixed-wing_{fixedwingSkinIndex}.tif");
                     break;
             }
             Bitmap picPlane = GraphicRotateAtAny((Bitmap)srcPlane, srcPlane.Height / 2, srcPlane.Width / 2, heading);

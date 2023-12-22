@@ -178,6 +178,17 @@ namespace GCS_5895
             this.base_pos = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gMapControl_SEAD = new GMap.NET.WindowsForms.GMapControl();
             this.toolTip_Button = new System.Windows.Forms.ToolTip(this.components);
+            this.tabPage_skin = new System.Windows.Forms.TabPage();
+            this.skinGroupBox_quadSkin = new CCWin.SkinControl.SkinGroupBox();
+            this.skinPictureBox_quadSkin = new CCWin.SkinControl.SkinPictureBox();
+            this.skinGroupBox_fixedwingSkin = new CCWin.SkinControl.SkinGroupBox();
+            this.skinButton_fixedwingSkinChange = new CCWin.SkinControl.SkinButton();
+            this.button_nextFixedwing = new System.Windows.Forms.Button();
+            this.button_previousFixedwing = new System.Windows.Forms.Button();
+            this.skinPictureBox_fixedwingSkin = new CCWin.SkinControl.SkinPictureBox();
+            this.button_previousQuad = new System.Windows.Forms.Button();
+            this.button_nextQuad = new System.Windows.Forms.Button();
+            this.skinButton_quadSkinChange = new CCWin.SkinControl.SkinButton();
             this.tabControl_main.SuspendLayout();
             this.tabPage_GCS.SuspendLayout();
             this.skinGroupBox4.SuspendLayout();
@@ -218,6 +229,11 @@ namespace GCS_5895
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_seadTargets)).BeginInit();
             this.skinGroupBox_SEADagents.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_seadAgents)).BeginInit();
+            this.tabPage_skin.SuspendLayout();
+            this.skinGroupBox_quadSkin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.skinPictureBox_quadSkin)).BeginInit();
+            this.skinGroupBox_fixedwingSkin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.skinPictureBox_fixedwingSkin)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl_main
@@ -501,6 +517,7 @@ namespace GCS_5895
             this.tabControl_action.Controls.Add(this.tabPage_guide);
             this.tabControl_action.Controls.Add(this.tabPage_missionStart);
             this.tabControl_action.Controls.Add(this.tabPage_setting);
+            this.tabControl_action.Controls.Add(this.tabPage_skin);
             this.tabControl_action.Dock = System.Windows.Forms.DockStyle.Top;
             this.tabControl_action.ItemSize = new System.Drawing.Size(87, 35);
             this.tabControl_action.Location = new System.Drawing.Point(0, 0);
@@ -2445,6 +2462,183 @@ namespace GCS_5895
             this.gMapControl_SEAD.TabIndex = 0;
             this.gMapControl_SEAD.Zoom = 0D;
             // 
+            // tabPage_skin
+            // 
+            this.tabPage_skin.BackColor = System.Drawing.Color.Gainsboro;
+            this.tabPage_skin.Controls.Add(this.skinGroupBox_fixedwingSkin);
+            this.tabPage_skin.Controls.Add(this.skinGroupBox_quadSkin);
+            this.tabPage_skin.Location = new System.Drawing.Point(4, 39);
+            this.tabPage_skin.Name = "tabPage_skin";
+            this.tabPage_skin.Size = new System.Drawing.Size(314, 351);
+            this.tabPage_skin.TabIndex = 5;
+            this.tabPage_skin.Text = "Skin";
+            // 
+            // skinGroupBox_quadSkin
+            // 
+            this.skinGroupBox_quadSkin.BackColor = System.Drawing.Color.Transparent;
+            this.skinGroupBox_quadSkin.BorderColor = System.Drawing.Color.CornflowerBlue;
+            this.skinGroupBox_quadSkin.Controls.Add(this.skinButton_quadSkinChange);
+            this.skinGroupBox_quadSkin.Controls.Add(this.button_nextQuad);
+            this.skinGroupBox_quadSkin.Controls.Add(this.button_previousQuad);
+            this.skinGroupBox_quadSkin.Controls.Add(this.skinPictureBox_quadSkin);
+            this.skinGroupBox_quadSkin.ForeColor = System.Drawing.Color.White;
+            this.skinGroupBox_quadSkin.Location = new System.Drawing.Point(0, 3);
+            this.skinGroupBox_quadSkin.Name = "skinGroupBox_quadSkin";
+            this.skinGroupBox_quadSkin.RectBackColor = System.Drawing.Color.WhiteSmoke;
+            this.skinGroupBox_quadSkin.RoundStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinGroupBox_quadSkin.Size = new System.Drawing.Size(155, 137);
+            this.skinGroupBox_quadSkin.TabIndex = 19;
+            this.skinGroupBox_quadSkin.TabStop = false;
+            this.skinGroupBox_quadSkin.Text = "Quad";
+            this.skinGroupBox_quadSkin.TitleBorderColor = System.Drawing.Color.CornflowerBlue;
+            this.skinGroupBox_quadSkin.TitleRectBackColor = System.Drawing.Color.CornflowerBlue;
+            this.skinGroupBox_quadSkin.TitleRoundStyle = CCWin.SkinClass.RoundStyle.All;
+            // 
+            // skinPictureBox_quadSkin
+            // 
+            this.skinPictureBox_quadSkin.BackColor = System.Drawing.Color.Transparent;
+            this.skinPictureBox_quadSkin.Dock = System.Windows.Forms.DockStyle.Top;
+            this.skinPictureBox_quadSkin.Location = new System.Drawing.Point(3, 21);
+            this.skinPictureBox_quadSkin.Name = "skinPictureBox_quadSkin";
+            this.skinPictureBox_quadSkin.Size = new System.Drawing.Size(149, 76);
+            this.skinPictureBox_quadSkin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.skinPictureBox_quadSkin.TabIndex = 18;
+            this.skinPictureBox_quadSkin.TabStop = false;
+            // 
+            // skinGroupBox_fixedwingSkin
+            // 
+            this.skinGroupBox_fixedwingSkin.BackColor = System.Drawing.Color.Transparent;
+            this.skinGroupBox_fixedwingSkin.BorderColor = System.Drawing.Color.CornflowerBlue;
+            this.skinGroupBox_fixedwingSkin.Controls.Add(this.skinButton_fixedwingSkinChange);
+            this.skinGroupBox_fixedwingSkin.Controls.Add(this.button_nextFixedwing);
+            this.skinGroupBox_fixedwingSkin.Controls.Add(this.button_previousFixedwing);
+            this.skinGroupBox_fixedwingSkin.Controls.Add(this.skinPictureBox_fixedwingSkin);
+            this.skinGroupBox_fixedwingSkin.ForeColor = System.Drawing.Color.White;
+            this.skinGroupBox_fixedwingSkin.Location = new System.Drawing.Point(158, 3);
+            this.skinGroupBox_fixedwingSkin.Name = "skinGroupBox_fixedwingSkin";
+            this.skinGroupBox_fixedwingSkin.RectBackColor = System.Drawing.Color.WhiteSmoke;
+            this.skinGroupBox_fixedwingSkin.RoundStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinGroupBox_fixedwingSkin.Size = new System.Drawing.Size(155, 137);
+            this.skinGroupBox_fixedwingSkin.TabIndex = 20;
+            this.skinGroupBox_fixedwingSkin.TabStop = false;
+            this.skinGroupBox_fixedwingSkin.Text = "Fixed-wing";
+            this.skinGroupBox_fixedwingSkin.TitleBorderColor = System.Drawing.Color.CornflowerBlue;
+            this.skinGroupBox_fixedwingSkin.TitleRectBackColor = System.Drawing.Color.CornflowerBlue;
+            this.skinGroupBox_fixedwingSkin.TitleRoundStyle = CCWin.SkinClass.RoundStyle.All;
+            // 
+            // skinButton_fixedwingSkinChange
+            // 
+            this.skinButton_fixedwingSkinChange.BackColor = System.Drawing.Color.Transparent;
+            this.skinButton_fixedwingSkinChange.BaseColor = System.Drawing.Color.AliceBlue;
+            this.skinButton_fixedwingSkinChange.BorderColor = System.Drawing.Color.SteelBlue;
+            this.skinButton_fixedwingSkinChange.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.skinButton_fixedwingSkinChange.DownBack = null;
+            this.skinButton_fixedwingSkinChange.DownBaseColor = System.Drawing.Color.Thistle;
+            this.skinButton_fixedwingSkinChange.Font = new System.Drawing.Font("Ink Free", 8.999999F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinButton_fixedwingSkinChange.ForeColor = System.Drawing.Color.Black;
+            this.skinButton_fixedwingSkinChange.GlowColor = System.Drawing.Color.CornflowerBlue;
+            this.skinButton_fixedwingSkinChange.InnerBorderColor = System.Drawing.Color.Silver;
+            this.skinButton_fixedwingSkinChange.Location = new System.Drawing.Point(70, 103);
+            this.skinButton_fixedwingSkinChange.MouseBack = null;
+            this.skinButton_fixedwingSkinChange.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.skinButton_fixedwingSkinChange.Name = "skinButton_fixedwingSkinChange";
+            this.skinButton_fixedwingSkinChange.NormlBack = null;
+            this.skinButton_fixedwingSkinChange.Radius = 25;
+            this.skinButton_fixedwingSkinChange.RoundStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinButton_fixedwingSkinChange.Size = new System.Drawing.Size(71, 28);
+            this.skinButton_fixedwingSkinChange.TabIndex = 20;
+            this.skinButton_fixedwingSkinChange.Text = "confirm";
+            this.skinButton_fixedwingSkinChange.UseVisualStyleBackColor = false;
+            this.skinButton_fixedwingSkinChange.Click += new System.EventHandler(this.skinButton_fixedwingSkinChange_Click);
+            // 
+            // button_nextFixedwing
+            // 
+            this.button_nextFixedwing.BackColor = System.Drawing.Color.White;
+            this.button_nextFixedwing.ForeColor = System.Drawing.Color.Black;
+            this.button_nextFixedwing.Location = new System.Drawing.Point(37, 105);
+            this.button_nextFixedwing.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.button_nextFixedwing.Name = "button_nextFixedwing";
+            this.button_nextFixedwing.Size = new System.Drawing.Size(28, 24);
+            this.button_nextFixedwing.TabIndex = 19;
+            this.button_nextFixedwing.Text = "▶";
+            this.button_nextFixedwing.UseVisualStyleBackColor = false;
+            this.button_nextFixedwing.Click += new System.EventHandler(this.button_nextFixedwing_Click);
+            // 
+            // button_previousFixedwing
+            // 
+            this.button_previousFixedwing.BackColor = System.Drawing.Color.White;
+            this.button_previousFixedwing.ForeColor = System.Drawing.Color.Black;
+            this.button_previousFixedwing.Location = new System.Drawing.Point(5, 105);
+            this.button_previousFixedwing.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.button_previousFixedwing.Name = "button_previousFixedwing";
+            this.button_previousFixedwing.Size = new System.Drawing.Size(28, 24);
+            this.button_previousFixedwing.TabIndex = 17;
+            this.button_previousFixedwing.Text = "◀";
+            this.button_previousFixedwing.UseVisualStyleBackColor = false;
+            this.button_previousFixedwing.Click += new System.EventHandler(this.button_previousFixedwing_Click);
+            // 
+            // skinPictureBox_fixedwingSkin
+            // 
+            this.skinPictureBox_fixedwingSkin.BackColor = System.Drawing.Color.Transparent;
+            this.skinPictureBox_fixedwingSkin.Dock = System.Windows.Forms.DockStyle.Top;
+            this.skinPictureBox_fixedwingSkin.Location = new System.Drawing.Point(3, 21);
+            this.skinPictureBox_fixedwingSkin.Name = "skinPictureBox_fixedwingSkin";
+            this.skinPictureBox_fixedwingSkin.Size = new System.Drawing.Size(149, 76);
+            this.skinPictureBox_fixedwingSkin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.skinPictureBox_fixedwingSkin.TabIndex = 18;
+            this.skinPictureBox_fixedwingSkin.TabStop = false;
+            // 
+            // button_previousQuad
+            // 
+            this.button_previousQuad.BackColor = System.Drawing.Color.White;
+            this.button_previousQuad.ForeColor = System.Drawing.Color.Black;
+            this.button_previousQuad.Location = new System.Drawing.Point(5, 105);
+            this.button_previousQuad.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.button_previousQuad.Name = "button_previousQuad";
+            this.button_previousQuad.Size = new System.Drawing.Size(28, 24);
+            this.button_previousQuad.TabIndex = 17;
+            this.button_previousQuad.Text = "◀";
+            this.button_previousQuad.UseVisualStyleBackColor = false;
+            this.button_previousQuad.Click += new System.EventHandler(this.button_previousQuad_Click);
+            // 
+            // button_nextQuad
+            // 
+            this.button_nextQuad.BackColor = System.Drawing.Color.White;
+            this.button_nextQuad.ForeColor = System.Drawing.Color.Black;
+            this.button_nextQuad.Location = new System.Drawing.Point(37, 105);
+            this.button_nextQuad.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.button_nextQuad.Name = "button_nextQuad";
+            this.button_nextQuad.Size = new System.Drawing.Size(28, 24);
+            this.button_nextQuad.TabIndex = 19;
+            this.button_nextQuad.Text = "▶";
+            this.button_nextQuad.UseVisualStyleBackColor = false;
+            this.button_nextQuad.Click += new System.EventHandler(this.button_nextQuad_Click);
+            // 
+            // skinButton_quadSkinChange
+            // 
+            this.skinButton_quadSkinChange.BackColor = System.Drawing.Color.Transparent;
+            this.skinButton_quadSkinChange.BaseColor = System.Drawing.Color.AliceBlue;
+            this.skinButton_quadSkinChange.BorderColor = System.Drawing.Color.SteelBlue;
+            this.skinButton_quadSkinChange.ControlState = CCWin.SkinClass.ControlState.Normal;
+            this.skinButton_quadSkinChange.DownBack = null;
+            this.skinButton_quadSkinChange.DownBaseColor = System.Drawing.Color.Thistle;
+            this.skinButton_quadSkinChange.Font = new System.Drawing.Font("Ink Free", 8.999999F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinButton_quadSkinChange.ForeColor = System.Drawing.Color.Black;
+            this.skinButton_quadSkinChange.GlowColor = System.Drawing.Color.CornflowerBlue;
+            this.skinButton_quadSkinChange.InnerBorderColor = System.Drawing.Color.Silver;
+            this.skinButton_quadSkinChange.Location = new System.Drawing.Point(70, 103);
+            this.skinButton_quadSkinChange.MouseBack = null;
+            this.skinButton_quadSkinChange.MouseBaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.skinButton_quadSkinChange.Name = "skinButton_quadSkinChange";
+            this.skinButton_quadSkinChange.NormlBack = null;
+            this.skinButton_quadSkinChange.Radius = 25;
+            this.skinButton_quadSkinChange.RoundStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinButton_quadSkinChange.Size = new System.Drawing.Size(71, 28);
+            this.skinButton_quadSkinChange.TabIndex = 20;
+            this.skinButton_quadSkinChange.Text = "confirm";
+            this.skinButton_quadSkinChange.UseVisualStyleBackColor = false;
+            this.skinButton_quadSkinChange.Click += new System.EventHandler(this.skinButton_quadSkinChange_Click);
+            // 
             // GCS_5895
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -2510,6 +2704,11 @@ namespace GCS_5895
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_seadTargets)).EndInit();
             this.skinGroupBox_SEADagents.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_seadAgents)).EndInit();
+            this.tabPage_skin.ResumeLayout(false);
+            this.skinGroupBox_quadSkin.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.skinPictureBox_quadSkin)).EndInit();
+            this.skinGroupBox_fixedwingSkin.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.skinPictureBox_fixedwingSkin)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2659,6 +2858,17 @@ namespace GCS_5895
         private System.Windows.Forms.Button button_originConfirm;
         private CCWin.SkinControl.SkinButton skinButton_VRPadjust;
         private System.Windows.Forms.ToolTip toolTip_Button;
+        private System.Windows.Forms.TabPage tabPage_skin;
+        private CCWin.SkinControl.SkinGroupBox skinGroupBox_fixedwingSkin;
+        private CCWin.SkinControl.SkinButton skinButton_fixedwingSkinChange;
+        private System.Windows.Forms.Button button_nextFixedwing;
+        private System.Windows.Forms.Button button_previousFixedwing;
+        private CCWin.SkinControl.SkinPictureBox skinPictureBox_fixedwingSkin;
+        private CCWin.SkinControl.SkinGroupBox skinGroupBox_quadSkin;
+        private CCWin.SkinControl.SkinButton skinButton_quadSkinChange;
+        private System.Windows.Forms.Button button_nextQuad;
+        private System.Windows.Forms.Button button_previousQuad;
+        private CCWin.SkinControl.SkinPictureBox skinPictureBox_quadSkin;
     }
 }
 
