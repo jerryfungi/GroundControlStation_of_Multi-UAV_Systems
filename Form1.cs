@@ -317,14 +317,24 @@ namespace GCS_5895
 
         public static void CreateShortcut(string shortcutName, string shortcutPath, string targetFileLocation)
         {
-            string shortcutLocation = System.IO.Path.Combine(shortcutPath, shortcutName + ".lnk");
+            string deskTop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\";
+            if (System.IO.File.Exists(deskTop + shortcutName + ".lnk"))  //
+            {
+                System.IO.File.Delete(deskTop + shortcutName + ".lnk");//刪除原來的桌面快捷鍵方式
+            }
             WshShell shell = new WshShell();
-            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
 
-            shortcut.Description = "My shortcut description";
-            shortcut.IconLocation = System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\image\GCS icon.ico");
-            shortcut.TargetPath = targetFileLocation;
-            shortcut.Save();
+            //快捷鍵方式建立的位置、名稱
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(deskTop + shortcutName + ".lnk");
+            shortcut.TargetPath = targetFileLocation; //目標檔案
+                                           //該屬性指定應用程式的工作目錄，當用戶沒有指定一個具體的目錄時，快捷方式的目標應用程式將使用該屬性所指定的目錄來裝載或儲存檔案。
+            shortcut.WorkingDirectory = System.Environment.CurrentDirectory;
+            shortcut.WindowStyle = 1; //目標應用程式的視窗狀態分為普通、最大化、最小化【1,3,7】
+            shortcut.Description = shortcutName; //描述
+            shortcut.IconLocation = System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\image\GCS icon.ico");  //快捷方式圖示
+            shortcut.Arguments = "";
+            shortcut.Hotkey = "CTRL+ALT+F11"; // 快捷鍵
+            shortcut.Save(); //必須呼叫儲存快捷才成建立成功
         }
 
         [Obsolete]
