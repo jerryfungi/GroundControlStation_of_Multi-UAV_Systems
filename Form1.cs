@@ -65,6 +65,7 @@ namespace GCS_5895
         public bool lockMap = false;
         public bool isChooseWP = false;
         public GMapMarker currentMarker;
+        public Point mousePin;
 
         // 定義飛機圖案
         Planes Planes = new Planes();
@@ -333,7 +334,6 @@ namespace GCS_5895
             shortcut.Description = shortcutName; //描述
             shortcut.IconLocation = System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\image\GCS icon.ico");  //快捷方式圖示
             shortcut.Arguments = "";
-            shortcut.Hotkey = "CTRL+ALT+F11"; // 快捷鍵
             shortcut.Save(); //必須呼叫儲存快捷才成建立成功
         }
 
@@ -823,110 +823,9 @@ namespace GCS_5895
 
         private void gMapControl_main_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Middle)
+            if (e.Button == MouseButtons.Right)
             {
-                if (Buffers.Count() >= default_UAVnumbers)
-                {
-                    MessageBox.Show($"The limited number of UAVs is set to {default_UAVnumbers}.");
-                    return;
-                }
-                // create virtual drone for testing
-                PointLatLng pin = gMapControl_main.FromLocalToLatLng(e.X, e.Y);
-                // double timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
-                // DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(timestamp);
-                var enu = coordinate.llh2enu(pin.Lat, pin.Lng, 0);
-                Random random = new Random();
-                var frmeTypes = Enum.GetValues(typeof(FrameType));
-                Buffers.Add(new Packets(coordinate, Buffers.Count()+1, enu[0], enu[1], 0, random.Next(-180, 180), "virtual drone", (FrameType)frmeTypes.GetValue(random.Next(frmeTypes.Length))));
-                existing_UAVs.Add(Buffers.Last().UAV_ID);
-                var marker_of_uav = Planes.AddDrone(Buffers.Last().Lat, Buffers.Last().Lng, Buffers.Last().Heading, Buffers.Last().Frame_type,
-                        UAV_ID_text(Buffers.Last().UAV_ID), new SolidBrush(color_of_uavs[Buffers.Last().UAV_ID - 1]));
-                markers_main[Buffers.Last().UAV_ID - 1].Markers.Add(marker_of_uav);
-                string uav_text = UAV_ID_text(Buffers.Last().UAV_ID);
-                comboBox_mapCenter.Items.Add(uav_text);
-                checkBoxComboBox_UAVselect.Items.Add(uav_text);
-                textBox_info.SelectionColor = Color.Teal;
-                textBox_info.AppendText($"👻 UAV{Buffers.Last().UAV_ID}  ");
-                textBox_info.SelectionColor = Color.Black;
-                textBox_info.AppendText(Buffers.Last().Info + Environment.NewLine);
-
-                dataGridView_flghtData.Sort(dataGridView_flghtData.Columns["UAV_ID"], ListSortDirection.Ascending);
-
-                //string flightdata_sql = $@"insert into `flight_data` values 
-                //            ('{timestamp}', '{dateTime}', '{Buffers[0].Mode}', '{Buffers[0].Mission}', 
-                //                '{Buffers[0].E}', '{Buffers[0].N}', '{Buffers[0].U}', '{Buffers[0].Speed}', 
-                //                '{Buffers[0].Roll}', '{Buffers[0].Pitch}', '{Buffers[0].Yaw}');";
-                //MySqlCommand cmd = new MySqlCommand(flightdata_sql, UAVs_flightData_conn[0]);
-                //int index = cmd.ExecuteNonQuery();
-            }
-            if (e.Button == MouseButtons.Right && tabControl_action.SelectedTab.Text == "Guide" && !String.IsNullOrEmpty(comboBox_guideWP.Text))
-            {
-                int uav_id = Int32.Parse(comboBox_guideWP.Text.Remove(0, 3));
-                PointLatLng pin = gMapControl_main.FromLocalToLatLng(e.X, e.Y);
-                var lla = new double[] { pin.Lat, pin.Lng, 0 };
-                var enu = coordinate.llh2enu(lla[0], lla[1], lla[2]);
-                textBox_wpE.Text = Math.Round(enu[0], 3, MidpointRounding.AwayFromZero).ToString();
-                textBox_wpN.Text = Math.Round(enu[1], 3, MidpointRounding.AwayFromZero).ToString();
-                waypoints_pin[uav_id - 1].Clear();
-                GMarkerGoogle target = new GMarkerGoogle(new PointLatLng(lla[0], lla[1]), GMarkerGoogleType.blue);
-                waypoints_pin[uav_id - 1].Markers.Add(target);
-                int select_index = existing_UAVs.IndexOf(uav_id);
-                List<PointLatLng> route = new List<PointLatLng>() {
-                    new PointLatLng(Buffers[select_index].Lat, Buffers[select_index].Lng), new PointLatLng(lla[0], lla[1]) };
-                GMapRoute wp_route = new GMapRoute(route, $"UAV{uav_id} wp")
-                {
-                    Stroke = new Pen(Color.DarkGray, 2)
-                };
-                wp_route.Stroke.DashStyle = DashStyle.Dash;
-                waypoints_pin[uav_id - 1].Routes.Add(wp_route);
-                waypoints.RemoveAll(p => p.UAV_ID == uav_id && p.Type == WaypointMissionMethod.guide_waypoint);
-                if (!waypoints.Any(p => p.Type == WaypointMissionMethod.guide_waypoint))
-                {
-                    skinButton_pubWP.Enabled = false;
-                    skinButton_clearWPs.Enabled = false;
-                }
-            }
-            else if (e.Button == MouseButtons.Right && tabControl_action.SelectedTab.Text != "Guide" && !String.IsNullOrEmpty(checkBoxComboBox_UAVselect.Text))
-            {
-                if (checkBoxComboBox_UAVselect.Text.Contains(","))
-                {
-                    MessageBox.Show("Please select only one drone.");
-                    return;
-                }
-                int uav_id = Int32.Parse(checkBoxComboBox_UAVselect.Text.Remove(0, 3));
-                PointLatLng pin = gMapControl_main.FromLocalToLatLng(e.X, e.Y);
-                var lla = new double[] { pin.Lat, pin.Lng, 0 };
-                var enu = coordinate.llh2enu(lla[0], lla[1], lla[2]);
-                waypoints_pin[uav_id - 1].Clear();
-                GMarkerGoogle target = new GMarkerGoogle(new PointLatLng(lla[0], lla[1]), GMarkerGoogleType.blue);
-                waypoints_pin[uav_id - 1].Markers.Add(target);
-                int select_index = existing_UAVs.IndexOf(uav_id);
-                List<PointLatLng> route = new List<PointLatLng>() {
-                    new PointLatLng(Buffers[select_index].Lat, Buffers[select_index].Lng), new PointLatLng(lla[0], lla[1]) };
-                GMapRoute wp_route = new GMapRoute(route, $"UAV{uav_id} wp")
-                {
-                    Stroke = new Pen(Color.DarkGray, 2)
-                };
-                wp_route.Stroke.DashStyle = DashStyle.Dash;
-                waypoints_pin[uav_id - 1].Routes.Add(wp_route);
-                DialogResult go_wp = MessageBox.Show(this, "確定至該航點？", "導航確認通知٩(✿∂‿∂✿)۶", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (go_wp == DialogResult.Yes)
-                {
-                    if (comboBox_connectOption.Text == "UDP")
-                    {
-                        var t = new Thread(() => client.SendTo(Buffers[select_index].pack_guide_mission_packet(enu[0], enu[1], 0, 5), connectPort));
-                        t.Start();
-                    }
-                    else if (comboBox_connectOption.Text.Contains("COM"))
-                    {
-                        var t = new Thread(() => XBee.SendData(G2U_points[uav_id], Buffers[select_index].pack_guide_mission_packet(enu[0], enu[1], 0, 5)));
-                        t.Start();
-                    }
-                }
-                else
-                {
-                    waypoints_pin[uav_id - 1].Clear();
-                }
+                mousePin = new Point(e.X, e.Y);
             }
         }
 
@@ -1984,13 +1883,8 @@ namespace GCS_5895
             {
                 if (item.ToolTipText.Contains("UAV") && e.Button == MouseButtons.Left)
                 {
-                    foreach (var uav in checkBoxComboBox_UAVselect.CheckBoxItems)
-                    {
-                        if (uav.Text == item.ToolTipText)
-                        {
-                            uav.Checked = true;
-                        }
-                    }
+                    var uav = checkBoxComboBox_UAVselect.CheckBoxItems.First(p => p.Text == item.ToolTipText);
+                    uav.Checked = !uav.Checked;
                     comboBox_guideWP.Text = item.ToolTipText;
                 }
             }
@@ -2609,6 +2503,140 @@ namespace GCS_5895
                 markers_main[uav_id - 1].Clear();
                 markers_main[uav_id - 1].Markers.Add(Planes.AddDrone(Buffers[i].Lat, Buffers[i].Lng, Buffers[i].Heading,
                     Buffers[i].Frame_type, UAV_ID_text(uav_id), new SolidBrush(color_of_uavs[uav_id - 1])));
+            }
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            textBox_info.Text = string.Empty;
+        }
+
+        private void toHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tabControl_action.SelectedTab.Text == "Guide")
+            {
+                int uav_id = Int32.Parse(comboBox_guideWP.Text.Remove(0, 3));
+                PointLatLng pin = gMapControl_main.FromLocalToLatLng(mousePin.X, mousePin.Y);
+                var lla = new double[] { pin.Lat, pin.Lng, 0 };
+                var enu = coordinate.llh2enu(lla[0], lla[1], lla[2]);
+                textBox_wpE.Text = Math.Round(enu[0], 3, MidpointRounding.AwayFromZero).ToString();
+                textBox_wpN.Text = Math.Round(enu[1], 3, MidpointRounding.AwayFromZero).ToString();
+                waypoints_pin[uav_id - 1].Clear();
+                GMarkerGoogle target = new GMarkerGoogle(new PointLatLng(lla[0], lla[1]), GMarkerGoogleType.blue);
+                waypoints_pin[uav_id - 1].Markers.Add(target);
+                int select_index = existing_UAVs.IndexOf(uav_id);
+                List<PointLatLng> route = new List<PointLatLng>() {
+                    new PointLatLng(Buffers[select_index].Lat, Buffers[select_index].Lng), new PointLatLng(lla[0], lla[1]) };
+                GMapRoute wp_route = new GMapRoute(route, $"UAV{uav_id} wp")
+                {
+                    Stroke = new Pen(Color.DarkGray, 2)
+                };
+                wp_route.Stroke.DashStyle = DashStyle.Dash;
+                waypoints_pin[uav_id - 1].Routes.Add(wp_route);
+                waypoints.RemoveAll(p => p.UAV_ID == uav_id && p.Type == WaypointMissionMethod.guide_waypoint);
+                if (!waypoints.Any(p => p.Type == WaypointMissionMethod.guide_waypoint))
+                {
+                    skinButton_pubWP.Enabled = false;
+                    skinButton_clearWPs.Enabled = false;
+                }
+            }
+            else if (tabControl_action.SelectedTab.Text != "Guide")
+            {
+                if (checkBoxComboBox_UAVselect.Text.Contains(","))
+                {
+                    MessageBox.Show("Please select only one drone.");
+                    return;
+                }
+                int uav_id = Int32.Parse(checkBoxComboBox_UAVselect.Text.Remove(0, 3));
+                PointLatLng pin = gMapControl_main.FromLocalToLatLng(mousePin.X, mousePin.Y);
+                var lla = new double[] { pin.Lat, pin.Lng, 0 };
+                var enu = coordinate.llh2enu(lla[0], lla[1], lla[2]);
+                waypoints_pin[uav_id - 1].Clear();
+                GMarkerGoogle target = new GMarkerGoogle(new PointLatLng(lla[0], lla[1]), GMarkerGoogleType.blue);
+                waypoints_pin[uav_id - 1].Markers.Add(target);
+                int select_index = existing_UAVs.IndexOf(uav_id);
+                List<PointLatLng> route = new List<PointLatLng>() {
+                    new PointLatLng(Buffers[select_index].Lat, Buffers[select_index].Lng), new PointLatLng(lla[0], lla[1]) };
+                GMapRoute wp_route = new GMapRoute(route, $"UAV{uav_id} wp")
+                {
+                    Stroke = new Pen(Color.DarkGray, 2)
+                };
+                wp_route.Stroke.DashStyle = DashStyle.Dash;
+                waypoints_pin[uav_id - 1].Routes.Add(wp_route);
+                DialogResult go_wp = MessageBox.Show(this, "確定至該航點？", "導航確認通知٩(✿∂‿∂✿)۶", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (go_wp == DialogResult.Yes)
+                {
+                    if (comboBox_connectOption.Text == "UDP")
+                    {
+                        var t = new Thread(() => client.SendTo(Buffers[select_index].pack_guide_mission_packet(enu[0], enu[1], 0, 5), connectPort));
+                        t.Start();
+                    }
+                    else if (comboBox_connectOption.Text.Contains("COM"))
+                    {
+                        var t = new Thread(() => XBee.SendData(G2U_points[uav_id], Buffers[select_index].pack_guide_mission_packet(enu[0], enu[1], 0, 5)));
+                        t.Start();
+                    }
+                }
+                else
+                {
+                    waypoints_pin[uav_id - 1].Clear();
+                }
+            }
+        }
+
+        private void addVirtualDrone(FrameType frameType)
+        {
+            if (Buffers.Count() >= default_UAVnumbers)
+            {
+                MessageBox.Show($"The limited number of UAVs is set to {default_UAVnumbers}.");
+                return;
+            }
+            // create virtual drone for testing
+            PointLatLng pin = gMapControl_main.FromLocalToLatLng(mousePin.X, mousePin.Y);
+            // double timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            // DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(timestamp);
+            var enu = coordinate.llh2enu(pin.Lat, pin.Lng, 0);
+            Random random = new Random();
+            var frmeTypes = Enum.GetValues(typeof(FrameType));
+            Buffers.Add(new Packets(coordinate, Buffers.Count() + 1, enu[0], enu[1], 0, random.Next(-180, 180), "virtual drone", frameType));
+            existing_UAVs.Add(Buffers.Last().UAV_ID);
+            var marker_of_uav = Planes.AddDrone(Buffers.Last().Lat, Buffers.Last().Lng, Buffers.Last().Heading, Buffers.Last().Frame_type,
+                    UAV_ID_text(Buffers.Last().UAV_ID), new SolidBrush(color_of_uavs[Buffers.Last().UAV_ID - 1]));
+            markers_main[Buffers.Last().UAV_ID - 1].Markers.Add(marker_of_uav);
+            string uav_text = UAV_ID_text(Buffers.Last().UAV_ID);
+            comboBox_mapCenter.Items.Add(uav_text);
+            checkBoxComboBox_UAVselect.Items.Add(uav_text);
+            textBox_info.SelectionColor = Color.Teal;
+            textBox_info.AppendText($"👻 UAV{Buffers.Last().UAV_ID}  ");
+            textBox_info.SelectionColor = Color.Black;
+            textBox_info.AppendText(Buffers.Last().Info + Environment.NewLine);
+
+            dataGridView_flghtData.Sort(dataGridView_flghtData.Columns["UAV_ID"], ListSortDirection.Ascending);
+        }
+
+        private void quadrotorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addVirtualDrone(FrameType.Quad);
+        }
+
+        private void fixedwingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addVirtualDrone(FrameType.Fixed_wing);
+        }
+
+        private void skinContextMenuStrip_gmapMain_Opening(object sender, CancelEventArgs e)
+        {
+            if (tabControl_action.SelectedTab.Text != "Guide" && !String.IsNullOrEmpty(checkBoxComboBox_UAVselect.Text))
+            {
+                toHereToolStripMenuItem.Enabled = true;
+            }
+            else if (tabControl_action.SelectedTab.Text == "Guide" && !String.IsNullOrEmpty(comboBox_guideWP.Text))
+            {
+                toHereToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                toHereToolStripMenuItem.Enabled = false;
             }
         }
 

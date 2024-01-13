@@ -31,13 +31,18 @@ namespace GCS_5895
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            PresentationControls.CheckBoxProperties checkBoxProperties1 = new PresentationControls.CheckBoxProperties();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GCS_5895));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            PresentationControls.CheckBoxProperties checkBoxProperties2 = new PresentationControls.CheckBoxProperties();
             this.tabControl_main = new CCWin.SkinControl.SkinTabControl();
             this.tabPage_GCS = new CCWin.SkinControl.SkinTabPage();
             this.button_Connect = new System.Windows.Forms.Button();
             this.gMapControl_main = new GMap.NET.WindowsForms.GMapControl();
+            this.skinContextMenuStrip_gmapMain = new CCWin.SkinControl.SkinContextMenuStrip();
+            this.toHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addVirtualDroneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quadrotorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fixedwingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox_mapCenter = new System.Windows.Forms.ComboBox();
             this.comboBox_connectOption = new System.Windows.Forms.ComboBox();
             this.comboBox_PortOrBaud = new System.Windows.Forms.ComboBox();
@@ -49,6 +54,8 @@ namespace GCS_5895
             this.skinPanel1 = new CCWin.SkinControl.SkinPanel();
             this.skinGroupBox2 = new CCWin.SkinControl.SkinGroupBox();
             this.textBox_info = new System.Windows.Forms.RichTextBox();
+            this.skinContextMenuStrip_info = new CCWin.SkinControl.SkinContextMenuStrip();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl_action = new System.Windows.Forms.TabControl();
             this.tabPage_command = new System.Windows.Forms.TabPage();
             this.skinGroupBox7 = new CCWin.SkinControl.SkinGroupBox();
@@ -191,10 +198,12 @@ namespace GCS_5895
             this.toolTip_Button = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl_main.SuspendLayout();
             this.tabPage_GCS.SuspendLayout();
+            this.skinContextMenuStrip_gmapMain.SuspendLayout();
             this.skinGroupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_flghtData)).BeginInit();
             this.skinPanel1.SuspendLayout();
             this.skinGroupBox2.SuspendLayout();
+            this.skinContextMenuStrip_info.SuspendLayout();
             this.tabControl_action.SuspendLayout();
             this.tabPage_command.SuspendLayout();
             this.skinGroupBox7.SuspendLayout();
@@ -307,6 +316,7 @@ namespace GCS_5895
             this.gMapControl_main.Bearing = 0F;
             this.gMapControl_main.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gMapControl_main.CanDragMap = true;
+            this.gMapControl_main.ContextMenuStrip = this.skinContextMenuStrip_gmapMain;
             this.gMapControl_main.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gMapControl_main.EmptyTileColor = System.Drawing.Color.Navy;
             this.gMapControl_main.GrayScaleMode = false;
@@ -334,6 +344,68 @@ namespace GCS_5895
             this.gMapControl_main.KeyDown += new System.Windows.Forms.KeyEventHandler(this.gMapControl_main_KeyDown);
             this.gMapControl_main.KeyUp += new System.Windows.Forms.KeyEventHandler(this.gMapControl_main_KeyUp);
             this.gMapControl_main.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gMapControl_main_MouseClick);
+            // 
+            // skinContextMenuStrip_gmapMain
+            // 
+            this.skinContextMenuStrip_gmapMain.Arrow = System.Drawing.Color.Black;
+            this.skinContextMenuStrip_gmapMain.Back = System.Drawing.Color.White;
+            this.skinContextMenuStrip_gmapMain.BackRadius = 4;
+            this.skinContextMenuStrip_gmapMain.Base = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(200)))), ((int)(((byte)(254)))));
+            this.skinContextMenuStrip_gmapMain.DropDownImageSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(197)))), ((int)(((byte)(197)))));
+            this.skinContextMenuStrip_gmapMain.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinContextMenuStrip_gmapMain.Fore = System.Drawing.Color.Black;
+            this.skinContextMenuStrip_gmapMain.HoverFore = System.Drawing.Color.White;
+            this.skinContextMenuStrip_gmapMain.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.skinContextMenuStrip_gmapMain.ItemAnamorphosis = true;
+            this.skinContextMenuStrip_gmapMain.ItemBorder = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.skinContextMenuStrip_gmapMain.ItemBorderShow = true;
+            this.skinContextMenuStrip_gmapMain.ItemHover = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.skinContextMenuStrip_gmapMain.ItemPressed = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.skinContextMenuStrip_gmapMain.ItemRadius = 4;
+            this.skinContextMenuStrip_gmapMain.ItemRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinContextMenuStrip_gmapMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toHereToolStripMenuItem,
+            this.addVirtualDroneToolStripMenuItem});
+            this.skinContextMenuStrip_gmapMain.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.skinContextMenuStrip_gmapMain.Name = "skinContextMenuStrip_gmapMain";
+            this.skinContextMenuStrip_gmapMain.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinContextMenuStrip_gmapMain.Size = new System.Drawing.Size(211, 76);
+            this.skinContextMenuStrip_gmapMain.SkinAllColor = true;
+            this.skinContextMenuStrip_gmapMain.TitleAnamorphosis = true;
+            this.skinContextMenuStrip_gmapMain.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+            this.skinContextMenuStrip_gmapMain.TitleRadius = 4;
+            this.skinContextMenuStrip_gmapMain.TitleRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinContextMenuStrip_gmapMain.Opening += new System.ComponentModel.CancelEventHandler(this.skinContextMenuStrip_gmapMain_Opening);
+            // 
+            // toHereToolStripMenuItem
+            // 
+            this.toHereToolStripMenuItem.Name = "toHereToolStripMenuItem";
+            this.toHereToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.toHereToolStripMenuItem.Text = "Fly to here";
+            this.toHereToolStripMenuItem.Click += new System.EventHandler(this.toHereToolStripMenuItem_Click);
+            // 
+            // addVirtualDroneToolStripMenuItem
+            // 
+            this.addVirtualDroneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.quadrotorsToolStripMenuItem,
+            this.fixedwingToolStripMenuItem});
+            this.addVirtualDroneToolStripMenuItem.Name = "addVirtualDroneToolStripMenuItem";
+            this.addVirtualDroneToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.addVirtualDroneToolStripMenuItem.Text = "Add virtual drone";
+            // 
+            // quadrotorsToolStripMenuItem
+            // 
+            this.quadrotorsToolStripMenuItem.Name = "quadrotorsToolStripMenuItem";
+            this.quadrotorsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.quadrotorsToolStripMenuItem.Text = "Quadrotors";
+            this.quadrotorsToolStripMenuItem.Click += new System.EventHandler(this.quadrotorsToolStripMenuItem_Click);
+            // 
+            // fixedwingToolStripMenuItem
+            // 
+            this.fixedwingToolStripMenuItem.Name = "fixedwingToolStripMenuItem";
+            this.fixedwingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.fixedwingToolStripMenuItem.Text = "Fixed-wing";
+            this.fixedwingToolStripMenuItem.Click += new System.EventHandler(this.fixedwingToolStripMenuItem_Click);
             // 
             // comboBox_mapCenter
             // 
@@ -443,14 +515,14 @@ namespace GCS_5895
             // 
             this.dataGridView_flghtData.BackgroundColor = System.Drawing.Color.Gainsboro;
             this.dataGridView_flghtData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView_flghtData.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 9F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView_flghtData.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView_flghtData.Dock = System.Windows.Forms.DockStyle.Left;
             this.dataGridView_flghtData.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dataGridView_flghtData.GridColor = System.Drawing.Color.DarkGray;
@@ -501,6 +573,7 @@ namespace GCS_5895
             // 
             this.textBox_info.BackColor = System.Drawing.Color.White;
             this.textBox_info.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox_info.ContextMenuStrip = this.skinContextMenuStrip_info;
             this.textBox_info.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_info.Location = new System.Drawing.Point(3, 21);
             this.textBox_info.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
@@ -510,6 +583,44 @@ namespace GCS_5895
             this.textBox_info.TabIndex = 6;
             this.textBox_info.Text = "";
             this.textBox_info.WordWrap = false;
+            // 
+            // skinContextMenuStrip_info
+            // 
+            this.skinContextMenuStrip_info.Arrow = System.Drawing.Color.Black;
+            this.skinContextMenuStrip_info.Back = System.Drawing.Color.White;
+            this.skinContextMenuStrip_info.BackRadius = 4;
+            this.skinContextMenuStrip_info.Base = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(200)))), ((int)(((byte)(254)))));
+            this.skinContextMenuStrip_info.DropDownImageSeparator = System.Drawing.Color.FromArgb(((int)(((byte)(197)))), ((int)(((byte)(197)))), ((int)(((byte)(197)))));
+            this.skinContextMenuStrip_info.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.skinContextMenuStrip_info.Fore = System.Drawing.Color.Black;
+            this.skinContextMenuStrip_info.HoverFore = System.Drawing.Color.White;
+            this.skinContextMenuStrip_info.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.skinContextMenuStrip_info.ItemAnamorphosis = true;
+            this.skinContextMenuStrip_info.ItemBorder = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.skinContextMenuStrip_info.ItemBorderShow = true;
+            this.skinContextMenuStrip_info.ItemHover = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.skinContextMenuStrip_info.ItemPressed = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.skinContextMenuStrip_info.ItemRadius = 4;
+            this.skinContextMenuStrip_info.ItemRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinContextMenuStrip_info.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearToolStripMenuItem});
+            this.skinContextMenuStrip_info.ItemSplitter = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(148)))), ((int)(((byte)(212)))));
+            this.skinContextMenuStrip_info.Name = "skinContextMenuStrip_info";
+            this.skinContextMenuStrip_info.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinContextMenuStrip_info.Size = new System.Drawing.Size(109, 26);
+            this.skinContextMenuStrip_info.SkinAllColor = true;
+            this.skinContextMenuStrip_info.Text = "Clear";
+            this.skinContextMenuStrip_info.TitleAnamorphosis = true;
+            this.skinContextMenuStrip_info.TitleColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(228)))), ((int)(((byte)(236)))));
+            this.skinContextMenuStrip_info.TitleRadius = 4;
+            this.skinContextMenuStrip_info.TitleRadiusStyle = CCWin.SkinClass.RoundStyle.All;
+            // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.clearToolStripMenuItem.Text = "Clear";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
             // tabControl_action
             // 
@@ -887,8 +998,8 @@ namespace GCS_5895
             // 
             // checkBoxComboBox_UAVselect
             // 
-            checkBoxProperties1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxComboBox_UAVselect.CheckBoxProperties = checkBoxProperties1;
+            checkBoxProperties2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxComboBox_UAVselect.CheckBoxProperties = checkBoxProperties2;
             this.checkBoxComboBox_UAVselect.DisplayMemberSingleItem = "";
             this.checkBoxComboBox_UAVselect.Dock = System.Windows.Forms.DockStyle.Top;
             this.checkBoxComboBox_UAVselect.FormattingEnabled = true;
@@ -2661,10 +2772,12 @@ namespace GCS_5895
             this.Resize += new System.EventHandler(this.GCS_5895_Resize);
             this.tabControl_main.ResumeLayout(false);
             this.tabPage_GCS.ResumeLayout(false);
+            this.skinContextMenuStrip_gmapMain.ResumeLayout(false);
             this.skinGroupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_flghtData)).EndInit();
             this.skinPanel1.ResumeLayout(false);
             this.skinGroupBox2.ResumeLayout(false);
+            this.skinContextMenuStrip_info.ResumeLayout(false);
             this.tabControl_action.ResumeLayout(false);
             this.tabPage_command.ResumeLayout(false);
             this.skinGroupBox7.ResumeLayout(false);
@@ -2870,6 +2983,13 @@ namespace GCS_5895
         private System.Windows.Forms.Button button_nextQuad;
         private System.Windows.Forms.Button button_previousQuad;
         private CCWin.SkinControl.SkinPictureBox skinPictureBox_quadSkin;
+        private CCWin.SkinControl.SkinContextMenuStrip skinContextMenuStrip_info;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private CCWin.SkinControl.SkinContextMenuStrip skinContextMenuStrip_gmapMain;
+        private System.Windows.Forms.ToolStripMenuItem toHereToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addVirtualDroneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quadrotorsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem fixedwingToolStripMenuItem;
     }
 }
 
