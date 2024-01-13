@@ -821,14 +821,6 @@ namespace GCS_5895
             }
         }
 
-        private void gMapControl_main_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                mousePin = new Point(e.X, e.Y);
-            }
-        }
-
         private void gMapControl_main_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
@@ -2597,7 +2589,6 @@ namespace GCS_5895
             // DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(timestamp);
             var enu = coordinate.llh2enu(pin.Lat, pin.Lng, 0);
             Random random = new Random();
-            var frmeTypes = Enum.GetValues(typeof(FrameType));
             Buffers.Add(new Packets(coordinate, Buffers.Count() + 1, enu[0], enu[1], 0, random.Next(-180, 180), "virtual drone", frameType));
             existing_UAVs.Add(Buffers.Last().UAV_ID);
             var marker_of_uav = Planes.AddDrone(Buffers.Last().Lat, Buffers.Last().Lng, Buffers.Last().Heading, Buffers.Last().Frame_type,
@@ -2637,6 +2628,15 @@ namespace GCS_5895
             else
             {
                 toHereToolStripMenuItem.Enabled = false;
+            }
+        }
+
+        private void gMapControl_main_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                mousePin = new Point(e.X, e.Y);
+                skinContextMenuStrip_gmapMain.Show(MousePosition);
             }
         }
 
