@@ -17,7 +17,7 @@ For the designed GCS, downloading MySQL for the database is required. Additional
 ## Functions
 The GCS allows users to generate virtual drones on the Google Map interface by clicking the right mouse button, which enables users to utilize partial functions.
 
-##Reference(3rd party libarry)
+## Reference(3rd party libarry)
 | Packages  | Source  |
 | ------------ | ------------ |
 | CheckBoxComboBox  | https://www.codeproject.com/Articles/21085/CheckBox-ComboBox-Extending-the-ComboBox-Class-and  |
