@@ -64,6 +64,11 @@ namespace GCS_5895
             double timestamp = DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
             UAV_timestamp = timestamp;
             GCS_timestamp = timestamp;
+            Random random = new Random();
+            Battery = random.Next(50, 100);
+            Speed = random.NextDouble()*1e-3;
+            Roll = random.Next(-5000, 5000)*1e-3;
+            Pitch = random.Next(-5000, 5000)*1e-3;
         }
 
         public void unpack_packet(byte[] packet, double GCS_timestamp)

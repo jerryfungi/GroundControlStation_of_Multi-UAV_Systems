@@ -517,7 +517,7 @@ namespace GCS_5895
             int uav_id = packet[1];
             this.Invoke(new Action(() =>
             {
-                // 查看是否有新無人機
+                // 查看是否為已登錄無人機
                 if (!existing_UAVs.Contains(uav_id))
                 {
                     existing_UAVs.Add(uav_id);
@@ -2589,7 +2589,7 @@ namespace GCS_5895
             // DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0).AddHours(8).AddSeconds(timestamp);
             var enu = coordinate.llh2enu(pin.Lat, pin.Lng, 0);
             Random random = new Random();
-            Buffers.Add(new Packets(coordinate, Buffers.Count() + 1, enu[0], enu[1], 0, random.Next(-180, 180), "virtual drone", frameType));
+            Buffers.Add(new Packets(coordinate, Buffers.Count() + 1, enu[0], enu[1], random.NextDouble(), random.Next(-180000, 180000)*1e-3, "virtual drone", frameType));
             existing_UAVs.Add(Buffers.Last().UAV_ID);
             var marker_of_uav = Planes.AddDrone(Buffers.Last().Lat, Buffers.Last().Lng, Buffers.Last().Heading, Buffers.Last().Frame_type,
                     UAV_ID_text(Buffers.Last().UAV_ID), new SolidBrush(color_of_uavs[Buffers.Last().UAV_ID - 1]));
@@ -2597,10 +2597,10 @@ namespace GCS_5895
             string uav_text = UAV_ID_text(Buffers.Last().UAV_ID);
             comboBox_mapCenter.Items.Add(uav_text);
             checkBoxComboBox_UAVselect.Items.Add(uav_text);
-            textBox_info.SelectionColor = Color.Teal;
-            textBox_info.AppendText($"👻 UAV{Buffers.Last().UAV_ID}  ");
-            textBox_info.SelectionColor = Color.Black;
-            textBox_info.AppendText(Buffers.Last().Info + Environment.NewLine);
+            ////textBox_info.SelectionColor = Color.Teal;
+            ////textBox_info.AppendText($"👻 UAV{Buffers.Last().UAV_ID}  ");
+            ////textBox_info.SelectionColor = Color.Black;
+            ////textBox_info.AppendText(Buffers.Last().Info + Environment.NewLine);
 
             dataGridView_flghtData.Sort(dataGridView_flghtData.Columns["UAV_ID"], ListSortDirection.Ascending);
         }
