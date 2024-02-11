@@ -23,7 +23,6 @@ The GCS allows users to generate virtual drones on the Google Map interface by c
 ![GCSvrp](https://github.com/jerryfungi/GroundControlStation_of_Multi-UAV_Systems/assets/112320576/da793a72-4312-46ac-8622-91a2ffba0fc7)
 ### SEAD
 ![GCSsead](https://github.com/jerryfungi/GroundControlStation_of_Multi-UAV_Systems/assets/112320576/ce64e101-fc97-4721-9b5d-84ec42f9be7d)<br>
-![GCSsead_main](https://github.com/jerryfungi/GroundControlStation_of_Multi-UAV_Systems/assets/112320576/6509af32-6302-43f7-8c8b-66abbdfac04a)
 
 ## Reference(3rd party libarry)
 | Packages  | Source  |
