@@ -1,5 +1,5 @@
 # Ground Control Station of Multi-UAV Systems
-The Ground Control Station (GCS) for multi-UAV systems is designed to monitor and control multiple drones, including quadrotors and fixed-wing UAVs, thereby facilitating outdoor UAV flight experiments.
+The Ground Control Station (GCS) for multi-UAV systems is designed to monitor and control multiple drones, including quadrotors and fixed-wing UAVs, thereby facilitating outdoor UAV flight experiments such as flocking conttrol and distributed task assignment.
 
 ![GCSinterface](https://github.com/jerryfungi/GroundControlStation_of_Multi-UAV_Systems/assets/112320576/fbb89762-5b9a-454f-8c0f-4d2db87cd5f0)
 
