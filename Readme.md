@@ -24,7 +24,7 @@ The GCS allows users to generate virtual drones on the Google Map interface by c
 ### SEAD
 ![GCSsead](https://github.com/jerryfungi/GroundControlStation_of_Multi-UAV_Systems/assets/112320576/ce64e101-fc97-4721-9b5d-84ec42f9be7d)<br>
 
-## Reference(3rd-party libarry)
+## Reference(3rd-party library)
 | Packages  | Source  |
 | ------------ | ------------ |
 | CheckBoxComboBox  | https://www.codeproject.com/Articles/21085/CheckBox-ComboBox-Extending-the-ComboBox-Class-and  |
