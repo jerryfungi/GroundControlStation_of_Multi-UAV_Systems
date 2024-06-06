@@ -2624,10 +2624,10 @@ namespace GCS_5895
             string uav_text = UAV_ID_text(Buffers.Last().UAV_ID);
             comboBox_mapCenter.Items.Add(uav_text);
             checkBoxComboBox_UAVselect.Items.Add(uav_text);
-            ////textBox_info.SelectionColor = Color.Teal;
-            ////textBox_info.AppendText($"👻 UAV{Buffers.Last().UAV_ID}  ");
-            ////textBox_info.SelectionColor = Color.Black;
-            ////textBox_info.AppendText(Buffers.Last().Info + Environment.NewLine);
+            textBox_info.SelectionColor = Color.Teal;
+            textBox_info.AppendText($"👻 UAV{Buffers.Last().UAV_ID} ");
+            textBox_info.SelectionColor = Color.Black;
+            textBox_info.AppendText(Buffers.Last().Info + " generated." + Environment.NewLine);
 
             dataGridView_flghtData.Sort(dataGridView_flghtData.Columns["UAV_ID"], ListSortDirection.Ascending);
         }
