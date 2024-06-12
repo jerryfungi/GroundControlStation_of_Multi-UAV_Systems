@@ -256,16 +256,14 @@ namespace GCS_5895
 
         private void GCS_5895_Resize(object sender, EventArgs e)
         {
-            if (this.WindowState == FormWindowState.Maximized)
-            {
-                gMapControl_main.Height -= 34;
-            }
             float newx = (this.Width) / x;
             float newy = (this.Height) / y;
             setControls(newx, newy, this);
+
+            int adjustHeight = button_Connect.Height - comboBox_connectOption.Size.Height - comboBox_connectOption.Top;
             if (this.WindowState == FormWindowState.Maximized)
             {
-                gMapControl_main.Height += 34;
+                gMapControl_main.Height += adjustHeight;
             }
         }
 
